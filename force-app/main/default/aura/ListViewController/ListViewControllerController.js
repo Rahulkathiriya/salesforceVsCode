@@ -649,6 +649,7 @@
     action.setCallback(this, resp => {
       if (resp.getState() === "SUCCESS") {
         var returnVal = resp.getReturnValue();
+        console.log("returnVal:", returnVal);
         component.set("v.tableFieldPopup", false);
 
         var actions = [
