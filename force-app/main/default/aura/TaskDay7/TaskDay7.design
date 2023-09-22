@@ -1,0 +1,12 @@
+<design:component>
+    <design:attribute name="welcomeTitle" label="Welcome Title" />
+    <design:attribute name="hideLogo" label="Hide Logo"/>
+    <design:attribute name="LogoURL" label="URL" />
+    <design:attribute name="favoriteColors" label="Color" datasource="Red,Black,White,Blue"/>
+     <design:attribute name="isDisplaying" label="Display Content" />
+        <design:supportedFormFactors>
+        <design:supportedFormFactor type="Large"/>
+        <design:supportedFormFactor type="Small"/>
+    </design:supportedFormFactors>
+
+</design:component>

@@ -1,0 +1,39 @@
+<template>
+
+
+<!-- <lightning-button-group>
+    <lightning-button label="Cancel" variant="neutral" onclick={handleDialogClose}></lightning-button>
+    <lightning-button label="Save &amp; New" variant="neutral" type="submit" onclick={handleSubmit} value="saveandnew"></lightning-button>
+    <lightning-button label="Save" variant="brand" type="submit" onclick={handleSave}></lightning-button>
+</lightning-button-group> -->
+
+<lightning-record-edit-form object-api-name="Activities" onsuccess={handleSuccess}>
+    <lightning-card title=" user details in LWC" icon-name="standard:user">
+        <div onkeyup={handleKeyUp}>
+            <lightning-input
+                name="enter-search"
+                label="Search when user hits the 'enter' key"
+                type="search"
+                onchange={handleChange} 
+            ></lightning-input>
+        </div>
+        <p if:true={queryTerm}>
+            Searched for {queryTerm}!
+        </p>
+        <!-- <div class="slds-p-around_medium lgc-bg">
+            <lightning-input type="text" label="Enter some text"></lightning-input>
+        </div> -->
+        <div class="slds-p-horizontal_small">User Id = {userId}</div>
+        <div class="slds-p-horizontal_small">Username = {userName}</div>
+        <div class="slds-p-horizontal_small">First Name = {firstName}</div>
+        <div class="slds-p-horizontal_small">Last Name = {lastName}</div> 
+    </lightning-card>
+    
+    <lightning-button-group>
+      <lightning-button label="Cancel" variant="neutral" onclick={handleDialogClose}></lightning-button>
+      <lightning-button label="Save &amp; New" variant="neutral" type="submit" onclick={handleSaveAndNew}> </lightning-button>
+      <lightning-button label="Save" variant="brand" type="submit" onclick={handleSave}></lightning-button>
+    </lightning-button-group>
+  </lightning-record-edit-form>
+
+</template>

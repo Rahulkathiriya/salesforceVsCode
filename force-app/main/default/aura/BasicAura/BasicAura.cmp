@@ -1,0 +1,10 @@
+<aura:component>
+
+<aura:attribute name="myName" type="List" default="['dhruvil1','dhruvil2','dhruvil']"/>
+
+<aura:handler name="HandlerName" value="{!this}" action="{!c.abc}"/>
+<aura:iteration  items="{!v.myName}" var="a1">
+
+<p> {!a1}</p>
+</aura:iteration>
+</aura:component>

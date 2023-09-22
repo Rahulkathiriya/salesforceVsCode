@@ -1,0 +1,51 @@
+<aura:component implements="flexipage:availableForAllPageTypes">
+  <aura:attribute name="value" type="Integer" default="50" />
+  <aura:attribute name="diff" type="Integer" default="0" />
+  <aura:attribute name="min" type="Integer" />
+  <aura:attribute name="max" type="Integer" />
+  <aura:attribute name="size" type="String" />
+  <aura:attribute name="step" type="String" />
+  <aura:attribute name="label" type="String" default="Slider Custom Label" />
+  <aura:attribute name="isValid" type="Boolean" default="false" />
+  <aura:attribute name="variant" type="String" />
+  <aura:attribute name="disabled" type="Boolean" default="false" />
+  <aura:attribute name="direction" type="String" default="horizontal" />
+  
+
+  <div class="slds-m-bottom_medium">
+    <lightning:input type="checkbox" label="Disabled Slider" name="slider_disable" checked="{! v.disabled }" />
+  </div>
+
+  <label>Select Slider Size</label>
+
+  <lightning:input type="radio" label="Base" name="size" value="" checked="true" onchange="{! c.handleSizeChange }" />
+  <lightning:input type="radio" label="X-Small" name="size" value="x-small" onchange="{! c.handleSizeChange }" />
+  <lightning:input type="radio" label="Small" name="size" value="small" onchange="{! c.handleSizeChange }" />
+  <lightning:input type="radio" label="Medium" name="size" value="medium" onchange="{! c.handleSizeChange }" />
+  <lightning:input type="radio" label="Large" name="size" value="large" onchange="{! c.handleSizeChange }" />
+
+  <div class="slds-m-top_medium">
+    <label>Select Slider Direction</label>
+  </div>
+
+  <lightning:input type="radio" label="Horizontal" name="direction" value="horizontal" checked="true"
+    onchange="{! c.handleHorizontalDirectionChange }" />
+  <lightning:input type="radio" label="Vertical" name="direction" onchange="{! c.handleVerticalDirectionChange }"
+    value="vertical" />
+
+  <div class="slds-m-top_medium">
+    <lightning:input aura:id="label_field" maxlength="256" name="label_name" value="{! v.label}"
+      label="Change Slider Label" onchange="{! c.handleLabelChange }" placeholder="input slider label..." />
+  </div>
+
+  <div class="slds-m-top_medium">
+    <lightning:input type="checkbox" label="Label hidden" name="slider_label_hide" checked="{! v.variant }"
+      onchange="{! c.handleHideLabel }" />
+  </div>
+
+  <div class="slds-m-top_medium">
+    <lightning:slider aura:id="mySlider" min="{! v.min }" max="{! v.max }" step="{! v.step }" size="{! v.size}"
+      type="{! v.direction}" value="{! v.value }" label="{! v.label}" variant="{! v.variant}" disabled="{! v.disabled}"
+      onchange="{! c.handleRangeChange }" />
+  </div>
+</aura:component>

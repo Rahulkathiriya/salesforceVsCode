@@ -1,0 +1,14 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+	
+     <aura:attribute name="CurrentTime" type="Datetime"/>
+    <aura:attribute name="message" type="string"/>
+    <aura:handler name="init" value="{!this}" action="{!c.abc}" />
+		
+    <lightning:card variant="brand" title="Task1">
+     <p>{!v.CurrentTime} </p>   
+        <p> {!v.message}</p>
+
+       
+    
+    </lightning:card>
+</aura:component>

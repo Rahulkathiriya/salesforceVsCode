@@ -1,0 +1,31 @@
+<aura:component controller="TaskFileUpload" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+    
+    
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="accept" type="List" default="['.jpg', '.jpeg', '.pdf', '.zip','.webp']"/>
+    <aura:attribute name="multiple" type="Boolean" default="true"/>
+    <aura:attribute name="disabled" type="Boolean" default="false"/>
+    
+    <aura:attribute name="PreviewId" type="List" />
+    <aura:handler name="init" value="{!this}" action="{!c.HandlerPreview}" />
+    
+    <aura:attribute name="f1" type="ContentDocument[]"/>
+    <lightning:fileUpload name="fileUploader"
+                          label="Upload Image"
+                          multiple="{!v.multiple}" 
+                          disabled="{!v.disabled}"
+                          accept="{!v.accept}" 
+                          recordId="{!v.recordId}" 
+                          onuploadfinished="{!c.handleUpload}" ></lightning:fileUpload>
+    
+    <lightning:card title="Preview File in Lightning Aura">
+        <div class="slds-p-around_small">
+            
+            <aura:iteration items="{!v.PreviewId}" var="f">
+                <lightning:fileCard fileId="{!f.ContentDocumentId}" />
+            </aura:iteration>           
+            
+        </div>
+    </lightning:card>
+    
+</aura:component>

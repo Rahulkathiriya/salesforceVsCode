@@ -1,0 +1,11 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global">
+
+<aura:attribute name="url" type="String"/>
+<aura:attribute name="pagerefrence" type="Object"/>
+<aura:handler name="init" value="{!this}" action="{!c.navigation}"/>
+
+<lightning:Navigation aura:id="navService"/>
+<a href="{!v.url}" variant="brand">Link</a>
+
+
+</aura:component>

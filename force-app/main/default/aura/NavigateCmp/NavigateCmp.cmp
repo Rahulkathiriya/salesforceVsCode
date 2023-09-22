@@ -1,0 +1,74 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global" >
+	
+    
+    <aura:handler name="init" value="{!this}"  action="{!c.fetchPrintableData}" />
+
+    
+    <aura:attribute name="viewName" type="String" />
+    <aura:attribute name="cntList" type="List" />
+    <aura:attribute name="cpyList" type="List" />
+    <aura:attribute name="totalCount" type="integer" />
+    <aura:attribute name="totalLength" type="integer" />
+     <aura:attribute name="printColumns" type="List" />
+    
+
+
+    
+    
+    <div class="main-container" >
+    <div class="container">
+        <div class="header-section">
+            <div class="img">
+                <img src="/img/salesforce_printable_logo.gif" alt="Salesforce" width="146" height="47" title="Salesforce"></img>
+            </div>
+            <div class="list">
+                <ul>
+                    <li><a onclick="{!c.closeWindow}" style="font-size:10px;">Close Window</a></li>
+                    <li><a onclick="{!c.printTab}" style="font-size:10px;">Print This Page</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="detail">
+            <div class="records">
+                <h1 style="padding-bottom:3px;"><b style="color:black;">{!v.viewName}</b></h1>
+                <p style="color:black;font-size:10px;">Display  1 - {!v.cntList.length} records</p>
+            </div>
+            <div class="selection">
+                <label style="color:black;font-size:10px;">Number of records &nbsp;</label>
+                <select id="options" name="rowperpage" onchange="{!c.selectOption}">
+                    <option value="{!v.cpyList.length}" selected="selected">{!v.cpyList.length}</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="25">25</option>
+                </select>
+            </div>
+        </div>
+        <div class="table-record">
+             <div class="table">
+                <div class="pbHeader"> &nbsp;</div>
+                <div class="table-body">
+             
+                </div>
+            </div>  
+            <div style="border-left:1.2px solid #ececec;">
+           <lightning:datatable
+                             class="tableClass"
+                             data="{!v.cntList}"
+                             aura:id="recordTable"
+                             columns="{!v.printColumns}"
+                             keyField="Id"
+                             showRowNumberColumn="true"
+                             hideCheckboxColumn="true"
+                             />
+                </div>
+        </div>
+        
+        <div class="footer">
+            <div class="footer-content">
+                <p style="color:black;font-size:10px;">Copyright © 2000-2023 salesforce.com, inc. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+    </div>
+</aura:component>

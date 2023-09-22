@@ -1,0 +1,43 @@
+<aura:component controller="DemoTask" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="first" type="List"/>
+      <aura:attribute name="second" type="List"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.abc}"/>
+     <aura:handler name="init" value="{!this}" action="{!c.abcd}"/>
+    
+    
+    <aura:iteration items="{!v.first}" var="ab">
+        
+        {!ab.Name}
+        
+    </aura:iteration> 
+ 
+       
+    <lightning:input label="Enter Everithing!"  aura:id="addItem" type="text"/>
+    
+    <lightning:button variant="brand"
+                      title="Add"
+                      label="Add"
+                      onclick="{!c.toadd}"
+                      >
+    </lightning:button>
+     
+    
+    <table>
+    <thead>
+        <tr>
+        <th>Name</th>
+        </tr>
+        </thead>
+        <tbody>
+            <aura:iteration items="{!v.second}" var="abc">
+        <tr>
+            <td>{!abc.Name}</td>
+            </tr>
+                 </aura:iteration>
+        </tbody>
+    </table>
+ 
+    
+</aura:component>

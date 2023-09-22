@@ -1,0 +1,38 @@
+<template>
+      <!-- Child to parent -->
+    <!--<lightning-card title="Parent component" icon-name="standard:account">
+        <p class="slds-text-align_center" > count : {countValue}</p>
+
+        <c-child-lwc    onsubtract={handleDecrement}
+                        onadd={handleIncrement}
+                        onmultiply={handleMulti}
+        > </c-child-lwc>
+
+    </lightning-card>-->
+
+
+      <!-- parent To child-->
+
+      <lightning-card title="parent LWC Component">
+        <lightning-input 
+                            class="slds-p-horizontal_small"
+                            label="Set Counter"
+                            type="number"
+                            min="0"
+                            max="100000"
+                            value={startCounter}
+                            onchange={handleStartChange}>
+        </lightning-input>
+
+        <lightning-button class="slds-p-horizontal_medium"
+                            label="Add 100 counter"
+                            onclick={handleMaximizeCounter}>
+        </lightning-button>
+
+        <c-child-lwc counter={startCounter}> 
+        </c-child-lwc>
+    </lightning-card>
+
+      
+    
+</template>

@@ -1,0 +1,88 @@
+<aura:component controller="printViewTask4" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:handler name="init" value="{!this}" action="{!c.abcd}"/>
+    <aura:handler event="force:refreshView" action="{!c.abcd}"/>
+    
+    <!-- account rwecord add -->
+    <aura:attribute name="AddRecord" type="List"/>
+    
+    <!-- count number of record -->
+    <aura:attribute name="CoountNumOfRec" type="String"/>
+
+   
+    
+    
+    <div class="slds-grid slds-gutters">
+        <div class="slds-col slds-size_2-of-3">
+            <img src="/img/salesforce_printable_logo.gif" alt="Salesforce" width="146" height="47" title="Salesforce"></img>
+        </div>
+        <div class="slds-col slds-size_1-of-3">
+            <ul>
+                
+                <li>
+                    <a  onclick="{!c.redirect}"> Close Window</a>
+                </li>
+                <li>
+                    <a  onclick="{!c.PrintTable}" >Print This Page</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <br/>
+    <div class="slds-border_top" >  </div>
+    <br/>
+    <div class="slds-grid slds-gutters">
+        <div class="slds-col slds-size_2-of-3">
+            <label for="rowsperpage">
+                <span class="assistiveText"></span>
+                All Accounts
+                
+            </label> <br/>
+            <label for="rowsperpage">
+                
+                <span class="assistiveText"></span>
+                Displaying records 1 - {!v.CoountNumOfRec}
+            </label> 
+            
+        </div>
+        
+        <div class="slds-col slds-size_1-of-3">
+            <label for="rowsperpage">
+                <span class="assistiveText"></span>
+                Number of records
+            </label>
+            
+            <select id ="select"  onchange="{!c.RecordCountChange}">
+                <option  selected="selected">{!v.CoountNumOfRec}</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                <option value="25">25</option>
+            </select>
+            
+        </div>
+    </div>
+    
+    <!-- table  iteration  -->
+    <div class="slds">
+        <table class="slds">
+            
+            <thead   class="sldsbg">
+                
+                <tr>
+                    <th>Name</th>   
+                    
+                </tr> 
+                
+            </thead> 
+            <tbody> 
+                <aura:iteration items="{!v.AddRecord}" var="ab">
+                    <tr>
+                        <td>
+                            <div class="abc abbg" >{!ab.Name}</div> 
+                        </td> 
+                    </tr>
+                </aura:iteration>
+            </tbody>  
+        </table>
+    </div>  
+</aura:component>

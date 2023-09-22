@@ -1,0 +1,65 @@
+<aura:component controller="TaskDay2Apex" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="a1" type="List" />
+    <aura:attribute name="c1" type="List"/>
+    <aura:attribute name="edit"  type="boolean" default="false"/>
+    <aura:attribute name="ediTable" type="boolean" default="false"/>
+    
+    
+    
+    <aura:handler name="init" value="{!this}" action="{!c.abc}"/>  
+    <aura:handler event="force:refreshView" action="{!c.abc}"/>   
+    
+    
+    <lightning:input label="Enter Everithing!" aura:id="addItem" type="text"/>
+    
+    <lightning:button variant="brand"
+                      title="Add"
+                      label="Add"
+                      onclick="{!c.toadd}"
+                      >
+    </lightning:button>
+    
+    
+    <div style = "height: 300px">
+        <table>
+            <thead>
+                <tr>
+                    <th> Name</th>
+                    <th> Action</th>
+                </tr>
+                
+            </thead> 
+            <tbody>
+                <aura:iteration items="{!v.a1}" var="ab" indexVar="index">
+                    <tr>
+                        <td  aura:id="editId"  >
+                            
+                            
+                            <aura:if isTrue="{!v.ediTable}">
+                                <lightning:input  value="{!ab.Name}" />
+                                <aura:set attribute="else">
+                                    <a>{!index} : {!ab.Name}</a>
+                                </aura:set>
+                            </aura:if>
+                            
+                            
+                        </td>
+                        <td> 
+                            <lightning:buttonMenu alternativeText="Show menu" menuAlignment="auto"   onselect="{!c.editcon}" >
+                                <lightning:menuItem value="{! 'edit/' + index + '/'+ ab.Id}"  label="Edit" iconName="utility:edit" />
+                                <lightning:menuItem value="{! 'delete/' + index + '/'+ ab.Id}" label="Delete" iconName="utility:delete" />
+                            </lightning:buttonMenu>
+                        </td>
+                    </tr>
+                </aura:iteration>
+            </tbody>       
+        </table>
+        
+    </div>
+    
+</aura:component>
+
+
+<!-- <button class="slds-button slds-button_brand"  data-record="{!index}"  data-row-index="{!index}" data-id="{!ab.Id}" onclick="{!c.editcon}" >Edit </button> --> 
+<!--    <td><button class="slds-button slds-button_brand"  onclick="{!c.deletecon}" >Delete </button> </td>  -->

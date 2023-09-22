@@ -1,0 +1,15 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global" >
+    
+    <aura:attribute name="fiel" type="String[]" default="['Name','Birthdate']" />
+    <lightning:recordForm
+                          aura:id="myRecordForm"
+                          recordId="{!v.recordId}"
+                          objectApiName="Contact"
+                          fields="{!v.fiel}"
+                          columns="2"
+                          mode="edit"
+                          onsubmit="{!c.submitHandler}"
+                          
+                          >
+    </lightning:recordForm>
+</aura:component>

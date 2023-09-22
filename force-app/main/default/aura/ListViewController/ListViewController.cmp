@@ -1,0 +1,724 @@
+<aura:component controller="ListViewClass"
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,lightning:isUrlAddressable,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    access="global">
+
+    <aura:attribute name="printObjName" type="String" />
+    <aura:attribute name="printList" type="Object" />
+    <aura:attribute name="objName" type="String" default="Account" />
+    <aura:attribute name="fieldsName" type="String" />
+    <aura:attribute name="ownerFilterList" type="List" />
+    <aura:attribute name="objFields" type="String" />
+    <aura:handler name="init" value="{!this}" action="{!c.fetchRecords}" />
+    <aura:attribute name="accountList" type="List" />
+    <aura:attribute name="dummyList" type="List" />
+    <aura:attribute name="columns" type="List" />
+    <aura:attribute name="accListView" type="List" />
+    <aura:attribute name="listViewName" type="String" />
+    <aura:attribute name="listViewId" type="String" />
+    <aura:attribute name="newView" type="boolean" default="false" />
+    <aura:attribute name="selectedValue" type="String" />
+    <aura:attribute name="listInputValue" type="String" />
+    <aura:attribute name="editObjectValue" type="boolean" default="false" />
+    <aura:attribute name="isDeleteRow" type="boolean" default="false" />
+    <aura:attribute name="editRecordId" type="String" />
+    <aura:attribute name="deleteRecordId" type="String" />
+    <aura:attribute name="deletedFieldName" type="String" />
+    <aura:attribute name="loading" type="boolean" default="true" />
+    <aura:attribute name="loadings" type="boolean" default="true" />
+
+    <!-- kanban attributes -->
+    <aura:attribute name="isDisabled" type="boolean" default="false" />
+    <aura:attribute name="pickName" type="String" />
+    <aura:attribute name="objIconName" type="String" />
+    <aura:attribute name="kanbanCol" type="List" default="{!v.columns}" />
+    <aura:attribute name="kanbanLoading" type="boolean" default="true" />
+    <aura:attribute name="isKanban" type="boolean" default="false" />
+    <aura:attribute name="isKanbanSetting" type="boolean" default="false" />
+    <aura:attribute name="SummarizeValue" type="String" />
+    <aura:attribute name="GroupValue" type="String" />
+    <aura:attribute name="SummarizeInput" type="String" />
+    <aura:attribute name="kanbanInputValue" type="String" />
+    <aura:attribute name="tableFieldPopup" type="boolean" default="false" />
+    <aura:attribute name="dualBoxValues" type="List" />
+    <aura:attribute name="dualBoxValue" type="List" />
+
+
+    <!--filter attributes   -->
+    <aura:attribute name="recordIdList" type="List" />
+    <aura:attribute name="removeData" type="boolean" default="false" />
+    <aura:attribute name="radioItem" type="String" />
+    <aura:attribute name="openListView" type="boolean" default="false" />
+    <aura:attribute name="viewPopup" type="boolean" default="false" />
+    <aura:attribute name="selectedOpreatorValue" type="String" default="equals" />
+    <aura:attribute name="openOwnerFilter" type="boolean" default="false" />
+    <aura:attribute name="openPickListFields" type="boolean" default="false" />
+    <aura:attribute name="PickListValue" type="String" />
+    <aura:attribute name="selectedPicValue" type="String" />
+    <aura:attribute name="filterType" type="String" />
+    <aura:attribute name="PicApiValue" type="String" />
+    <aura:attribute name="inputValue" type="String" />
+    <aura:attribute name="dateValue" type="Date" />
+    <aura:attribute name="pickListType" type="boolean" default="false" />
+    <aura:attribute name="stringType" type="boolean" default="false" />
+    <aura:attribute name="doubleType" type="boolean" default="false" />
+    <aura:attribute name="dateType" type="boolean" default="false" />
+    <aura:attribute name="valueOptionos" type="Boolean" default="false" />
+    <aura:attribute name="fieldValue" type="String" default="Name" />
+    <aura:attribute name="selectedOpreator" type="String" default="=" />
+    <aura:attribute name="selectedField" type="String" default="Name" />
+    <aura:attribute name="openFilter" type="Boolean" default="false" />
+    <aura:attribute name="addNewFilter" type="Boolean" default="false" />
+    <aura:attribute name="customFilterTextarea" type="Boolean" default="false" />
+    <aura:attribute name="cancelButton" type="Boolean" default="false" />
+    <aura:attribute name="fieldFilter" type="Boolean" default="false" />
+    <aura:attribute name="fieldList" type="List" />
+    <aura:attribute name="values" type="List" />
+    <aura:attribute name="allFields" type="List" default="[]" />
+    <aura:attribute name="opreations" type="List" default="[
+                                                           {'label': 'equals', 'value': 'equals'},
+                                                           {'label': 'not equals to', 'value': 'not equals to'},
+                                                           {'label': 'less then', 'value': 'less then'},
+                                                           {'label': 'greater then', 'value': 'greater then'},
+                                                           {'label': 'less or equal', 'value': 'less or equal'},
+                                                           {'label': 'greater or equal', 'value': 'greater or equal'},
+                                                           {'label': 'contain', 'value': 'contain'}
+                                                           ]" />
+    <aura:attribute name="options" type="List" />
+    <aura:attribute name="viewTable" type="boolean" default="True" />
+    <aura:attribute name="radioGrpValue" type="String" />
+    <aura:attribute name="viewLabelName" type="String" />
+    <aura:attribute name="viewApiName" type="String" />
+    <aura:attribute name="viewType" type="String" />
+    <aura:attribute name="searchKeyValue" type="String" />
+    <aura:attribute name="iconName" type="String" default="utility:table" />
+    <aura:attribute name="objRecords" type="boolean" default="false" />
+    <aura:attribute name="sortedBy" type="String" />
+    <aura:attribute name="sortedDirection" type="String" />
+    <aura:attribute name="defaultSortedDirection" type="String" />
+    <aura:attribute name="openKanban" type="boolean" default="false" />
+    <aura:attribute name="openFilterSection" type="boolean" default="true" />
+    <aura:attribute name="filterActive" default="false" type="Boolean" />
+    <aura:attribute name="listviewPopup" default="false" type="Boolean" />
+    <aura:attribute name="text" type="String"
+        default="The List API name nust begin with a letter and use only alphanumeric characters and 
+                                         undeerscores. The name can't end with a underscore and contain two consecutive underscores." />
+
+
+
+
+
+
+    <div class="slds-page-header slds-p-around_small " style="border-radius: 5px 5px 0 0;"
+        onmouseover="{!c.closeModelOnClick}">
+        <div class="slds-page-header__row">
+            <div class="slds-page-header__col-title">
+                <div class="slds-media">
+                    <div class="slds-media__figure" style="margin-top: 8px;">
+                        <span class="slds-icon_container slds-icon-standard-account">
+                            <lightning:icon iconName="{!v.objIconName}" />
+                        </span>
+                    </div>
+
+                    <div class="slds-grid slds-media__body" data-aura-rendered-by="434:0">
+                        <div data-target-selection-name="50e27b43761f49d99bf31a503ed4e21a" class="slds-truncate"
+                            data-aura-rendered-by="435:0">
+                            <div class="triggerLink slds-button slds-button--reset slds-type-focus slds-truncate slds-page-header__title slds-text-color--default forceListViewPicker"
+                                data-aura-rendered-by="439:0" data-aura-class="forceListViewPicker"
+                                data-proxy-id="aura-pos-lib-4" id="439:0">
+                                <div class="triggerLinkTextAndIconWrapper slds-page-header__name"
+                                    data-aura-rendered-by="440:0" id="mydiv" onclick="{!c.handleSelectView}">
+                                    <div class="slds-page-header__name-title" data-aura-rendered-by="441:0">
+                                        <span
+                                            style="color: #000000;font-size: 14px;font-weight: 500;">{!v.printObjName}</span>
+                                        <h1 class="slds-scrollable_none" data-aura-rendered-by="442:0">
+
+                                            <span
+                                                class="triggerLinkText selectedListView slds-page-header__title slds-truncate slds-p-right--xx-small uiOutputText"
+                                                data-aura-rendered-by="447:0"
+                                                data-aura-class="uiOutputText">{!v.listViewName}</span>
+                                        </h1>
+                                    </div>
+                                    <div class="slds-page-header__name-switcher" data-aura-rendered-by="448:0">
+                                        <div class="slds-dropdown-trigger slds-dropdown-trigger_click"
+                                            data-aura-rendered-by="449:0">
+                                            <button role="button" aria-expanded="true"
+                                                title="Select a List View: Accounts"
+                                                class="slds-button slds-button--reset downIcon slds-m-top_xxx-small slds-p-right_xxx-small"
+                                                data-aura-rendered-by="450:0">
+                                                <lightning:icon iconName="utility:down" size="x-small"
+                                                    class="slds-icon-utility-down slds-button__icon slds-icon_container forceIcon"
+                                                    data-data-rendering-service-uid="239" data-aura-rendered-by="454:0"
+                                                    data-aura-class="forceIcon" onclick="{!c.handleSelect}">
+                                                </lightning:icon>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <aura:if isTrue="{!v.viewPopup}">
+                                <div class="listViewItem" id="hidediv" style="background:#fff;">
+                                    <li class="slds-dropdown__header slds-truncate headerCss"
+                                        style="list-style: none;font-size: 15px;" title="Menu Sub Heading"
+                                        role="presentation">
+                                        <span class="headerCss ">List Views</span>
+                                    </li>
+                                    <ul>
+                                        <aura:iteration items="{!v.accListView}" var="item">
+                                            <li class="listViewLi">
+                                                <aura:if isTrue="{!item.checked}">
+                                                    <lightning:icon iconName="utility:check" size="x-small"
+                                                        class="iconClass" />
+                                                    <aura:set attribute="else">
+                                                        <lightning:icon size="x-small" />
+                                                    </aura:set>
+                                                </aura:if>
+                                                <a id="{!item.Id}" style="font-size: 13.5px;" data-item="{!item.Name}"
+                                                    onclick="{!c.getLabelValue}">{!item.Name}</a>
+                                            </li>
+                                        </aura:iteration>
+                                    </ul>
+                                </div>
+                            </aura:if>
+                        </div>
+                    </div>
+                    <div class="slds-button-group" role="group">
+                        <button class="slds-button slds-button_neutral" onclick="{!c.newObjrecords}">New</button>
+                        <a class="printBtn">
+                            <button class="slds-button slds-button_neutral" onclick="{!c.printTable}">Printable
+                                View</button>
+                        </a>
+                        <aura:if isTrue="{!v.recordIdList.length > 0 }">
+                            <button class="slds-button slds-button_neutral" onclick="{!c.removeSeletedRecords}">Delete
+                                All</button>
+                        </aura:if>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <aura:if isTrue="{!v.objRecords}">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container" style="max-width: 50rem !important;">
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close" onclick="{! c.closeModal }"
+                            alternativeText="close" variant="bare-inverse" class="slds-modal__close background" />
+                        <h2 class="slds-text-heading_medium slds-hyphenate">New Record</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium ">
+                        <lightning:recordForm objectApiName="{!v.objName}" columns="2" layoutType="Full" mode="new" />
+                    </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+
+        </aura:if>
+
+
+        <div class="slds-page-header__row">
+            <div class="slds-page-header__col-meta">
+                <p class="slds-page-header__meta-text">{!v.accountList.length} items •
+                    <aura:if isTrue="{!v.sortedBy != null}">
+                        Sorted By {!v.sortedBy} •
+                    </aura:if>
+
+                    Updated 13 minutes ago
+                </p>
+            </div>
+            <div class="slds-page-header__col-controls">
+                <div class="slds-page-header__controls" style="align-items: flex-end;">
+                    <div class="slds-page-header__control" style="margin-top: -1rem;">
+                        <lightning:input type="search" aura:id="searchId" placeholder="Search this list..." value=""
+                            onkeyup="{!c.searchListhandler}" />
+                    </div>
+                    <div class="slds-page-header__control ">
+
+                        <lightning:buttonMenu alternativeText="Show menu" aura:id="menu" menuAlignment="right"
+                            iconName="utility:settings" onselect="{! c.handleSelectMenuItem }">
+
+                            <li class="slds-dropdown__header slds-truncate headerCss" style="list-style: none;"
+                                title="Menu Sub Heading" role="presentation">
+                                <span class="headerCss" style="font-size: 12px;">LIST VIEW CONTROLS </span>
+                            </li>
+                            <lightning:menuItem value="New" label="New" />
+                            <lightning:menuItem aura:id="settingMenu" value="Clone" disabled="{!v.isDisabled}"
+                                label="Clone" />
+                            <lightning:menuItem aura:id="settingMenu" value="Select Fields to Display"
+                                disabled="{!v.isDisabled}" label="Select Fields to Display" />
+                            <aura:if isTrue="{!v.isKanban}">
+                                <lightning:menuItem value="Kanban Settings" label="Kanban Settings" />
+                                <aura:set attribute="else">
+                                    <lightning:menuItem value="Reset Column Width" label="Reset Column Width"
+                                        disabled="{!v.isDisabled}" />
+                                </aura:set>
+                            </aura:if>
+                        </lightning:buttonMenu>
+                    </div>
+
+                    <div class="slds-page-header__control">
+                        <lightning:buttonMenu aura:id="menu" iconName="{!v.iconName}" menuAlignment="right"
+                            alternativeText="Show menu" onselect="{! c.handleSelectTableView }">
+                            <li class="slds-dropdown__header slds-truncate headerCss"
+                                style="list-style: none;font-size: 15px;" title="Menu Sub Heading" role="presentation">
+                                <span class="headerCss" style="font-weight: 600;color:#000000">Display as </span>
+                            </li>
+                            <lightning:menuItem aura:id="menuItems" label="Table View" value="tableView" checked="true"
+                                iconName="utility:table" />
+                            <lightning:menuItem aura:id="menuItems" label="Kanban Board" value="kanbanBoard"
+                                checked="false" iconName="utility:kanban" />
+                        </lightning:buttonMenu>
+                    </div>
+
+                    <div class="slds-page-header__control">
+                        <button class="slds-button slds-button_icon slds-button_icon-border-filled"
+                            title="Refresh List">
+                            <lightning:buttonIcon class="border" iconName="utility:refresh" variant="border-filled"
+                                alternativeText="refresh" title="refresh" onclick="{!c.refreshPage}" />
+                        </button>
+                    </div>
+                    <div class="slds-page-header__control">
+                        <ul class="slds-button-group-list">
+
+                            <li>
+                                <lightning:buttonIconStateful class="border-Filter" iconName="utility:filterList"
+                                    variant="border-filled" selected="{! v.filterActive }" alternativeText="refresh"
+                                    title="filter" onclick="{!c.filter}" />
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <aura:if isTrue="{!v.openFilterSection}">
+        <div class="filter-table" onmouseover="{!c.closeModelOnClick}">
+            <aura:if isTrue="{!v.viewTable}">
+                <lightning:datatable class="tableClass" data="{!v.accountList}" aura:id="recordTable"
+                    columns="{!v.columns}" defaultSortDirection="{!v.defaultSortedDirection}"
+                    sortedDirection="{!v.sortedDirection}" sortedBy="{!v.sortedBy}" onsort="{!c.handlesort}"
+                    keyField="Id" onrowaction="{!c.handleRowAction}" onrowselection="{!c.handleSelectedRow}"
+                    showRowNumberColumn="true" />
+                <aura:if isTrue="{!v.loading}">
+                    <div class="demo-only" style="height:6rem;position:relative;right:55%;top:30%;">
+                        <div class="slds-spinner_container">
+                            <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                                <span class="slds-assistive-text">Loading</span>
+                                <div class="slds-spinner__dot-a"></div>
+                                <div class="slds-spinner__dot-b"></div>
+                            </div>
+                        </div>
+                    </div>
+                </aura:if>
+
+                <aura:if isTrue="{!v.editObjectValue}">
+                    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                        aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                        <div class="slds-modal__container">
+                            <header class="slds-modal__header">
+                                <lightning:buttonIcon iconName="utility:close" onclick="{! c.closeModal }"
+                                    alternativeText="close" variant="bare-inverse" class="slds-modal__close" />
+                                <h2 class="slds-text-heading_medium slds-hyphenate">Edit Record</h2>
+                            </header>
+                            <div class="slds-modal__content slds-p-around_medium ">
+                                <lightning:recordForm objectApiName="{!v.objName}" recordId="{!v.editRecordId}"
+                                    columns="2" layoutType="Full" mode="edit" />
+                            </div>
+                        </div>
+                    </section>
+                    <div class="slds-backdrop slds-backdrop_open"></div>
+                </aura:if>
+
+                <aura:if isTrue="{!v.openFilter}">
+                    <div class="panel-section" aria-hidden="false">
+                        <div class="slds-panel__header">
+                            <aura:if isTrue="{!v.cancelButton}">
+                                <div class="flex-btn">
+                                    <button class="slds-button slds-button_neutral"
+                                        onclick="{!c.removeAllFilter}">Cancel</button>
+                                    <div class="btn-group">
+
+                                        <div class="slds-page-header__control">
+                                            <ul class="slds-button-group-list">
+                                                <li>
+                                                    <lightning:button class="btn" variant="brand" label="Save"
+                                                        title="Brand action" onclick="{!c.selectedValues}" />
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <aura:set attribute="else">
+                                    <div class="flex-btn">
+                                        <h2 class="slds-panel__header-title slds-text-heading_small slds-truncate"
+                                            title="Filters">Filters</h2>
+                                        <lightning:buttonIcon iconName="utility:close" variant="destructive"
+                                            alternativeText="Settings" iconClass="dark" onclick="{!c.closePanel}" />
+                                    </div>
+                                </aura:set>
+                            </aura:if>
+                        </div>
+                        <div class="slds-panel__body">
+                            <div aria-live="assertive">
+                            </div>
+                            <div class="filterOwnerPopup" style="position:relative;">
+                                <ol class="inner-text" aura:id="innerTextId" onclick="{!c.openValueSelector}">
+                                    <li>
+                                        <a>
+                                            <span style="color:rgb(90, 90, 90)">
+                                                Filter by Owner
+                                            </span>
+                                            <aura:if isTrue="{!v.radioItem != null}">
+                                                <div style="font-weight:400;margin-top: 5px;">
+                                                    {!v.radioItem}
+                                                </div>
+                                                <aura:set attribute="else">
+                                                    <div style="font-weight:400;margin-top: 5px;">
+                                                        All {!v.objName}s
+                                                    </div>
+                                                </aura:set>
+                                            </aura:if>
+                                        </a>
+                                    </li>
+
+                                </ol>
+
+                                <aura:if isTrue="{!v.openOwnerFilter}">
+                                    <div class="OwnerModelBody slds-p-around_medium">
+                                        <div class="ownerFilter">
+                                            <lightning:radioGroup aura:id="radioGrp" name="radioButtonGroup"
+                                                label="Filter by Owner" options="{! v.options }"
+                                                value="{! v.radioGrpValue }" />
+                                            <div class="filter-btn"
+                                                style="padding-top:.75rem;display:flex;justify-content:flex-end;">
+                                                <button class="slds-button slds-button_neutral button-cls"
+                                                    onclick="{!c.getOwnerFilterValue}">Done</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container ownerFilter-shape"></div>
+                                </aura:if>
+                            </div>
+
+                            <aura:if isTrue="{!v.addNewFilter}">
+                                <div class="hidden-filter">
+                                    <aura:if isTrue="{!v.customFilterTextarea}">
+                                        <h1>Matching these filters</h1>
+                                        <aura:set attribute="else">
+                                            <h1>Matching all of these filters</h1>
+                                        </aura:set>
+                                    </aura:if>
+                                    <div class="filter-count">
+                                        <div>
+                                            <aura:if isTrue="{!v.customFilterTextarea}">
+                                                <div>
+                                                    <h1>1.</h1>
+                                                </div>
+                                            </aura:if>
+                                        </div>
+                                        <div aura:id="innerTextAreaId" class="inner-textarea"
+                                            onclick="{!c.fieldsPopup}">
+                                            <div class="flex-set">
+                                                <aura:if isTrue="{!v.valueOptionos}">
+                                                    <div class="options-value" style="margin-top: 5px;">
+                                                        <ul style="display:flex;flex-direction: column;gap: 2px;">
+                                                            <li>
+                                                                <span>{!v.selectedField}*</span>
+                                                            </li>
+                                                            <li>
+                                                                {!v.selectedOpreatorValue}
+                                                                <span class="slds-p-left_x-small"> {!v.inputValue}
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <aura:set attribute="else">
+                                                        <span>New Filter*</span>
+                                                    </aura:set>
+                                                </aura:if>
+
+                                                <lightning:buttonIcon iconName="utility:close" variant="bare"
+                                                    onclick="{! c.removeThis }" alternativeText="Settings"
+                                                    title="Settings" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <aura:if isTrue="{!v.openPickListFields}">
+                                        <div class="modelBody slds-p-around_medium">
+                                            <div class="fields-opreation" style="margin-top:.75rem;">
+                                                <div class="combobox-value">
+
+                                                    <lightning:combobox name="fields" label="Field"
+                                                        placeholder="Select fields" value="Name"
+                                                        options="{! v.fieldList}" onchange="{! c.fieldChange }" />
+                                                </div>
+
+                                                <div class="combobox-value" style="padding-top:1.50rem;">
+                                                    <lightning:combobox name="fields" label="Operator"
+                                                        placeholder="Select opreator" value="equals"
+                                                        options="{! v.opreations}" onchange="{! c.optionChange }" />
+                                                </div>
+
+                                                <div class="combobox-value" style="padding-top:1.50rem;">
+                                                    <aura:if isTrue="{!v.stringType}">
+                                                        <lightning:input type="text" value="{!v.inputValue}"
+                                                            aura:id="inputValue" label="Value" default="null">
+                                                        </lightning:input>
+
+                                                    </aura:if>
+
+                                                    <aura:if isTrue="{!v.doubleType}">
+                                                        <lightning:input type="number" value="{!v.inputValue}"
+                                                            aura:id="inputValue" label="Enter Number" default="null">
+                                                        </lightning:input>
+
+                                                    </aura:if>
+                                                    <aura:if isTrue="{!v.dateType}">
+                                                        <lightning:input type="date" value="{!v.inputValue}"
+                                                            aura:id="inputValue" label="Enter Date" default="null">
+                                                        </lightning:input>
+                                                    </aura:if>
+                                                    <aura:if isTrue="{!v.pickListType}">
+
+                                                        <lightning:combobox name="picklist" label="Select an item"
+                                                            placeholder="0 options selected" value="{!v.inputValue}"
+                                                            options="{! v.PickListValue}"
+                                                            onchange="{! c.pickChange }" />
+
+                                                    </aura:if>
+                                                </div>
+                                                <div class="filter-btn"
+                                                    style="padding-top:.75rem;display:flex;justify-content:flex-end;">
+                                                    <button class="slds-button slds-button_neutral button-cls"
+                                                        onclick="{!c.getselectedValues}">Done</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="container diamond-shape"></div>
+                                    </aura:if>
+                                </div>
+                            </aura:if>
+
+                            <div class="custom-filter">
+                                <a onclick="{!c.openCustomFilter}">
+                                    Add Filter
+                                </a>
+                                <aura:if isTrue="{!v.removeData}">
+                                    <a onclick="{!c.removeOpenFilter}">
+                                        Remove All
+                                    </a>
+                                </aura:if>
+                            </div>
+                        </div>
+                    </div>
+                </aura:if>
+            </aura:if>
+        </div>
+        <aura:set attribute="else">
+            <aura:if isTrue="{!v.openKanban}">
+                <aura:if isTrue="{!v.kanbanLoading}">
+                    <div class="demo-only" style="height:38rem;position:relative;right:0%;top:30%;background:#fff;">
+                        <div class="slds-spinner_container">
+                            <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                                <span class="slds-assistive-text">Loading</span>
+                                <div class="slds-spinner__dot-a"></div>
+                                <div class="slds-spinner__dot-b"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <aura:set attribute="else">
+                        <!-- kanban setting popup -->
+                        <aura:if isTrue="{!v.isKanbanSetting}">
+                            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                                aria-describedby="modal-content-id-1" class="animation slds-modal slds-fade-in-open ">
+                                <div class="slds-modal__container" style="max-width: 40rem !important;">
+                                    <header class="slds-modal__header">
+                                        <lightning:buttonIcon iconName="utility:close" onclick="{! c.closeModal }"
+                                            alternativeText="close" variant="bare-inverse"
+                                            class="slds-modal__close slds-text-font_monospace" />
+                                        <h2 class="slds-text-heading_medium slds-hyphenate"
+                                            style="letter-spacing: 0.5px;">Kanban Settings
+                                        </h2>
+                                    </header>
+                                    <div class="slds-modal__content slds-p-around_medium ">
+                                        <div
+                                            class="slds-col slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12">
+                                            <lightning:combobox name="picklist" label="Summarize By"
+                                                placeholder="--none--" value="{!v.SummarizeInput}"
+                                                options="{! v.SummarizeValue}" onchange="{!c.summarizeFieldChange }" />
+                                        </div>
+                                        <div class="slds-col slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12"
+                                            style="padding-top: 1.5rem;">
+                                            <lightning:combobox name="picklist" label="Group By" placeholder="--none--"
+                                                value="{!v.kanbanInputValue}" options="{! v.GroupValue}"
+                                                onchange="{!c.kanbanFieldChange }" required="true" />
+                                        </div>
+                                    </div>
+                                    <footer class="slds-modal__footer">
+                                        <button class="slds-button slds-button_natural slds-p-horizontal_medium "
+                                            onclick="{!c.closeModal}" style="background: #fff;">Cancel</button>
+                                        <button class="slds-button slds-button_brand"
+                                            onclick="{!c.getKanbanField}">Save</button>
+                                    </footer>
+                                </div>
+                            </section>
+                            <div class="slds-backdrop slds-backdrop_open"></div>
+                            <aura:set attribute="else">
+                                <c:KanbanView sObjectName="{!v.objName}" sObjectFields="{!v.kanbanCol}"
+                                    sObjectPickListValue="{!v.pickName}" objectRecords="{!v.accountList}"
+                                    summarizeFieldValue="{!v.SummarizeInput}" />
+                            </aura:set>
+                        </aura:if>
+                    </aura:set>
+                </aura:if>
+            </aura:if>
+        </aura:set>
+    </aura:if>
+
+    <aura:if isTrue="{!v.isDeleteRow}">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="animation slds-modal slds-fade-in-open ">
+            <div class="slds-modal__container" style="max-width: 40rem !important;">
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close" onclick="{! c.closeModal }" alternativeText="close"
+                        variant="bare-inverse" class="slds-modal__close slds-text-font_monospace" />
+                    <h2 class="slds-text-heading_medium slds-hyphenate" style="letter-spacing: 0.5px;">Delete Record
+                    </h2>
+                </header>
+
+                <div class="slds-modal__content slds-p-around_medium slds-grid slds-warp ">
+                    <div class="slds-col slds-size_1-of-1">
+                        <div class="slds-grid slds-wrap" style="text-align: center;padding: 0.3rem;">
+                            <div class="slds-p-horizontal--medium slds-col slds-size_1-of-1">
+                                <div class="slds-form-element">
+                                    <div class="slds-form-element__controller">
+                                        <h1> Are you sure you want to delete this Record?</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_natural slds-p-horizontal_medium " onclick="{!c.closeModal}"
+                        style="background: #fff;">Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick="{!c.deleteObjectRow}">delete</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+
+    <!-- Display table fields popup-->
+
+    <aura:if isTrue="{!v.tableFieldPopup}">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="animation slds-modal slds-fade-in-open ">
+            <div class="slds-modal__container" style="max-width: 40rem !important;">
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close" onclick="{! c.closeModal }" alternativeText="close"
+                        variant="bare-inverse" class="slds-modal__close slds-text-font_monospace" />
+                    <h2 class="slds-text-heading_medium slds-hyphenate" style="letter-spacing: 0.5px;">Select Fields to
+                        Display
+                    </h2>
+                </header>
+
+                <div class="slds-modal__content slds-p-around_medium ">
+
+                    <lightning:dualListbox name="multipleOptions" sourceLabel="Available" selectedLabel="Selected"
+                        options="{!v.dualBoxValue}" value="{!v.dualBoxValues}"
+                        onchange="{! c.handleChangeDualListBoxValue }" />
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_natural slds-p-horizontal_medium " onclick="{!c.closeModal}"
+                        style="background: #fff;">Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick="{!c.saveSelectedFields}">Save</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+
+
+    <!-- Create new View popup -->
+
+
+    <aura:if isTrue="{!v.listviewPopup}">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="animation slds-modal slds-fade-in-open ">
+            <div class="slds-modal__container" style="max-width: 40rem !important;">
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close" onclick="{! c.closeModal }" alternativeText="close"
+                        variant="bare-inverse" class="slds-modal__close slds-text-font_monospace" />
+                    <h2 class="slds-text-heading_medium slds-hyphenate" style="letter-spacing: 0.5px;"> {!v.viewType}
+                        List View
+                    </h2>
+                </header>
+
+                <div class="slds-modal__content slds-p-around_medium ">
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12">
+                            <lightning:input label="List Name" value="{!v.viewLabelName}" required="true"
+                                onblur="{!c.viewNameHandler}" />
+                        </div>
+                        <div class="slds-col slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12"
+                            style="padding-top: 10px;">
+                            <div style="position:relative;"
+                                class="slds-col slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12">
+                                <lightning:input label="List API Name" value="{!v.viewApiName}" name="ListAPIName"
+                                    required="true" />
+                                <lightning:helptext content="{!v.text}" iconName="utility:info" class="popover" />
+                            </div>
+                        </div>
+                        <fieldset class="slds-form-element" style="padding-top: 10px;">
+                            <legend class="slds-form-element__legend slds-form-element__label">Who sees this list view?
+                            </legend>
+                            <div class="slds-form-element__control">
+                                <span class="slds-radio">
+                                    <input type="radio" id="radio-59" value="radio-59" name="default" checked="true" />
+                                    <label class="slds-radio__label" for="radio-59">
+                                        <span class="slds-radio_faux"></span>
+                                        <span class="slds-form-element__label">Only I can see this list</span>
+                                    </label>
+                                </span>
+                                <span class="slds-radio">
+                                    <input type="radio" id="radio-60" value="radio-60" name="default" />
+                                    <label class="slds-radio__label" for="radio-60">
+                                        <span class="slds-radio_faux"></span>
+                                        <span class="slds-form-element__label">All users can see this list view
+                                            <lightning:helptext
+                                                content="Including Guest Partner, and Customer portal users"
+                                                iconName="utility:info" />
+                                        </span>
+                                    </label>
+                                </span>
+                                <span class="slds-radio">
+                                    <input type="radio" id="radio-61" value="radio-61" name="default" />
+                                    <label class="slds-radio__label" for="radio-61">
+                                        <span class="slds-radio_faux"></span>
+                                        <span class="slds-form-element__label">Share list view with groups of users
+                                            <lightning:helptext
+                                                content="if you dont select any groups, this list view is private."
+                                                iconName="utility:info" />
+                                        </span>
+                                    </label>
+                                </span>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_natural slds-p-horizontal_medium " onclick="{!c.closeModal}"
+                        style="background: #fff;">Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick="{!c.newViewCreateHandler}">Save</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+
+
+</aura:component>

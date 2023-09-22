@@ -1,0 +1,62 @@
+<template>
+    <lightning-card title="Weather App" >
+
+        <lightning-layout >
+            <lightning-layout-item size="12" style="padding:0 10px;">
+
+                <div style="padding-bottom: 10px;" >
+                    <lightning-combobox
+                        value={city}
+                        placeholder="Select City"
+                        options={cities}
+                        onchange={handleCity}>
+                    </lightning-combobox>
+                </div>
+
+                <div class="mainCard">
+
+                    <div class="first">
+                        <a href={condition.icon} target="_blank">
+                            <img src={condition.icon} alt="Whether Photo" />
+                        </a>
+                        <p>
+                            <strong>
+                                {condition.text}
+                            </strong>
+                        </p>
+
+                    </div>
+
+                    <div class="second">
+                        <p>
+                            <strong>
+                                {location.name},{location.region}
+                            </strong>
+                        </p>
+                    </div>
+
+                    <div class="third">
+                        <p>
+                            <strong>
+                                {current.temp_c}<sup>°C</sup>
+                            </strong>
+                        </p>
+                        <p>
+                            <strong>
+                                {current.temp_f}<sup>°F</sup>
+                            </strong>
+                        </p>
+                        <p>
+                            <strong>
+                                {currentDay},{currentTime}
+                            </strong>
+                        </p>
+                    </div>
+
+                </div>
+            </lightning-layout-item>
+
+        </lightning-layout>
+    </lightning-card>
+
+</template>

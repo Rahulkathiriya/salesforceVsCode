@@ -1,0 +1,35 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global" >
+	
+    
+ <div class="slds-panel slds-size_medium slds-panel_docked slds-panel_docked-right slds-grid slds-grid_vertical forceFilterPanel" data-aura-rendered-by="2070:0" data-aura-class="forceFilterPanel">
+    <div class="slds-panel__header panelHeader" data-aura-rendered-by="2087:0">
+        <h2 class="slds-panel__header-title slds-text-heading_small slds-truncate" data-aura-rendered-by="2089:0">Filters</h2>
+        <button title="Close Filters" class="slds-button slds-button_icon slds-button_icon-small slds-panel__close" data-aura-rendered-by="2091:0">
+            <lightning:buttonIcon iconName="utility:close" class="slds-icon-utility-close slds-icon_container" alternativeText="closebutton">
+            </lightning:buttonIcon>
+        </button>
+     </div>
+     <div class="slds-col slds-scrollable--y" data-aura-rendered-by="2131:0">
+     <div class="slds-panel__body panelBody" data-aura-rendered-by="2132:0">
+         <div aria-live="assertive" data-aura-rendered-by="2133:0">…</div>	
+         </div>
+         <ol data-aura-rendered-by="2136:0">
+             <li data-aura-rendered-by="2138:0">
+             <div id="scope0" class="forceFilterPanelScope" data-aura-rendered-by="2141:0" data-aura-class="forceFilterPanelScope">
+                 <a class="trigger" data-aura-rendered-by="2143:0" href="javascript:void(0);">
+                 <span data-aura-rendered-by="2144:0">
+                     <div class="filterLabel" data-aura-rendered-by="2145:0">Filter by Owner</div>
+                     <span class="currentScopeLabel" data-aura-rendered-by="2147:0">All accounts</span>
+                     </span>
+                 
+                 </a>
+                 </div>
+             </li>
+         </ol>
+         
+     </div>
+     
+     
+    </div>
+    
+</aura:component>

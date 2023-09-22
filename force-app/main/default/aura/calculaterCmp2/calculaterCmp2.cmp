@@ -1,0 +1,8 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+	
+    <lightning:input  type="number" aura:id="num1"  label="Enter First Number"/> 
+    
+    <lightning:input  type="number" aura:id="num2"  label="Enter last Number"/> 
+    
+    <lightning:input  type="submit" aura:id="num1"  value=" Add " onclick="{!c.addFunction}"/> 
+</aura:component>

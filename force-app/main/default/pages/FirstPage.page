@@ -1,0 +1,15 @@
+<apex:page sidebar="false" standardStylesheets="false" cache="false" standardController="Account" recordSetVar="accounts" lightningStylesheets="true">
+  <button id="upload-button" onclick="window.print();" style="margin-left: 50%;" Class="slds-button">Print</button>
+  <apex:includeLightning />
+  <div id="lightning" ></div>
+  <script>
+    $Lightning.use("c:ListView", function() {
+     $Lightning.createComponent("c:ListViewComponent",
+     { label : "" },
+     "lightning",
+     function(cmp) {
+      
+     });
+    });
+  </script>
+</apex:page>

@@ -1,0 +1,316 @@
+.THIS {
+}
+
+
+.THIS .forceListViewManagerSecondaryDisplayManager>div {
+    min-width: 321px;
+}
+
+.THIS .forceFilterPanel {
+    max-width: 321px;
+    background-color: var(--lwc-colorBackground,rgb(243, 243, 243));
+}
+
+.THIS .slds-size_medium, .THIS .slds-size--medium {
+    width: 20rem;
+}
+.THIS .slds-grid_vertical, .THIS .slds-grid--vertical {
+    flex-direction: column;
+}
+.THIS .slds-grid {
+    display: flex;
+}
+.THIS .slds-panel_docked-right {
+    margin-left: auto;
+    box-shadow: var(--lwc-panelDockedRightShadow,-1px 0 3px 0 rgba(0,0,0,0.25));
+}
+.THIS .slds-panel_docked {
+    position: relative;
+    min-width: var(--lwc-sizeSmall,15rem);
+    height: 100%;
+    border-radius: 0;
+    display: none;
+}
+.THIS .slds-panel {
+    background: var(--slds-g-color-neutral-base-100, var(--lwc-colorBackgroundAlt,rgb(255, 255, 255)));
+    border-radius: var(--lwc-borderRadiusMedium,0.25rem);
+    overflow-y: auto;
+}
+                                        
+.THIS .forceFilterPanel .panelHeader {
+    background-color: var(--lwc-colorBackgroundAlt,rgb(255, 255, 255));
+}
+.THIS .slds-panel__header {
+    display: flex;
+    position: relative;
+    align-items: center;
+    padding: var(--lwc-spacingSmall,0.75rem);
+    border-bottom: var(--lwc-borderWidthThin,1px) solid var(--slds-g-color-border-base-1, var(--lwc-colorBorder,rgb(229, 229, 229)));
+}
+                                                                    
+.THIS .slds-text-heading_small, .THIS .slds-text-heading--small {
+    font-size: var(--lwc-fontSize5,1rem);
+    line-height: var(--lwc-lineHeightHeading,1.25);
+}
+.THIS .slds-truncate {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.THIS .slds-panel__header-title {
+    text-align: start;
+    width: 100%;
+}
+.THIS h1,.THIS h2,.THIS h3,.THIS h4,.THIS h5, .THIS h6 {
+    font-weight: inherit;
+    font-size: 1em;
+}
+.THIS h1,.THIS h2,.THIS h3,.THIS h4,.THIS h5,.THIS h6,.THIS p,.THIS ol,.THIS ul,.THIS dl,.THIS fieldset {
+    margin: 0;
+    padding: 0;
+}
+
+
+.THIS h2 {
+    display: block;
+    font-size: 1.5em;
+    margin-block-start: 0.83em;
+    margin-block-end: 0.83em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+                                                                                
+.THIS .slds-panel__close:last-child {
+    margin-left: var(--lwc-spacingXSmall,0.5rem);
+}
+.THIS .slds-panel__close,.THIS .slds-panel__back {
+    flex-shrink: 0;
+}
+.THIS .slds-button_icon-small,.THIS .slds-button--icon-small {
+    width: var(--lwc-squareIconSmallBoundary,1.5rem);
+    height: var(--lwc-squareIconSmallBoundary,1.5rem);
+}
+.THIS .slds-button_icon,.THIS .slds-button--icon,.THIS .slds-button_icon-inverse,.THIS .slds-button--icon-inverse,.THIS .slds-button_icon-container,.THIS .slds-button--icon-container,.THIS .slds-button_icon-border,.THIS .slds-button--icon-border,.THIS .slds-button_icon-border-filled,.THIS .slds-button--icon-border-filled,.THIS .slds-button_icon-border-inverse,.THIS .slds-button--icon-border-inverse,.THIS .slds-button_icon-more,.THIS .slds-button--icon-more,.THIS .slds-button_icon-error,.THIS .slds-button--icon-error,.THIS .slds-button_icon-warning,.THIS .slds-button--icon-warning {
+    line-height: var(--lwc-lineHeightReset,1);
+    vertical-align: middle;
+    justify-content: center;
+    color: var(--slds-g-color-neutral-base-50, var(--lwc-colorTextIconDefault,rgb(116, 116, 116)));
+    flex-shrink: 0;
+}
+.THIS .slds-button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    padding-top: var(--slds-c-button-spacing-block-start, var(--sds-c-button-spacing-block-start, 0));
+    padding-right: var(--slds-c-button-spacing-inline-end, var(--sds-c-button-spacing-inline-end, 0));
+    padding-bottom: var(--slds-c-button-spacing-block-end, var(--sds-c-button-spacing-block-end, 0));
+    padding-left: var(--slds-c-button-spacing-inline-start, var(--sds-c-button-spacing-inline-start, 0));
+    background: none;
+    background-color: var(--slds-c-button-color-background, var(--sds-c-button-color-background, transparent));
+    background-clip: border-box;
+    border-color: var(--slds-c-button-color-border, var(--sds-c-button-color-border, transparent));
+    border-style: solid;
+    border-width: var(--slds-c-button-sizing-border, var(--sds-c-button-sizing-border, var(--lwc-borderWidthThin,1px)));
+    border-radius: var(--slds-c-button-radius-border, var(--sds-c-button-radius-border, var(--lwc-buttonBorderRadius,.25rem)));
+    box-shadow: var(--slds-c-button-shadow, var(--sds-c-button-shadow));
+    line-height: var(--slds-c-button-line-height, var(--sds-c-button-line-height, var(--lwc-lineHeightButton,1.875rem)));
+    text-decoration: none;
+    color: var(--slds-c-button-text-color, var(--sds-c-button-text-color, var(--lwc-brandAccessible,rgb(1, 118, 211))));
+    -webkit-appearance: none;
+    white-space: normal;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.THIS a,.THIS button {
+    cursor: pointer;
+}
+.THIS button,.THIS html input[type=button],.THIS input[type=reset],.THIS input[type=submit] {
+    -webkit-appearance: button;
+    cursor: pointer;
+}
+.THIS button,.THIS select {
+    text-transform: none;
+}
+.THIS button {
+    overflow: visible;
+}
+.THIS button,.THIS input,.THIS optgroup,.THIS select,.THIS textarea {
+    color: inherit;
+    font: inherit;
+    margin: 0;
+}     
+.THIS .slds-icon_container,.THIS .slds-icon__container {
+    display: inline-block;
+    border-radius: var(--slds-c-icon-radius-border, var(--sds-c-icon-radius-border, var(--lwc-borderRadiusMedium,0.25rem)));
+    line-height: var(--lwc-lineHeightReset,1);
+    background-color: var(--slds-c-icon-color-background, var(--sds-c-icon-color-background, transparent));
+}
+
+
+.THIS .slds-button_icon,.THIS .slds-button--icon,.THIS .slds-button_icon-inverse,.THIS .slds-button--icon-inverse,.THIS .slds-button_icon-container,.THIS .slds-button--icon-container,.THIS .slds-button_icon-border,.THIS .slds-button--icon-border,.THIS .slds-button_icon-border-filled,.THIS .slds-button--icon-border-filled,.THIS .slds-button_icon-border-inverse,.THIS .slds-button--icon-border-inverse,.THIS .slds-button_icon-more,.THIS .slds-button--icon-more,.THIS .slds-button_icon-error,.THIS .slds-button--icon-error,.THIS .slds-button_icon-warning,.THIS .slds-button--icon-warning {
+    line-height: var(--lwc-lineHeightReset,1);
+    vertical-align: middle;
+    justify-content: center;
+    color: var(--slds-g-color-neutral-base-50, var(--lwc-colorTextIconDefault,rgb(116, 116, 116)));
+    flex-shrink: 0;
+}
+.THIS .slds-button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    padding-top: var(--slds-c-button-spacing-block-start, var(--sds-c-button-spacing-block-start, 0));
+    padding-right: var(--slds-c-button-spacing-inline-end, var(--sds-c-button-spacing-inline-end, 0));
+    padding-bottom: var(--slds-c-button-spacing-block-end, var(--sds-c-button-spacing-block-end, 0));
+    padding-left: var(--slds-c-button-spacing-inline-start, var(--sds-c-button-spacing-inline-start, 0));
+    background: none;
+    background-color: var(--slds-c-button-color-background, var(--sds-c-button-color-background, transparent));
+    background-clip: border-box;
+    border-color: var(--slds-c-button-color-border, var(--sds-c-button-color-border, transparent));
+    border-style: solid;
+    border-width: var(--slds-c-button-sizing-border, var(--sds-c-button-sizing-border, var(--lwc-borderWidthThin,1px)));
+    border-radius: var(--slds-c-button-radius-border, var(--sds-c-button-radius-border, var(--lwc-buttonBorderRadius,.25rem)));
+    box-shadow: var(--slds-c-button-shadow, var(--sds-c-button-shadow));
+    line-height: var(--slds-c-button-line-height, var(--sds-c-button-line-height, var(--lwc-lineHeightButton,1.875rem)));
+    text-decoration: none;
+    color: var(--slds-c-button-text-color, var(--sds-c-button-text-color, var(--lwc-brandAccessible,rgb(1, 118, 211))));
+    -webkit-appearance: none;
+    white-space: normal;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.THIS a,.THIS button {
+    cursor: pointer;
+}
+.THIS button,.THIS html input[type=button],.THIS input[type=reset],.THIS input[type=submit] {
+    -webkit-appearance: button;
+    cursor: pointer;
+}
+.THIS button,.THIS select {
+    text-transform: none;
+}
+.THIS button,.THIS input,.THIS optgroup,.THIS select,.THIS textarea {
+    color: inherit;
+    font: inherit;
+    margin: 0;
+}     
+                                                                                                                                                                                                                                
+.THIS .slds-scrollable_y,.THIS .slds-scrollable--y {
+    -webkit-overflow-scrolling: touch;
+    max-height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.THIS .slds-col,.THIS [class*=slds-col_padded],.THIS [class*=slds-col--padded] {
+    flex: 1 1 auto;
+}       
+.THIS .forceFilterPanel .panelBody {
+    background-color: var(--lwc-colorBackgroundAlt,rgb(255, 255, 255));
+}
+
+.THIS .slds-panel__body {
+    padding: var(--lwc-spacingSmall,0.75rem);
+}                                                                                                                                                                                                                                                                                                                                                                                        
+.THIS .forceFilterPanel .panelBody ol {
+    margin: 0;
+    padding-left: 0;
+}
+
+.THIS ol,.THIS ul {
+    list-style: none;
+}
+.THIS h1,.THIS h2,.THIS h3,.THIS h4,.THIS h5,.THIS h6,.THIS p,.THIS ol,.THIS ul,.THIS dl,.THIS fieldset {
+    margin: 0;
+    padding: 0;
+}
+
+.THIS ol {
+    display: block;
+    list-style-type: decimal;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+} 
+.THIS .forceFilterPanel .panelBody li:first-child {
+    margin-top: 0;
+}
+
+.THIS .forceFilterPanel .panelBody li {
+    list-style-type: none;
+    margin: var(--lwc-spacingSmall,0.75rem) 0 var(--lwc-spacingSmall,0.75rem) 0;
+}
+
+.THIS li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+}
+.THIS ol,.THIS ul {
+    list-style: none;
+}
+
+.THIS ol {
+    list-style-type: decimal;
+}   
+.THIS .forceFilterPanelScope {
+    border: var(--lwc-colorBorderButtonDefault,rgb(201, 201, 201)) 1px solid;
+    border-radius: var(--lwc-borderRadiusMedium,0.25rem);
+    padding: var(--lwc-spacingSmall,0.75rem);
+}
+
+.THIS div {
+    display: block;
+}
+
+.THIS .forceFilterPanel .panelBody li {
+    list-style-type: none;
+    margin: var(--lwc-spacingSmall,0.75rem) 0 var(--lwc-spacingSmall,0.75rem) 0;
+}
+
+.THIS li {
+    text-align: -webkit-match-parent;
+}
+.THIS ol,.THIS ul {
+    list-style: none;
+}
+
+.THIS ol {
+    list-style-type: decimal;
+} 
+
+.THIS a,.THIS button {
+    cursor: pointer;
+}
+.THIS a {
+    color: var(--lwc-brandTextLink,rgb(1, 118, 211));
+    text-decoration: none;
+    transition: color .1s linear;
+}
+
+.THIS a:-webkit-any-link {
+    color: -webkit-link;
+    cursor: pointer;
+}
+
+.THIS .forceFilterPanel .panelBody li {
+    list-style-type: none;
+    margin: var(--lwc-spacingSmall,0.75rem) 0 var(--lwc-spacingSmall,0.75rem) 0;
+}
+
+.THIS li {
+    text-align: -webkit-match-parent;
+}
+.THIS ol,.THIS ul {
+    list-style: none;
+}
+
+.THIS ol {
+    list-style-type: decimal;
+}

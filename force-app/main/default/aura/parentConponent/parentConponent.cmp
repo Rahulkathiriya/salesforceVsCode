@@ -1,0 +1,13 @@
+<aura:component >
+	
+    <div class ="a11">
+        <c:childComponent aura:id="c1" />
+        <lightning:button variant="brand" label="Call Aura Method" onclick="{!c.callAuraMethod}" />
+    </div>
+    
+    <div class ="b11">
+    <c:childComponent aura:id="ak" />
+        <lightning:button variant="brand" label="integers and String Button" onclick="{!c.abc}"/>
+    
+    </div>
+</aura:component>

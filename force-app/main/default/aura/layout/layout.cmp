@@ -1,0 +1,57 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId">
+  <p>This example creates a simple layout with field headers.</p>
+  <div class="c-container">
+    <lightning:layout>
+      <lightning:layoutItem padding="around-small">
+        <div class="header-column">
+          <p class="field-title" title="Field 1">Field 1</p>
+          <p>Name</p>
+        </div>
+      </lightning:layoutItem>
+      <lightning:layoutItem padding="around-small">
+        <div class="header-column">
+          <p class="field-title" title="Field2 (3)">Field 2 (3)
+            <lightning:buttonIcon iconName="utility:down" variant="border-filled" size="small"
+              alternativeText="More Actions" />
+          </p>
+          <p>Eligibility</p>
+        </div>
+      </lightning:layoutItem>
+      <lightning:layoutItem padding="around-small">
+        <div class="header-column">
+          <p class="field-title" title="Field 3">Field 3</p>
+          <a href="#">Website</a>
+        </div>
+      </lightning:layoutItem>
+      <lightning:layoutItem padding="around-small">
+        <div class="header-column">
+          <p class="field-title" title="Field 4">Field 4</p>
+          <p>
+            <span title="">Address</span>
+          </p>
+        </div>
+      </lightning:layoutItem>
+    </lightning:layout>
+  </div>
+
+  <lightning:listView aura:id="listViewAccounts"
+                      objectApiName="Account" 
+                      listName="AllAccounts"
+                      rows="5"
+                      showSearchBar="true" 
+                      showActionBar="false"
+                      enableInlineEdit="true"
+                      showRowLevelActions="false" />
+
+
+  <aura:attribute name="mapMarkers" type="Object" />
+  <aura:attribute name="zoomLevel" type="Integer" />
+  
+  <!-- handlers-->
+  <aura:handler name="init" value="{! this }" action="{! c.init }" />
+  
+  <!-- the map component -->
+  <lightning:map mapMarkers="{! v.mapMarkers }" 
+                 zoomLevel="{!v.zoomLevel}" />
+                      
+</aura:component>

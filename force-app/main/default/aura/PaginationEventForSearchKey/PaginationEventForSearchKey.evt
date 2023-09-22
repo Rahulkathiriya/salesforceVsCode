@@ -1,0 +1,7 @@
+<aura:event type="APPLICATION">
+
+    <aura:attribute name="RecordList" type="List"/>
+
+    <aura:attribute name="pageSize" type="Integer"/>
+
+</aura:event>

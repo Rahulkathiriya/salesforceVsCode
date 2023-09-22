@@ -1,0 +1,10 @@
+.THIS table {
+  margin-left: 10px;
+  border: 1px;
+}
+
+.THIS th,
+.THIS td {
+  border-bottom: 1px solid #ddd;
+  padding: 15px;
+}

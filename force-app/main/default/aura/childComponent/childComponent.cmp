@@ -1,0 +1,13 @@
+<aura:component >
+	<aura:method name="myName" action="{!c.getMessage}" access="public">
+        <aura:attribute name="p1" type="String" default="Dhruvil"/>
+        <aura:attribute name="p2" type="String" default="vegad" />
+    </aura:method>
+    
+    <aura:method name="xyz" action="{!c.init}" access="public">
+    
+        <aura:attribute name="b1" type="integer" default="302"/>
+        <aura:attribute name="b2" type="string" default="Dhruv"/>
+    
+    </aura:method>
+</aura:component>

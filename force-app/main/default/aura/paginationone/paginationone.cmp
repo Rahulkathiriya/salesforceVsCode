@@ -1,0 +1,55 @@
+<aura:component  implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="DynamicTableValue" type="List" />
+    <aura:attribute name="ObjApi" type="String"/>
+    <aura:attribute name="filteFileds" type="List" />
+    <aura:attribute name="FilterPopup" type="Boolean" default = "true" />
+    <aura:registerEvent name="HandelFilter" type="c:FilterHide"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:if isTrue='{!v.FilterPopup}'>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open" style="box-shadow: 0px 1px 7px 2px lightgrey;">
+            <div class="slds-modal__container">
+                <!--  MODAL BOX HEADER Start  -->
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close"
+                                          onclick="{! c.closeModel }"
+                                          alternativeText="close"
+                                          variant="bare-inverse"
+                                          class="slds-modal__close"/> 
+                 
+                </header>                      
+                <!--  MODAL BOX BODY Part Start -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">   
+                    <aura:iteration items="{!v.FilteFileds}" var="field">
+                        <aura:if isTrue="{!field.type == 'picklist'}" >
+                            <lightning:combobox aura:id="ComboID" name="progress" label="{!field.label}" options="{!field.PickValue}"/>
+                             <lightning:select aura:id="ComboID" label="Operators" name="Operators" required="true">
+        							<option value="equals">equals</option>
+        							<option value="not equals to">not equals to</option>
+       							    <option value="less than">less than</option>
+        							<option value="greater than">greater than</option>
+                                 	<option value="less or equal">less or equal</option>
+                                 	<option value="greater or equal">greater or equal</option>
+                                 	<option value="contains">contains</option>
+                                 	<option value="does not contain">does not contain</option>
+                                 	<option value="starts with">starts with</option>
+   							 </lightning:select>
+                            <aura:set attribute="else">
+                                <lightning:input aura:id="ComboID" type = "{!field.type}" label="{!field.label}" value="{!field.Value}"/>
+                            </aura:set>
+                        </aura:if>        
+                    </aura:iteration>
+                </div>
+                
+                <!--     MODAL BOX FOOTER Part Start -->
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="Neutral"
+                                      label="Cancel"
+                                      onclick="{! c.ClosedPopup }" />
+                    <lightning:button label="Done"
+                                      onclick="{! c.ApplyFilterMethod }"/>                     
+                </footer>
+            </div>                      
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>       
+    </aura:if>
+</aura:component>

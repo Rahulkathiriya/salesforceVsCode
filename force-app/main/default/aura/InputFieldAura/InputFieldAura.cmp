@@ -1,0 +1,34 @@
+<!-- <aura:component controller="inputfieldAura">
+    <aura:attribute name="contact" type="Contact" 
+               default="{ 'sobjectType': 'Contact' }"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <force:inputField aura:id="firstname" value="{!v.contact.FirstName}" change="{!c.handleChange}"/>
+    <force:inputField aura:id="lastname" value="{!v.contact.LastName}" change="{!c.handleChange}"/>
+</aura:component> -->
+
+<!-- <aura:component controller="inputfieldAura">
+<aura:attribute name="Account1" type="Account"
+                default="{'sobjectType' : 'Account'}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.abc}"/>
+    <force:inputField  aura:id="firstname" value="{!v.Account1.Name}" change="{!c.handlc}"/>
+    <force:inputField   aura:id="phone" value="{!v.Account1.Phone}" change="{!c.handlc}" />
+
+</aura:component> -->
+
+
+<!-- outputField -->
+<!-- <aura:component controller="inputfieldAura">
+    <aura:handler name="init" value="{!this}" action="{!c.aaa}"/>
+    <aura:attribute name="a1" type="Account"
+                    default="{'sobjectType' : 'Account'}" />
+    
+    <force:outputField value="{!v.a1.Name}"/>
+
+
+</aura:component> -->
+
+<!-- record Edit -->
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction">
+    <force:recordEdit aura:id="edit" recordId="0015g0000191SfPAAU"/>
+    <lightning:button label="save" onclick="{!c.save}" />
+</aura:component>

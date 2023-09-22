@@ -1,0 +1,27 @@
+<aura:component
+  implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+  access="global">
+  <aura:attribute name="listOptions" type="List" default="[]" />
+  <aura:attribute name="defaultOptions" type="List" default="[]" />
+  <aura:attribute name="requiredOptions" type="List" default="[]" />
+  <aura:attribute name="min" type="Integer" default="5" />
+  <aura:attribute name="max" type="Integer" default="10" />
+  <aura:attribute name="selectedList" type="List" default="[]" description="Selected Genre Picklist Values" />
+  <aura:handler name="init" value="{!this }" action="{! c.initialize }" />
+
+  <lightning:dualListbox aura:id="selectOptions"
+                         name="Select Options" 
+                         label="Select Options"
+                         sourceLabel="Available Options" 
+                         selectedLabel="Selected Options" 
+                         options="{! v.listOptions }"
+                         value="{! v.defaultOptions }" 
+                         requiredOptions="{! v.requiredOptions }" 
+                         selectedList="{!v.selectedList}"
+                         min="{!v.min}"
+                         max="{!v.max}"
+                         onchange="{! c.handleChange }" />
+
+  <lightning:button variant="brand" label="Save" onclick="{!c.getSelectedGenre}" />
+
+  </aura:component>

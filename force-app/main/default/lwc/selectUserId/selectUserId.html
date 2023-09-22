@@ -1,0 +1,26 @@
+<template>
+<lightning-combobox name="user" 
+                    label="User" 
+                    value={value}
+                    placeholder="Select UserId" 
+                    options={options}
+                    onchange={handleChange}>
+  </lightning-combobox>
+
+<p>Selected value is: {value}</p>
+
+
+<lightning-button-group>
+  <lightning-button label="Cancel" 
+                    variant="neutral"
+                    onclick={handleCancel}>
+    </lightning-button>
+  <lightning-button value={value}
+                    label="Save"
+                      variant="brand" 
+                      type="submit" 
+                      onclick={handleSave}
+                      onchange={handleLoad}>
+    </lightning-button>
+</lightning-button-group>
+</template>

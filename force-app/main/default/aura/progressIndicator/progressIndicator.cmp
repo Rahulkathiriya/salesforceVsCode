@@ -1,0 +1,16 @@
+<aura:component implements="flexipage:availableForAllPageTypes">
+  <!-- attributes -->
+  <aura:attribute name="showStep4" type="Boolean" default="true" />
+
+
+  <lightning:progressIndicator currentStep="step-3" type="path" variant="base">
+    <lightning:progressStep label="Contacted" value="step-1" />
+    <lightning:progressStep label="Open" value="step-2" />
+    <lightning:progressStep label="Unqualified" value="step-3" />
+    <aura:if isTrue="{! v.showStep4 }">
+      <lightning:progressStep label="Nurturing" value="step-4" />
+    </aura:if>
+    <lightning:progressStep label="Closed" value="step-5" />
+  </lightning:progressIndicator>
+  <lightning:button label="Hide/Show Step 4" onclick="{! c.toggleStep4 }" />
+</aura:component>

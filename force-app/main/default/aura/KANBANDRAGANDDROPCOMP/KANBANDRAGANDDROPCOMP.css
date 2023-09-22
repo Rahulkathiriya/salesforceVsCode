@@ -1,0 +1,101 @@
+.THIS {} 
+.THIS.allBody{
+    height: 100vh !important;
+    background: #fff !important;
+}
+.THIS .slds-item {
+    border: 1px solid #d8dde6;
+    border-radius: 0.25rem;
+    background-clip: padding-box;
+    padding: 0.55rem;
+    margin: 0.25rem;
+} 
+.THIS .stageContainer{
+    float:left;
+    height:100%;
+}
+
+
+
+.THIS .cusFontStyle {
+    font-size: initial;
+    font-weight: bold;
+    color: #717171;
+}
+
+
+.THIS .dropZone{
+    min-height:25rem;
+    
+    
+}
+.THIS .cusCursor {
+    cursor: all-scroll;
+  /*  border-left: 3px solid #018080 !important; */
+  /*  margin: 15px;  */
+    background:white;
+
+}
+.THIS .cusCursor:hover{
+    
+    transform:scale(1.01);
+   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    transition-duration:0.2s;
+}
+
+        
+.THIS .path{
+    margin-bottom: 11px;
+    background: rgb(1, 118, 211);
+    text-align: center;
+    height: 34px;
+}
+.THIS .stageContainer:first-child .path .newPath:before{
+   display:none;
+}
+.THIS .stageContainer:first-child ul{
+    border-left:1px solid #ececec;
+}
+
+.THIS .stageContainer:first-child .path{
+   
+    border-radius:20px 0 0 20px;
+}
+.THIS .stageContainer:last-child .path{
+   
+    border-radius:0 20px 20px 0;
+}
+.THIS .newPath:before{
+    content: "";
+    display: block;
+    width: var(--lwc-pipelineHeaderChevronSize,2.35rem);
+    height: var(--lwc-pipelineHeaderChevronSize,1.85rem);
+    border: var(--lwc-borderWidthThick,2px) solid var(--slds-g-color-neutral-base-100, var(--lwc-colorGray1,rgb(255, 255, 255)));
+    border-left: none;
+    border-bottom: none;
+    transform: rotate(45deg);
+    margin-left:-20px;                        
+}
+                      
+                        
+.THIS .pos{
+   position:absolute;
+}
+.THIS .slds-path__link{
+    color:black !important;
+}
+.THIS.allBody{
+    padding:15px !important;
+}
+
+                       
+.THIS .btnClass .slds-dropdown-trigger button{
+    width: 17px;
+    height: 17px;
+     border: 1px solid rgb(201, 201, 201);                              
+}   
+                        
+.THIS .moving-card {
+  opacity: 0.5;
+  transform: rotate(-5deg);
+}

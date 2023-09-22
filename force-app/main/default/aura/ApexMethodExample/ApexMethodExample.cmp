@@ -1,0 +1,10 @@
+<aura:component description="ApexMethodExample" controller="ApexControllerSample">
+  <aura:attribute name="countries" type="List" />
+  <aura:attribute name="selectedCountry" type="string" />
+  <aura:handler name="init" value="{!this}" action="{!c.loadCountries}" />
+  <lightning:select name="colorId" label="Select a Country:" value="{!v.selectedCountry}">
+    <aura:iteration items="{!v.countries}" var="option">
+      <option text="{!option}" value="{!option}" />
+    </aura:iteration>
+  </lightning:select>
+</aura:component>

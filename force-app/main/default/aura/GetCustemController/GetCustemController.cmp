@@ -1,0 +1,31 @@
+<aura:component controller="getCustomObject"  implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global">
+    <aura:handler name="init" value="{!this}" action="{!c.getCustemObjectData}"  />
+    <aura:attribute name="getcustom" type="List"/> 
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Percentage</th>
+                <th>Salary</th>
+            </tr>
+            
+        </thead>
+        <tbody>
+            
+            
+            <aura:iteration items="{!v.getcustom}" var="c1">
+                
+                <tr>
+                    <th>{!c1.Name}</th>
+                    <th>{!c1.grensi__percentage__c}</th>
+                    <th>{!c1.grensi__salary__c}</th>
+                    
+                </tr>
+            </aura:iteration>
+        </tbody>
+        
+        
+    </table>
+    
+</aura:component>

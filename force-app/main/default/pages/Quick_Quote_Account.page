@@ -1,0 +1,29 @@
+<apex:page standardController="Account" extensions="Project_3_Account">
+    
+    <apex:form >
+        <div style="width:600px; height:600px; border:1px solid black; margin-left:20px; margin-top:20px;" >
+            <apex:sectionHeader title="Quote" subtitle="New Quote" />
+            <apex:pageBlock mode="mainDetail" >
+                
+                <apex:pageBlockSection title="Account" collapsible="false">
+                    <apex:inputText value="{!Account.Name}" />
+                    <apex:inputText value="{!Account.Industry}" />
+                    <apex:inputText value="{!Account.Rating}" />
+                    <apex:inputText value="{!Account.Ownership}" />
+                </apex:pageBlockSection>
+                
+                <apex:pageBlockSection title="Contact" collapsible="false">
+                    <apex:inputText value="{!con.LastName}" />
+                    <apex:inputText value="{!con.Phone}" />
+                    <apex:inputText value="{!con.FirstName}" />
+                    <apex:inputText value="{!con.MobilePhone}" />
+                    <apex:inputText value="{!con.OtherPhone}" />
+                    <apex:inputText value="{!con.Email}" />
+                </apex:pageBlockSection>
+                
+            </apex:pageBlock>
+            
+        </div>
+        
+    </apex:form>
+</apex:page>

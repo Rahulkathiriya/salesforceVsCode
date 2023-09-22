@@ -1,0 +1,23 @@
+<aura:component implements="flexipage:availableForAllPageTypes">
+  <aura:attribute name="sliderValue" type="Integer" default="50" />
+  <aura:attribute name="direction" type="String" default="fill" />
+  <aura:attribute name="checked" type="Boolean" default="true" />
+
+  <lightning:slider onchange="{!c.handleSliderChange}" value="{!v.sliderValue}" label="{!v.direction}" />
+
+  <lightning:input type="toggle" label="Direction" checked="{!v.checked}" onchange="{!c.handleDirectionChange}"
+    messageToggleActive="Fill" messageToggleInactive="Drain" />
+
+  <lightning:progressRing value="{!v.sliderValue}" direction="{!v.direction}" variant="base" />
+  <lightning:progressRing value="{!v.sliderValue}" direction="{!v.direction}" variant="base-autocomplete"  size="large" />
+  <lightning:progressRing value="{!v.sliderValue}" direction="{!v.direction}" variant="active-step" />
+  <lightning:progressRing value="{!v.sliderValue}" direction="{!v.direction}" variant="warning"  size="large" />
+  <lightning:progressRing value="{!v.sliderValue}" direction="{!v.direction}" variant="expired" />
+
+  <aura:import library="lightning:prompt" property="LightningPrompt" />
+  <lightning:button onclick="{! c.openPrompt }" label="Open Prompt" />
+
+
+ 
+  
+</aura:component>

@@ -1,0 +1,152 @@
+<aura:component description="KanbanDragAndDropComp" controller="KanbanDragAndDropCompCtrl"
+                implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global">
+    
+    
+    
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="pickValCountsArray" type="List" default="[]"/>
+    <aura:attribute name="filteredRecords" type="Object[]" />
+    <aura:attribute name="objectrecordList" type="List"/>
+    <aura:attribute name="sObjectName" type="String" default="Case"/>
+    <aura:attribute name="sObjectFields" type="String[]"
+                    default="['CaseNumber', 'ContactId','Subject', 'Contact.Name', 'CreatedDate', 'Priority', 'Status', 'Reason', 'Type']" />
+    <aura:attribute name="sObjectPickListValue" type="String" default="Reason"/>
+     <aura:attribute name="pickValCounts" type="Object" default="{}" />
+    <aura:attribute name="objectRecords" type="Map" />
+ <!--   <aura:attribute name="objectPickVal" type="List" />  -->
+    <aura:attribute name="objRecords" type="Map"/>
+    <aura:attribute name="editId" type="String" />
+    <aura:attribute name="deleteId" type="String" />
+     <aura:attribute name="editObjectValue" type="boolean" default="false" />
+    <aura:attribute name="isDeleteRow" type="boolean" default="false"/>
+     <aura:attribute name="isPickValMatchMap" type="Object" />
+  <!--   <aura:attribute name="recordList" type="List"/> -->
+    
+    <div class="allBody">
+        <aura:iteration var="item" items="{!v.pickValCountsArray}">
+            <div class="stageContainer" style="{!'width:calc(100vw/'+(v.pickValCountsArray.length+0.5)+')'}">
+                <div class="path">
+                    <div class="slds-grid slds-grid_vertical newPath">
+                            <div class="slds-media slds-no-space slds-media_center pos" 
+                                 style="{!'width:calc(100vw/'+(v.pickValCountsArray.length+1)+')'}">
+                                <div class="slds-media__body" style="position:relative;left:10%;">
+                                    <a aria-selected="true" class="slds-path__link" href="#" id="path-1" role="option" tabindex="0">
+                                    <span class="slds-page-header__title slds-align-middle slds-truncate" 
+                                          title="{!itempickVal}" style="color:#fff;font-size:14px;" >{!item.pickVal}  ({!item.count})</span>
+                                         
+                                    </a>
+                                </div>
+                            </div>
+                    </div>
+                </div>  
+                <ul ondrop="{!c.drop}" ondragover="{!c.allowDrop}" class="slds-has-dividers_around-space dropZone" 
+                    data-Pick-Val="{!item.pickVal}" style="height: calc(100% - 40px);overflow-y:auto;border-right: 1px solid #ececec;">
+                  <aura:iteration var="objRecord" items="{!v.objectRecords}" >
+                        <aura:if isTrue="{!item.pickVal == objRecord.pickListValue}">                       
+                            <li class="slds-item slds-m-around_small cusCursor" aura:id="recordTable" draggable="true"
+                                ondragstart="{!c.drag}" ondragend="{!c.dragend}" id="{!objRecord.Id}">  
+                                <article class="slds-tile slds-tile_board">
+                                   <div style="display:flex;justify-content:space-between;padding-bottom:5px;" class="btnClass">
+                                    <h3 class="slds-truncate" title="{!objRecord.Id}" >
+                                        <a href="{! '/' + objRecord.Id}"  target="__blank" >
+                                            <span class="slds-truncate" id="{!objRecord.Id}"> {!objRecord.CaseNumber}</span>
+                                        </a>
+                                    </h3>
+                                     <lightning:buttonMenu alternativeText="Show menu"  menuAlignment="right" 
+                                                           onselect="{! c.handleSelectMenuItem }">
+                                          <lightning:menuItem value="{!join(',', objRecord.Id, 'Edit')}"  label="Edit" />
+                                          <lightning:menuItem value="{!join(',', objRecord.Id, 'Delete')}" label="Delete" />
+                                     </lightning:buttonMenu>
+                                       </div>
+                                    <div class="slds-tile__detail slds-text-body_small" style="display:flex;flex-direction:column;gap:4px;">
+                                      
+                                        <a href="{! '/' + objRecord.ContactId}" target="__blank" style="text-decoration:none;padding-top:4px;">
+                                           <span class="slds-truncate" style="text-decoration:none;padding-top:4px;">{!objRecord.Contact.Name}</span>
+                                        </a>
+                                         <a href="{! '/' + objRecord.Id}" target="__blank" style="text-decoration:none;padding-top:4px;">
+                                           <span class="slds-truncate" style="border-bottom:1px dotted;">{!objRecord.Subject}</span>
+                                       </a>
+                                             <p class="slds-truncate" title="{!objRecord.pickListValue}">
+                                                   
+                                                <p class="slds-text-heading_medium" 
+                                                   style="font-size:15px;font-weight: 400;padding-top:4px;color:black;">
+                                                    {!objRecord.pickListValue}</p>
+                                        </p>
+                                    </div>
+                                </article>
+                                
+                            </li>
+                        </aura:if> 
+                    </aura:iteration> 
+                </ul>
+                <tr/>
+            </div>
+        </aura:iteration>
+    </div>
+   
+     <aura:if isTrue="{!v.editObjectValue}">
+                <section role= "dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                         aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close"
+                                          onclick="{! c.closeModal }"
+                                          alternativeText="close"
+                                          variant="bare-inverse"
+                                          class="slds-modal__close"/>
+                    
+                    <h2 class="slds-text-heading_medium slds-hyphenate">Edit Record</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium slds-grid slds-warp"> 
+                    <lightning:recordForm objectApiName="{!v.sObjectName}"
+                                          recordId="{!v.editId}"
+                                          columns="2"
+                                          layoutType="Full"
+                                          mode="edit"/>
+                </div>
+              
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if>
+    
+    
+    
+    <aura:if isTrue="{!v.isDeleteRow}">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" 
+                 aria-describedby="modal-content-id-1" class="animation slds-modal slds-fade-in-open ">
+            <div  class="slds-modal__container" >
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close"
+                                          onclick="{! c.closeModal }"
+                                          alternativeText="close"
+                                          variant="bare-inverse"
+                                          class="slds-modal__close slds-text-font_monospace" />
+                    
+                    <h2 class="slds-text-heading_medium slds-hyphenate">Delete record</h2>
+                </header >
+                <div class="slds-modal__content slds-p-around_medium slds-grid slds-warp " style="background:#ececec;"> 
+                    
+                    <div class="slds-col slds-size_1-of-1">
+                        <div class="slds-grid slds-wrap" style="text-align: center;">
+                            <div class="slds-p-horizontal--medium slds-col slds-size_1-of-1 slds-m-bottom--medium">
+                                <div class="slds-form-element">
+                                    <div class="slds-form-element__controller">
+                                        <h1> <b> Are you sure want to delete Record.</b></h1>
+                                    </div>
+                                </div>
+                            </div>            
+                        </div>	
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_natural slds-p-horizontal_medium " style="background:#ececec;" 
+                            onclick="{!c.closeModal}">Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick="{!c.removeRecord}">delete</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+</aura:component>

@@ -1,0 +1,6 @@
+<aura:component  implements="flexipage:availableForAllPageTypes,force:appHostable">
+
+    <input type="text" class="form-control" onkeyup="{!c.searchKeyChange}"
+            placeholder="Search"/>
+	
+</aura:component>

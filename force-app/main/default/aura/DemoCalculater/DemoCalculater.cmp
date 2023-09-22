@@ -1,0 +1,22 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    
+    <aura:attribute name="Result" type="integer" />
+    <div class="slds-grid slds-no-flex slds-align_absolute-center">
+        <div class="slds-col slds-size_2-of-12">
+            
+            
+            <lightning:input label="enter num" type="number" aura:id="a1" />
+            <lightning:input label="enter second num" aura:id="a2"  type="number" />
+            
+            <lightning:input value="add+" type="submit" onclick="{!c.xyz}"/>
+            <lightning:input value="subtract-" type="submit" onclick="{!c.xyz}"/>
+            <lightning:input value="multi*" type="submit" onclick="{!c.xyz}"/>
+            <lightning:input value="divison /" type="submit" onclick="{!c.xyz}"/>
+            
+            <p> Result1 = {!v.Result}</p>
+        </div>
+    </div>
+    
+    
+</aura:component>

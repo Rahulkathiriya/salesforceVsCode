@@ -1,0 +1,35 @@
+.THIS {
+}
+.THIS .slds-page-header__controls {
+    align-items: end !important;
+}
+.THIS.MainBox{
+    display: flex;
+}
+.THIS .defaultWith{
+    width:100% !Important;
+}
+.THIS .ChangeWith{
+    width:83% !Important;
+}
+.THIS .addFilterRemoveAll{
+    display: flex;
+    justify-content: space-between;
+    margin:0 20px;
+    padding-top:0.75rem;
+}
+.THIS .conditionBox{
+    display: flex;
+    justify-content: space-between;
+    padding:0.75rem;
+    margin:0 0.75rem;
+    border: 1px solid black;
+    border-radius:3px;
+    background-color:rgb(250, 255, 189);
+}
+.THIS .closeButton{
+    border:none;
+     background:none;
+    color:black;
+    
+}

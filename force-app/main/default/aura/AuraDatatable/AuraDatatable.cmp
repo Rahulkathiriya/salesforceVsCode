@@ -1,0 +1,10 @@
+<aura:component controller="AuraDataTable" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="acctList" type="Account[]"/>
+    <aura:attribute name="mycolumns" type="List"/>	
+    <aura:handler name="init" value="{!this}" action="{!c.fetchAcc}"/>
+    <lightning:datatable data="{!v.acctList}"
+                         columns="{!v.mycolumns}"
+                         keyField="id"
+                         hideCheckBoxColumn="true">
+    </lightning:datatable>
+</aura:component>

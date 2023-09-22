@@ -1,0 +1,20 @@
+<aura:component  implements="flexipage:availableForAllPageTypes">
+  <lightning:tabset variant="scoped">
+    <lightning:tab onactive="{! c.handleActive }" label="Badge" id="badge" />
+    <lightning:tab onactive="{! c.handleActive }" label="Buttons" id="buttons" />
+    <lightning:tab onactive="{! c.handleActive }" label="Icons" id="icons" />
+    <lightning:tab onactive="{! c.handleActive }" label="Inputs" id="inputs" />
+  </lightning:tabset>
+
+  
+    <aura:attribute name="moretabs" type="Aura.Component[]" />
+    <lightning:tabset variant="scoped">
+      <lightning:tab label="Item One">
+        Some content here
+      </lightning:tab>
+      {!v.moretabs}
+    </lightning:tabset>
+    <!-- Click button to create a new tab -->
+    <lightning:button label="Add tab" onclick="{!c.addTab}" />
+  
+</aura:component>

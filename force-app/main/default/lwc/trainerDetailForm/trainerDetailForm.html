@@ -1,0 +1,24 @@
+<template>
+    <lightning-card title="Trainer" icon-name="standard:people">
+
+        <div class="slds-var-m-around_medium">
+
+            <template if:true={pokemons.data}>
+
+            <lightning-record-form 
+                                    object-api-name="Contact"
+                                    record-id={trainerId}
+                                    layout-type="Compact">
+            </lightning-record-form>
+
+        </template>
+
+        <template if:true={pokemons.error}>
+            Error Occured
+        </template>
+
+        </div>
+
+    </lightning-card>
+    
+</template>

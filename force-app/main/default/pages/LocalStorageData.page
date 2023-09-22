@@ -1,0 +1,6 @@
+<apex:page >
+    <script>
+      var data = localStorage.getItem("accountList");
+     console.log('data --> ',data);
+    </script>
+</apex:page>

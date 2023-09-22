@@ -1,0 +1,8 @@
+<aura:event type="APPLICATION" description="Event template" access="global">
+    
+    <aura:attribute name="cntList" type="List" />
+    <aura:attribute name="cpyList" type="List" />
+    <aura:attribute name="printColumns" type="List" />
+    <aura:attribute name="viewName" type="String" />	
+    
+</aura:event>

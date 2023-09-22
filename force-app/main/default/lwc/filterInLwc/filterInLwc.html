@@ -1,0 +1,127 @@
+<template>
+
+    <!--combobox fields option-->
+    <div class="slds-panel__body panelBody" style="background-color: antiquewhite;">
+        <lightning-combobox
+            name="Select Field"
+            label="Select Field"
+            value=""
+            onchange={handleComboBoxField}
+            options={comboboxFields}>
+        </lightning-combobox>
+    </div>
+
+    <!--combobox oparetor option-->
+
+    <div class="slds-panel__body panelBody" style="background-color: antiquewhite;">
+                    <lightning-combobox
+                                name="Select Field"
+                                label="Select Field"
+                                value=""
+                                options={comboboxOprators}
+                                onchange={handleComboBoxOperator}
+                                >
+                       </lightning-combobox>
+    </div>
+
+
+
+    <!--combobox oparetor input field-->
+
+    <div class="slds-panel__body panelBody" style="background-color: antiquewhite;">
+
+        <template if:true={stringDataType}>
+
+            <lightning-input type="text" label="Enter some Text" onchange={userInputStringValue}
+                value={inputStringValue} ></lightning-input>
+        </template>
+
+        <template if:true={integerDataType}>
+            <lightning-input type="number" label="Enter some Number" onchange={userInputIntegerValue}
+                value={inputIntegerValue}  ></lightning-input>
+        </template>
+
+        <template if:true={dateDataType}>
+            <lightning-input type="date" label="Enter a Date" onchange={userInputDateValue}
+                value={InputDateValue}  ></lightning-input>
+        </template>
+
+        <template if:true={booleanDataType}>
+
+            <lightning-radio-group name="radioGroup" label="Value"  options={optionBoolean} value="" 
+                type="button" onchange={userInputBooleanValue}></lightning-radio-group>
+
+        </template>
+
+        <template if:true={picklistDataType}>
+            <lightning-combobox name="Picklist" value={inputStringValue} placeholder="Select Picklist"
+                options={picklistValues} onchange={userInputStringValue}  >
+            </lightning-combobox>
+        </template>
+
+        <lightning-button variant="brand" label="Brand" title="Primary action" onclick={handleFilterSave}
+            class="slds-m-left_x-small"  ></lightning-button>
+
+    </div>
+
+    <!-- /*****************/  Datatable   /*****************/ -->
+
+    <div class="slds-p-around_medium">
+        <lightning-card title="Account" icon-name="standard:account">
+            <lightning-datatable key-field="Id" data={DATA} columns={COLUMNS} onrowaction={handleRowAction}
+                hide-checkbox-column>
+            </lightning-datatable>
+        </lightning-card>
+    </div>
+
+    <!-- /*****************/  editmodal   /*****************/ -->
+
+    <template if:true={editModal}>
+        <lightning-record-edit-form object-api-name="Account" record-id={rowId} onsubmit={handleSubmit}>
+            <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+                class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header">
+                        <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate"> Edit
+                            Record</h1>
+                    </div>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <lightning-input-field field-name="Name"></lightning-input-field>
+                        <lightning-input-field field-name="Phone"></lightning-input-field>
+                        <lightning-input-field field-name="Industry"></lightning-input-field>
+                    </div>
+                    <div class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" aria-label="Cancel and close"
+                            onclick={handleCancel}>Cancel</button>
+                        <lightning-button type="submit" name="Submit" variant="brand" label="Submit"
+                            class="slds-m-top_medium"></lightning-button>
+                    </div>
+                </div>
+            </section>
+        </lightning-record-edit-form>
+    </template>
+
+    <!-- /*****************/  deleteModal   /*****************/ -->
+
+    <template if:true={deleteModal}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+            class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header">
+                    <h1 class="slds-modal__title slds-hyphenate">Delete Record</h1>
+                </div>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <p class="slds-text-align_center slds-text-heading_small">
+                        Are You comfirm delete record?</p>
+                </div>
+                <div class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" aria-label="Cancel and close"
+                        onclick={handleCancel}>
+                        Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick={handlerDelete}>Delete</button>
+                </div>
+            </div>
+        </section>
+    </template>
+
+</template>

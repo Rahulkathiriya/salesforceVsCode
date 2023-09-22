@@ -1,0 +1,360 @@
+<aura:component controller="HomeTableController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    
+    <aura:attribute name="loaded" type="Boolean" default="false" />
+    
+    <!-- data table -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="DATA" type="Object"/>
+    <aura:attribute name="COLUMNS" type="List"/>
+    <!-- edit Record -->
+    <aura:attribute name="editButton" type="String"/>
+    <aura:attribute name="EditPopUp" type="boolean" default="false"/>
+    <!-- delele Record -->
+    <aura:attribute name="DeleteButton" type="String" />
+    <aura:attribute name="DeletePopUp" type="boolean" default="false"/>
+    <!-- sort Datatable -->
+    <aura:attribute name="sortDirection" type="String" default="asc" />
+    <aura:attribute name="sortedBy" type="String"/>
+    <!-- Search filter -->
+    <aura:attribute name="SearchFilter" type="String"/>
+    
+    <!-- filter -->
+    <aura:attribute name="AllFilterData" type="List"/>
+    <aura:attribute name="FilterOprator" type="List" default="[
+                                                              {'label': 'equals', 'value': 'equals'},
+                                                              {'label': 'not equals to', 'value': 'not equals to'},
+                                                              {'label': 'less than', 'value': 'less than'},
+                                                              {'label': 'greter than', 'value': 'greter than'},
+                                                              {'label': 'less or equal', 'value': 'less or equal'},
+                                                              {'label': 'greater or equal', 'value': 'greater or equal'},
+                                                              {'label': 'contains', 'value': 'contains'},
+                                                              {'label': 'does not contain', 'value': 'does not contain'},
+                                                              {'label': 'start with', 'value': 'start with'},
+                                                              ]"/>
+    
+    
+    <!-- filter true false -->
+    <aura:attribute name="StringOprator" type="Boolean"  default="false"/>
+    <aura:attribute name="DoubleOprator" type="Boolean"  default="false"/>
+    <aura:attribute name="DateOprator" type="Boolean"  default="false"/>
+    <aura:attribute name="PicklistOprator" type="Boolean"  default="false"/>
+    
+    <!-- select pic Value -->
+    <aura:attribute name="PicklistApiValue" type="String"/>
+    <aura:attribute name="PicklistInnerValue" type="List"/>
+    <aura:attribute name="FilterInputValue" type="String"/>
+    <aura:attribute name="FilterDateInputValue" type="date"/>
+    
+    <!-- apply filter -->
+    <aura:attribute name="selectedField" type="String" default="LastName"/>
+    <aura:attribute name="selectedOpratorValue" type="String" default="=" />
+    <aura:attribute name="SelectedPicValue" type="String" />
+    
+    <!-- filter open close -->
+    <aura:attribute name="FilterOpen" type="Boolean"  default="false"/>
+    <aura:attribute name="addFilter" type="Boolean"  default="false"/>
+    <aura:attribute name="addFilterLogic" type="Boolean"  default="false"/>
+    <aura:attribute name="filterSelectShow" type="Boolean"  default="false"/>
+    
+    <!-- pagination -->
+    <aura:attribute name="PaginationData" type="List" />
+    <aura:attribute name="pageSize" type="integer" default="50"/>
+    <aura:attribute name="currentPageNumber" type="integer" default="1"/>
+    <aura:attribute name="totalPages" type="integer" default="1"/>
+    
+    
+   
+    
+    
+    
+    
+    <!-- page header -->
+    <article class="slds-card">
+        <div class="slds-page-header">
+            <div class="slds-page-header__row">
+                <div class="slds-page-header__col-title">
+                    <div class="slds-media">
+                        <div class="slds-media__figure">
+                            <span class="slds-icon_container slds-icon-standard-opportunity">
+                                <lightning:icon iconName="standard:contact"/>
+                            </span>
+                        </div>
+                        <div class="slds-media__body">
+                            <div class="slds-page-header__name">
+                                <div class="slds-page-header__name-title">
+                                    <h1>
+                                        <span>Opportunities</span>
+                                        <span class="slds-page-header__title slds-truncate" title="Recently Viewed">Recently Viewed</span>
+                                    </h1>
+                                </div>
+                                <div class="slds-page-header__name-switcher">
+                                    <div class="slds-dropdown-trigger slds-dropdown-trigger_click">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="slds-page-header__row">
+                <div class="slds-page-header__col-meta">
+                    <p class="slds-page-header__meta-text">10 items • Updated 13 minutes ago</p>
+                </div>
+                <div class="slds-page-header__col-controls">
+                    <div class="slds-page-header__controls">
+                        <div class="slds-page-header__control">
+                            <lightning:input iconName="utility:filterList" variant="brand" placeholder="Search this list..." value="{!v.SearchFilter}" onchange="{!c.handlerSearchFilter}"/>    
+                        </div>
+                        
+                        <div class="slds-page-header__control">
+                            <lightning:buttonIcon iconName="utility:filterList" variant="destructive" alternativeText="filterList" title="filterList" onclick="{!c.handlerFilter}" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+    
+    <!-- edit Pop-Up -->
+    <aura:if isTrue="{!v.EditPopUp}">
+        <lightning:recordEditForm recordId="{!v.editButton}" objectApiName="Contact" onsubmit="{!c.handlerEditSubmit}" >       
+            <section>
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header">
+                        <h1> Edit Contact</h1>
+                    </div>
+                    <div class="slds-modal__content slds-p-around_medium">
+                        <lightning:inputField fieldName="Name" />
+                        <lightning:inputField fieldName="Phone" />
+                        <lightning:inputField fieldName="LeadSource" />
+                    </div>
+                    <div class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" aria-label="Cancel and close" onclick="{!c.handlerCancel}">Cancel</button>
+                        <button class="slds-button slds-button_brand">Save</button>
+                    </div>
+                </div>
+            </section>
+        </lightning:recordEditForm>
+    </aura:if> 
+    
+    <!-- delele Pop-Up -->
+    <aura:if isTrue="{!v.DeletePopUp}">
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header">
+                    <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Delete Record</h1>
+                </div>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p> Are you sure you want to delete this contact?</p>   
+                </div>
+                <div class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" aria-label="Cancel and close" onclick="{!c.handlerCancel}" >Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick="{!c.handlerdelete}">Delete</button>
+                </div>
+            </div>
+        </section> 
+    </aura:if>
+    
+     <!-- spinner -->
+    <aura:if isTrue="{! v.loaded }">
+        <aura:set attribute="else">
+            <lightning:spinner alternativeText="Loading" variant="brand" />
+        </aura:set>
+    </aura:if>
+    
+    <!-- datatable -->
+    <div class="MainBox">
+        <div class="{!v.FilterOpen  ? 'ChangeWith' : 'defaultWith'}" >
+            <lightning:datatable
+                                 keyField="id"
+                                 data="{!v.DATA }"
+                                 columns="{!v.COLUMNS }"
+                                 draftvalues="{!v.DRAFTVALUES}"
+                                 onrowaction="{!c.handlerRowAction}"
+                                 hideCheckboxColumn="true"
+                                 sortedDirection="{!v.sortDirection}"
+                                 sortedBy="{!v.sortedBy}"
+                                 onsort="{! c.handlerSort }"
+                                 />  
+        </div>
+        
+        <!-- filter Pop-up -->
+        
+        <aura:if isTrue="{!v.FilterOpen}">
+            <div class="slds-grid slds-no-flex slds-scrollable">
+                <div class="slds-panel slds-size_medium slds-panel_docked-right " aria-hidden="false">
+                    <div class="slds-panel__header">
+                        <h2  class="slds-panel__header-title slds-text-heading_small slds-truncate">
+                            Filters
+                        </h2> 
+                        <lightning:buttonIcon  iconName="utility:close" variant="destructive" alternativeText="Settings" iconClass="dark" onclick="{!c.closeFilter}"/>
+                    </div> 
+                    <div class="addFilterRemoveAll" >
+                        <a role="button" onclick="{!c.handlerAddFilter}" >Add Filter</a>
+                        <a role="button" onclick="{!c.handlerAddFilterRemove}" >Remove All</a>
+                    </div>
+                    
+                    <aura:if isTrue="{!v.addFilter}">
+                        <div style="padding:0.75rem;">
+                            <h2>Matching all of these filters</h2>
+                        </div>
+                        
+                        <div class="conditionBox">
+                            <aura:if isTrue="{!v.filterSelectShow}">
+                                <div>
+                                    <ol>
+                                        <li>{!v.selectedField}</li>
+                                        <li>{!v.selectedOpratorValue} &nbsp; {!v.FilterInputValue}</li>
+                                        
+                                    </ol>
+                                    
+                                </div>
+                                <div>
+                                    <lightning:button class="closeButton" iconName="utility:close" onclick="{!c.handlerConditionRemove}"/>
+                                </div>
+                                <aura:set attribute="else">
+                                    <div>
+                                        <span>New Filter*</span>
+                                    </div>
+                                    <div>
+                                        <lightning:button class="closeButton" iconName="utility:close" onclick="{!c.handlerConditionRemove}"/>
+                                    </div>
+                                </aura:set>
+                                
+                            </aura:if>
+                        </div>
+                        
+                    </aura:if>
+                    
+                    
+                    
+                    
+                    <aura:if isTrue="{!v.addFilter}">
+                        <div  class="slds-panel__body panelBody">
+                            <div class=" slds-wrap">                    
+                                <div class="slds-col ">
+                                    <!--   <lightning:select label="Field" aura:id="FilterSelectId" onchange="{!c.handlerSelectField}" >
+                                                                                        <aura:iteration items="{!v.AllFilterData}" var="FData" >
+                                                                                            <option label="{!FData.label}" type="{!FData.type}" value="{!FData.value}"/>
+                                                                                        </aura:iteration>
+                                                                                    </lightning:select>   -->
+                                    
+                                    <lightning:combobox label="Feild" value="LastName" options="{!v.AllFilterData }" onchange="{!c.handlerSelectField }"/>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div  class="slds-panel__body panelBody">
+                            <div class=" slds-wrap">                    
+                                <div class="slds-col">
+                                    <lightning:combobox label="Oprator" value="equals" options="{!v.FilterOprator }" onchange="{!c.handlerOprator }"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div  class="slds-panel__body panelBody">
+                            <div class=" slds-wrap">                    
+                                <div class="slds-col">
+                                    <aura:if  isTrue="{!v.StringOprator}"  >
+                                        <lightning:input type="text" value="{!v.FilterInputValue}" placeholder="string" label="Enter Value" default="null" ></lightning:input> 
+                                    </aura:if>
+                                    <aura:if  isTrue="{!v.DoubleOprator}"  >
+                                        <lightning:input type="number" value="{!v.FilterInputValue}" placeholder="double" label="Enter Value" default="null" ></lightning:input> 
+                                    </aura:if>
+                                    <aura:if  isTrue="{!v.DateOprator}"  >
+                                        <lightning:input type="date" value="{!v.FilterDateInputValue}" placeholder="date" label="Enter Value" default="null" ></lightning:input> 
+                                    </aura:if>
+                                    <aura:if  isTrue="{!v.PicklistOprator}"  >
+                                        <!--   <lightning:select value="{!v.FilterInputValue}"  label="Select an item" >
+                                                                                            <aura:iteration var="pic" items="{!v.PicklistInnerValue}" >
+                                                                                                <option label="{!pic.label}" value="{!pic.value}"></option>
+                                                                                                
+                                                                                            </aura:iteration>
+                                                                                        </lightning:select> -->
+                                        
+                                        <lightning:combobox label="Select Value" placeholder="0 Selected Value" value="{!v.FilterInputValue}" options="{!v.PicklistInnerValue }" onchange="{!c.handlerPickListValue }"/>
+                                    </aura:if>
+                                    
+                                    <div class="slds-col slds-m-top_medium">
+                                        <button class="slds-button slds-button_neutral"  onclick="{!c.handlerApplyFilter}">Apply</button>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        
+                        <aura:if isTrue="{!v.addFilterLogic}">
+                            <div class="addFilterRemoveAll">
+                                <Span>Filter Logic <lightning:helptext content="Filter logic governs how and when filters apply to your list view. Use AND and OR operators to fine-tune your results."></lightning:helptext></Span>
+                                <a onclick="{!c.handlerLogicRemove}">Remove</a> 
+                            </div>
+                            <div style="width:92%; margin:auto">
+                                <textarea  placeholder="Add Logic" class="slds-textarea"></textarea>
+                            </div>
+                            <aura:set attribute="else">
+                                <div class="slds-col">
+                                    <a onclick="{!c.handlerAddFilterLogic}"> Add Filter Logic</a>
+                                </div>
+                            </aura:set>
+                        </aura:if>
+                        
+                        
+                    </aura:if>
+                    
+                </div>
+            </div>
+        </aura:if> 
+    </div>
+    
+    <div class="slds-grid slds-wrap">
+        
+        <div class="slds-col slds-size_4-of-12" style="padding-bottom: 20px;">
+            <lightning:select aura:id="selectedPage" onchange="{!c.handlerSelectPage}">
+                <option value="">Chose any one</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="30">30</option>
+                <option value="45">45</option>
+                <option value="60">60</option>
+            </lightning:select>
+        </div>
+        <div class="slds-col slds-size_4-of-12" style="margin:auto; text-align: center;" >
+            <span>  <b>currentPage </b> {!v.currentPageNumber} &nbsp;  <b>totalPage </b>  {!v.totalPages}</span>
+            
+        </div>
+        
+        <div class="slds-col slds-size_4-of-12" style="margin:auto;" >
+            <lightning:button label="First"
+                              iconName="utility:left"
+                              iconPosition="left"
+                              disabled="{!v.currentPageNumber == 1}"
+                              onclick="{!c.onFirst}"/>
+            <lightning:button label="Previous"
+                              iconName="utility:chevronleft"
+                              iconPosition="left"
+                              disabled="{!v.currentPageNumber == 1}"
+                              onclick="{!c.onPrev}"/>
+            
+            
+            <lightning:button label="Next"
+                              iconName="utility:chevronright"
+                              iconPosition="right"
+                              disabled="{!v.currentPageNumber == v.totalPages}"
+                              onclick="{!c.onNext}"/>
+            <lightning:button label="Last"
+                              iconName="utility:right"
+                              iconPosition="right"
+                              
+                              onclick="{!c.onLast}"
+                              disabled="{!v.currentPageNumber == v.totalPages}"
+                              />
+            
+        </div>
+    </div>
+    
+    
+</aura:component>

@@ -1,0 +1,37 @@
+.THIS {
+    
+}
+
+.THIS.slds-fade-in-open{
+      
+    background-color:rgba(119, 119, 121, .5);
+    
+}
+.THIS .slds-button_outline-brand {
+   margin: 19px 0px !important;
+    color:blue;
+    border:2px solid nevyblue;
+}
+.THIS.slds{
+    width:72%;
+   background-color:white; 
+}
+.THIS .sldsbg{
+    
+    font-size:15px;
+}
+.THIS .abc{
+background-color:#ececec;
+    border-radius:2px 
+}
+.THIS .abbg{
+    padding:6px 0px;
+}
+.THIS .slds-input{
+    width: 97% !important;
+}
+.THIS.slds-border_top{
+    border-top : 3px dotted !important;
+        width: 76% !important ;
+  
+}

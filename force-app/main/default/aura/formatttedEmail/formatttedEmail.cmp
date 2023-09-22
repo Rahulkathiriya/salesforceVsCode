@@ -1,0 +1,23 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId">
+  <aura:attribute name="count" type="Integer" default="0" />
+
+  <p>Click the email link:
+    <lightning:formattedEmail aura:id="email1" value="grensi@mahardhi.com" onclick="{! c.handleClick }" />
+  </p>
+
+  <p aria-live="polite">Click count: {!v.count}</p>
+
+  <div class="slds-m-vertical_medium">
+    <h1 class="slds-text-heading_small">Formatted Email With a Label</h1>
+    <p class="slds-text-body_regular">Display custom text instead of the email address with the <code>label</code>
+      attribute.</p>
+  </div>
+    <p>
+      <lightning:formattedEmail value="grensi@mahardhi.com" label="Email Us!" />
+    </p>
+
+
+      <lightning:helptext content="Click the icon to log in to Salesforce" iconName="utility:salesforce1" />
+
+        <lightning:input type="color" name="color" label="Favorite Color" />
+</aura:component>

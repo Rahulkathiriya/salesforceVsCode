@@ -1,0 +1,7 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId">
+ <!-- <aura:attirbute name="LeadObj" type="Lead" /> -->
+<lightning:recordEditForm objectApiName="Lead">
+  <lightning:inputField aura:id="accid" fieldName="Account__c" value="{!v.LeadObj.Account__c}" label="Attribute"
+    onchange="{!c.myChangeAcc}" />
+</lightning:recordEditForm>
+</aura:component>

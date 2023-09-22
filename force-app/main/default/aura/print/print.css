@@ -1,0 +1,19 @@
+.THIS.custom-color{
+    color:Black;
+}
+.THIS.slds-border_top{
+    border-top : 2px dotted;
+    color: grey;
+}
+.THIS.slds-m-right_small{
+    color: grey;
+}
+.THIS.slds-avatar_large{
+    size: large;
+}
+.THIS.slds-border_bottom{
+    color: blue;
+}
+.THIS.slds-box{
+     border: 3px blue;
+}

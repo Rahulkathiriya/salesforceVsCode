@@ -1,0 +1,191 @@
+<aura:component controller="GetFieldsList" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="edit_filterindex" type="integer" />
+    <aura:attribute name="edit_filter" type="Boolean" default="false" /> 
+    <aura:attribute name="flt_field_datatype" type="string"  default="STRING" />
+    <aura:attribute name="query_list" type="list"  default="[]" />
+    <aura:attribute name="options" type="list"/>
+    <aura:attribute name="SFFields" type="list"  />
+    <aura:attribute name="LabelSFFields" type="list"/>
+    <aura:attribute name="filter_query" type="String"   default=""/>
+    <aura:attribute name="selectedSFValue" type="String" />
+    <aura:attribute name="SFfieldswithout__c" type="String" default="Name"/>
+    <aura:attribute name="flt_field" type="Boolean" default="false" /> 
+    <aura:attribute name="selectedSFLabel" type="String" default="Name"/>
+    <aura:attribute name="ListOperator" type="List"  />
+    <aura:attribute name="selectedOperator" type="String"   />
+    <aura:attribute name="selected" type="Boolean" default="false" />
+    <aura:attribute name="addfilterlogict" type="Boolean" default="false" />
+    <aura:attribute name="clear" type="string"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    
+    
+    <div class="slds-grid slds-no-flex slds-scrollable">
+        <div class="slds-panel slds-size_medium slds-panel_docked slds-panel_docked-right slds-grid slds-grid_vertical forceFilterPanel">
+            <!--  <aura:if isTrue="{!not(empty(v.query_list))}"> -->
+            <div class="slds-clearfix slds-m-top_x-small slds-m-bottom_xx-small">
+                <div class="slds-float_left">
+                    <a  herf="#filterrr" class="slds-text-color_default" onclick="{!c.add_filter}" ><h3>Add Filter</h3></a>  
+                </div>
+                <div class="slds-float_right">
+                    <a  herf="#filterrr" class="slds-text-color_default" onclick="{!c.Remove_All}" >Remove All</a>  
+                    
+                </div>
+            </div>
+            <aura:iteration var="item" items="{!v.query_list }"   indexVar="i">
+                
+                <article  class="slds-card slds-card_boundary   filter_cards" >
+                    <div class="slds-card__header slds-grid">
+                        
+                        <div class="slds-media__body top-scrollbars" >
+                            <a data-index ="{!i}" herf="#" class="slds-text-link_reset" onclick="{!c.open_filter}"  >
+                                <h2 class="slds-text-heading_small">
+                                    <span id="rev_filter" dataset="{!i}">{!item.field}</span>
+                                </h2>
+                                &nbsp;&nbsp; {!item.operation_label}&nbsp;&nbsp;{!item.value}                                                                 
+                            </a> 
+                        </div>
+                        
+                        <div class="slds-no-flex">
+                            <a data-index ="{!i}" herf="#" class="slds-text-link_reset" onclick="{!c.remove_filter}"  >
+                                x 
+                            </a> 
+                        </div>
+                    </div>
+                </article>
+            </aura:iteration>
+            <!--  </aura:if> -->
+            
+            
+            <!--  <div  class="slds-panel__header panelHeader" >
+            <h2  class="slds-panel__header-title slds-text-heading_small slds-truncate">
+                Filters
+            </h2> 
+            <h3 onclick="{!c.Close_filter}" herf="#" class="slds-text-link_reset slds-panel__close">Clear All</h3>  
+        </div> -->
+            <aura:if isTrue="{!v.selected}"> 
+                <ui:scrollerWrapper aura:id="filterrr" >
+                    <div  class="slds-panel__body panelBody">
+                        <div class=" slds-wrap">                    
+                            <div class="slds-col ">
+                                <div class="slds-p-top_large">
+                                <lightning:select  aura:id="lcSF" label="Field" value="" onchange="{!c.handleSFFields }">
+                                    <aura:iteration var="SFField" items="{!v.SFFields }">
+                                        <option label="{!SFField.label}" value="{!SFField.value}" text="{!SFField.label}" selected="{!SFField.selected}"/> 
+                                    </aura:iteration>
+                                </lightning:select>
+                                </div>
+                            </div> 
+                            <div class="slds-col ">
+                                <div class="slds-p-top_large">
+                                <lightning:select name="Operator" label="Operator" aura:id="Operator" onchange="{!c.handleOperators}" >
+                                    <aura:iteration items="{!v.ListOperator}" var="opt" indexVar="index" >
+                                        <option text="{!opt.label}" label="{!opt.label}" value="{!opt.value}" index="index" selected="{!opt.selected}" />
+                                    </aura:iteration>
+                                </lightning:select>   
+                                </div>
+                            </div>   <!--    -->
+                            <div class="slds-col  ">
+                                <div class="slds-p-top_large">
+                                <lightning:input type="{!v.flt_field_datatype}" class= " " aura:id="filter_value" label="Value"/>
+                                </div>
+                            </div>
+                            
+                            <div  class="slds-grid slds-m-top_x-small">
+                                <div class="slds-col  slds-text-align_left"> 
+                                    <aura:if isTrue="{!v.edit_filter}">
+                                        <lightning:button  label="Cancel" onclick ="{!c.clear_filter}" class="slds-m-around_xx-small "/>
+                                        <aura:set attribute="else">
+                                            <lightning:button  label="Clear" onclick ="{!c.clear_filter}" class="slds-m-around_xx-small "/>
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                                <!-- <div class="slds-col  slds-text-align_center" >
+                            
+                            <aura:if isTrue="{!v.edit_filter}">
+                                <lightning:button  label="Save" onclick ="{!c.edit_filter}" class="slds-m-around_xx-small   "/> 
+                                <aura:set attribute="else">
+                                    <lightning:button  label="Add" onclick ="{!c.add_filter}" class="slds-m-around_xx-small "/> 
+                                </aura:set>
+                            </aura:if>
+                            
+                        </div >
+                        <div class="slds-col  slds-text-align_right">   
+                            <lightning:button  label="Done" onclick ="{!c.get_filter}" class="slds-m-around_xx-small "/>
+                            
+                        </div> -->
+                                <div class="slds-col  slds-text-align_right">
+                                    <aura:if isTrue="{!v.edit_filter}">
+                                        <lightning:button  label="Save" onclick ="{!c.edit_filter}" class="slds-m-around_xx-small   "/> 
+                                        <aura:set attribute="else">
+                                            <lightning:button  label="Done" onclick ="{!c.add_filter}" class="slds-m-around_xx-small "/> 
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                            </div>
+                            <!--    <aura:if isTrue="{!not(empty(v.query_list))}">
+                    <div class="slds-clearfix slds-m-top_x-small slds-m-bottom_xx-small">
+                        <div class="slds-float_left">
+                           <a  herf="#filterrr" class="slds-text-link_reset" onclick="{!c.add_filter}" ><h3>Add Filter</h3></a>  
+                        </div>
+                        <div class="slds-float_right">
+                          <a  herf="#filterrr" class="slds-text-link_reset" onclick="{!c.Remove_All}" ><h4>Remove All</h4></a>  
+                        </div>
+                    </div>
+                    <aura:iteration var="item" items="{!v.query_list }"   indexVar="i">
+                        
+                        <article  class="slds-card slds-card_boundary   filter_cards" >
+                            <div class="slds-card__header slds-grid">
+                                
+                                <div class="slds-media__body top-scrollbars" >
+                                       <a data-index ="{!i}" herf="#" class="slds-text-link_reset" onclick="{!c.open_filter}"  >
+                                        <h2 class="slds-text-heading_small">
+                                            <span id="rev_filter" dataset="{!i}">{!item.field}</span>
+                                        </h2>
+                                        &nbsp;&nbsp; {!item.operation_label}&nbsp;&nbsp;{!item.value}                                                                 
+                                    </a> 
+                                </div>
+                                
+                                <div class="slds-no-flex">
+                                    <a data-index ="{!i}" herf="#" class="slds-text-link_reset" onclick="{!c.remove_filter}"  >
+                                        x 
+                                    </a> 
+                                </div>
+                            </div>
+                        </article>
+                    </aura:iteration>
+                </aura:if> -->
+                        </div>
+                    </div>
+                </ui:scrollerWrapper>
+                </aura:if>
+             </div>  
+    </div>
+            <div class="slds-panel slds-size_medium slds-panel_docked slds-panel_docked-right slds-grid slds-grid_vertical forceFilterPanel">
+                  <aura:if isTrue="{!v.selected}"> 
+                <div class="slds-float_left">
+                    <a  herf="#filterrr" class="slds-text-color_default" onclick="{!c.edit_filter}" >Add Filter Logic</a>  
+                </div>
+            </aura:if>
+            
+            <aura:if isTrue="{!v.addfilterlogict}"> 
+                
+                <div class="slds-form-element">
+                  <lightning:helptext style="margin-right: 0.5rem;" content="Filter logic governs how and when filters apply to list your list view. Use AND and OR operators to fine tune your results " class="customIcon"/> 
+                    <label class="slds-form-element__label" for="textarea-id-01">Filter Logic</label>
+                     <div class="slds-float_right"> 
+                    	<a herf="#" class="slds-text-color_default" onclick="{!c.Remove}">Remove</a>  
+                	 </div> 
+                    <div class="slds-form-element__control">
+                        <textarea id="textarea-id-01"  class="slds-textarea" value="{!v.Clear}"></textarea>
+                    </div>
+                </div>
+               
+            </aura:if>
+            </div>
+            
+       
+    
+    
+    
+    
+</aura:component>

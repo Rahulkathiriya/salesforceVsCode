@@ -1,0 +1,11 @@
+<aura:component implements="force:appHostable" >
+    <lightning:recordEditForm
+                              objectApiName="Contact"
+                              recordId="0035g00000rQEhpAAG">
+        <lightning:inputField fieldName="FirstName"/>
+        <lightning:inputField fieldName="LastName"/>
+        <lightning:inputField fieldName="Email"/>
+        <lightning:inputField fieldName="grensi__Level__c"/>
+        <lightning:button name="Update" label="Update" class="slds-m-top_small" variant="brand" type="submit" onclick="{!c.handleSuccess}"/>
+    </lightning:recordEditForm>	
+</aura:component>

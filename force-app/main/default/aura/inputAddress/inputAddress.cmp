@@ -1,0 +1,39 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId">
+  <aura:attribute name="street" type="String" default="121 Spear St." />
+  <aura:attribute name="city" type="String" default="San Francisco" />
+  <aura:attribute name="province" type="String" default="CA" />
+  <aura:attribute name="country" type="String" default="US" />
+  <aura:attribute name="postalCode" type="String" default="94105" />
+  <aura:attribute name="provinceOptions" type="List" default="[]" />
+  <aura:attribute name="countryOptions" type="List" default="[]" />
+  <aura:attribute name="previousCountry" type="String" />
+
+  <aura:handler name="init" value="{! this }" action="{! c.init }" />
+  <div class="slds-m-top_medium slds-m-bottom_large" style="max-width: 500px;">
+    <div class=" slds-m-bottom_medium">
+      Select a different country to update the province picklist. To improve performance,
+      the value of custom attribute <code>previousCountry</code> determines if the
+      selected <code>country</code> value has changed. Without the comparison,
+      the province picklist is updated when you type or change any value on
+      the compound address field.
+    </div>
+    <div style="max-width: 400px;">
+      <lightning:inputAddress addressLabel="Address" 
+                              streetLabel="Street" 
+                              cityLabel="City"
+                              countryLabel="Country"
+                              provinceLabel="Province/State"
+                              postalCodeLabel="PostalCode"
+                              street="{! v.street }" 
+                              city="{! v.city }"
+                              province="{! v.province }" 
+                              country="{! v.country }"
+                              postalCode="{! v.postalCode }"
+                              countryOptions="{! v.countryOptions }"
+                              provinceOptions="{! v.provinceOptions }"
+                              onchange="{! c.updateProvinces }" />
+    </div>
+  </div>
+
+  
+</aura:component>

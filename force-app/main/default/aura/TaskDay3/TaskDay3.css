@@ -1,0 +1,35 @@
+.THIS {
+}
+.THIS.slds-fade-in-open {
+  background-color:  rgba(128,128,128,0.53) !important;
+}
+.THIS .slds-fade-in-open {
+  background-color:  rgba(128,128,128,0.53) !important;
+}
+.THIS a:hover, .THIS a:focus{
+        text-decoration: none !important;
+}
+.THIS .slds-page-header__controls{
+    align-items: baseline !important;
+}
+.THIS.maintablebox{
+    display:flex !important;
+}
+.THIS .DividedTable{
+    width:83% !important;
+}
+.THIS .defaultTable{
+    width:100% !important;
+}
+.THIS .slds-panel_docked-right{
+    box-shadow: none !important;
+}
+.THIS .boxColor{
+background-color: white !important;
+}
+.THIS .RemoveAllButton{
+    margin-left: 100px !important;
+}
+.THIS .RemoveButton{
+    margin-left: 138px !important;
+}

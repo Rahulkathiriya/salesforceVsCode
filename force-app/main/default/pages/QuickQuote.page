@@ -1,0 +1,53 @@
+<apex:page controller="Project_3_VF_Example" >
+    
+    <apex:form >
+        <div style="width:600px; height:600px; border:1px solid black; margin-left:20px; margin-top:20px;" >
+            
+            <apex:sectionHeader title="Quote" subtitle="New Quote" />
+            <apex:pageBlock mode="mainDetail" id="pb">
+                
+                <apex:pageBlockSection title="Account" collapsible="false">
+                    <apex:inputText value="{!acc.Name}" >
+                        <apex:actionSupport event="onchange" action="{!callMe}" reRender="pb" />
+                    </apex:inputText>
+                    <apex:inputText value="{!acc.Industry}" />
+                    <apex:inputText value="{!acc.Rating}" />
+                    <apex:inputText value="{!acc.Ownership}" />
+                </apex:pageBlockSection>
+                
+                <apex:pageBlockSection title="Contact" collapsible="false">
+                    <apex:inputText value="{!con.LastName}" />
+                    <apex:inputText value="{!con.Phone}" />
+                    <apex:inputText value="{!con.FirstName}" />
+                    <apex:inputText value="{!con.MobilePhone}" />
+                    <apex:inputText value="{!con.OtherPhone}" />
+                    <apex:inputText value="{!con.Email}" />
+                </apex:pageBlockSection>
+                
+                <apex:pageBlockSection id="pbs" title="Products" collapsible="false">
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Product" />
+                        <apex:inputText value="{!prodName}" >
+                            <apex:actionSupport event="onchange" action="{!abc}" reRender="pbs" />
+                        </apex:inputText>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Tax" />
+                        <apex:inputText value="{!tax}" />
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="UnitPrice" />
+                        <apex:inputText value="{!unitprice}" />
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Quantity" />
+                        <apex:inputText value="{!quantity}" />
+                    </apex:pageBlockSectionItem>
+                </apex:pageBlockSection>
+                
+            </apex:pageBlock>	
+            
+        </div>
+        
+    </apex:form>
+</apex:page>

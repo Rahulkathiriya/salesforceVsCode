@@ -1,0 +1,137 @@
+<aura:component controller="TaskDay4" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:handler name="init" value="{!this}" action="{!c.abcd}"/>
+    <aura:handler event="force:refreshView" action="{!c.abcd}"/>
+    
+    <!-- account rwecord add -->
+    <aura:attribute name="AddRecord" type="List"/>
+    <!-- onclick edit button show condition variable -->
+    <aura:attribute name="EditForm" type="boolean" default="false"/>
+    <aura:attribute name="DeleteForm" type="boolean" default="false"/>
+    <!-- close button -->
+    
+    <!-- input field value get purpose use this variable -->
+    <aura:attribute name="getItems" type="Object"/>
+    <!--  event id controller thrugh gate kari accids variable ma set karva -->
+    <aura:attribute name="accIds" type="String"/>
+    <aura:attribute name="deleteIds" type="String"/>
+    
+    
+    
+    
+    
+    
+    <div class="slds-grid slds-gutters">
+        <div class="slds-col slds-size_2-of-3">
+            <span><lightning:input  aura:id="addId" placeholder="Enter Value"/></span>
+        </div>
+        <div class="slds-col slds-size_1-of-3">
+            <span>  <button class="slds-button slds-button_outline-brand" onclick="{!c.Addrecord}">add</button></span>
+            
+               <span>  <button class="slds-button slds-button_outline-brand"  onclick="{!c.myAction}" >Printable View</button></span> 
+        </div>
+    </div>
+    
+    
+    
+    
+    <!-- table  iteration  -->
+    
+    
+    
+    <div class="slds">
+        <table class="slds">
+            
+            <thead   class="sldsbg">
+                
+                <tr>
+                    <th>Name</th>   
+                    <th>Action</th>  
+                </tr> 
+                
+            </thead> 
+            
+            
+            
+            <tbody> 
+                <aura:iteration items="{!v.AddRecord}" var="ab">
+                    <tr>
+                        <td>
+                            <div class="abc abbg" >{!ab.Name}</div> 
+                        </td> 
+                        <td>
+                            <div class="abc" > <button class="slds-button slds-button_brand" data-accId ="{!ab.Id}" onclick="{!c.Editrecord}">Edit</button>
+                                <button class="slds-button slds-button_destructive" data-accId ="{!ab.Id}" onclick="{!c.deletepopup}">Delete</button>
+                            </div> 
+                        </td> 
+                        
+                    </tr>
+                </aura:iteration>
+            </tbody>  
+            
+            
+            
+        </table>
+    </div>
+    
+    
+    <!-- true false -->
+    
+    <aura:if isTrue="{!v.EditForm}">
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close"
+                                          onclick="{!c.CloseRecord}"
+                                          alternativeText="close"
+                                          title="Close"
+                                          variant="inverse" 
+                                          class="slds-modal__close "  />
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Edit Record</h2>
+                </header>  
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p>
+                        <lightning:input  aura:id="EditId" label="Enter Name"  value="{!v.getItems.Name}"/>  
+                    </p>
+                </div>                
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="neutral"
+                                      label="Cancel"
+                                      title="Cancel"
+                                      onclick="{!c.CloseRecord}" />
+                    <lightning:button variant="brand"
+                                      label="Update"
+                                      title="Update"
+                                      onclick="{!c.updaterecord}" />
+                </footer>
+            </div>
+        </section> 
+        
+        
+    </aura:if>
+    <aura:if isTrue="{!v.DeleteForm}">
+        
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Delete Record</h2>
+                </header>  
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p>
+                        are you confirm delete record
+                    </p>
+                </div>                
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="neutral"
+                                      label="Cancel"
+                                      title="Cancel"
+                                      onclick="{!c.CloseRecord}" />
+                    <lightning:button variant="brand"
+                                      label="Delete"
+                                      title="Delete"
+                                      onclick="{!c.deleteRecord}" />
+                </footer> 
+            </div>
+        </section>
+    </aura:if>
+    
+</aura:component>

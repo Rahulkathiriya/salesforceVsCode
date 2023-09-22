@@ -1,0 +1,4 @@
+<apex:page showHeader="false" tabstyle="Case">
+    <apex:ListViews type="Case" />
+
+</apex:page>

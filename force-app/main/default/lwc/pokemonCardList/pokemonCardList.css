@@ -1,0 +1,8 @@
+.pokemon_card{
+    border: 1px solid rgb(235, 145, 85);
+    border-radius: 0.25rem;
+    display: block;
+}
+.pokemons_images{
+    height: 100px;
+}

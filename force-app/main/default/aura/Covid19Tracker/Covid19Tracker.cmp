@@ -1,0 +1,97 @@
+<aura:component implements="force:appHostable,forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes"
+                access="global"
+                controller="Covid19Controller">
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler event="aura:waiting" action="{!c.showSpinner}"/>
+    <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}"/>
+    
+    <!-- Header Attributes -->
+    <aura:attribute name="confirmed" type="String"/>
+    <aura:attribute name="newConfirmed" type="String"/>
+    <aura:attribute name="recovered" type="String"/>
+    <aura:attribute name="deaths" type="String"/>
+    
+    <aura:attribute name="spinner" type="boolean" default="FALSE"/>
+    
+    <!-- Table Attributes -->
+    
+    <aura:attribute name="data" type="Object"/>
+    <aura:attribute name="columns" type="List"/>
+    
+    <!-- Pagination Attributes -->
+    <aura:attribute name="PaginationList" type="Object"/>
+    <aura:attribute name="startPage" type="Integer" />
+    <aura:attribute name="endPage" type="Integer"/>
+    <aura:attribute name="totalRecords" type="Integer"/>
+    <aura:attribute name="pageSize" type="Integer" default="10"/>
+    
+    <div class="slds-page-header">
+        <div class="slds-grid">
+            
+            <div class="slds-col slds-size_11-of-12">
+                <span style="font-size:24px;">COVID-19 World Tracker</span>
+            </div>
+            <div class="slds-col slds-size_1-of-12">
+                
+                <lightning:buttonIcon iconName="utility:refresh" variant="brand" onclick="{!c.doInit}" alternativeText="Settings" title="Settings" />
+            </div>
+        </div>
+    </div>
+    <!--loading spinner start-->
+    <aura:if isTrue="{!v.spinner}">
+        <div aura:id="spinnerId" class="slds-spinner_container">
+            <div class="slds-spinner--brand slds-spinner slds-spinner--large slds-is-relative" role="alert">
+                <span class="slds-assistive-text">Loading...</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </aura:if>
+    <!-- Loading spinner end-->
+    <lightning:card>
+        <lightning:tabset>
+            <lightning:tab label="Live Data">
+                <div class="slds-grid" >
+                    <div class="slds-col slds-size_3-of-12" Style="background-color:Orange; padding:10px;">
+                        <span style="color:white; font-size:18px;">TOTAL CONFIRMED: <b stye="font-size:17px;">{!v.confirmed}</b> </span>
+                    </div>
+                    <div class="slds-col slds-size_3-of-12 " Style="background-color:blue; padding:10px;">
+                        <span style="color:white; font-size:18px;">NEW CONFIRMED: <b stye="font-size:17px;">{!v.newConfirmed}</b></span>
+                    </div>
+                    <div class="slds-col slds-size_3-of-12" Style="background-color:Green; padding:10px;">
+                        <span style="color:white; font-size:18px;">TOTAL RECOVERED: <b stye="font-size:17px;">{!v.recovered}</b></span>
+                    </div>
+                    <div class="slds-col slds-size_3-of-12" Style="background-color:Gray; padding:10px;">
+                        <span style="color:white; font-size:18px;">TOTAL DEATHS: <b stye="font-size:17px;">{!v.deaths}</b></span>
+                    </div>
+                </div>
+                <!-- Data Table -->
+                <div style="height: 100%; font-size: 18px; padding: 1%;">
+                    <lightning:datatable
+                                         keyField="id"
+                                         data="{! v.PaginationList }"
+                                         columns="{! v.columns }"
+                                         hideCheckboxColumn="true"/>
+                </div>
+                <div class="slds-align_absolute-center">
+                    <lightning:buttonGroup>
+                        <lightning:buttonIcon iconName="utility:back"
+                                              variant="brand"
+                                              disabled="{!v.startPage == 0}"
+                                              alternativeText="Back"
+                                              title="Back"
+                                              onclick="{!c.previous}"/>
+                        &nbsp; &nbsp; &nbsp; 
+                        <lightning:buttonIcon iconName='utility:forward'
+                                              variant="brand"
+                                              disabled="{!v.endPage >= v.totalRecords}"
+                                              alternativeText="Forward"
+                                              title="Forward"
+                                              onclick="{!c.next}"/>
+                    </lightning:buttonGroup>
+                </div>
+            </lightning:tab>
+        </lightning:tabset>
+    </lightning:card>
+</aura:component>

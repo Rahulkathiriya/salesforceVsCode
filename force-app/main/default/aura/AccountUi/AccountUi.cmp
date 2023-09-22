@@ -1,0 +1,75 @@
+<aura:component controller="AccountUiController"  implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:handler name="init" value="{!this}" action="{!c.HandlerAction}"/>
+    <aura:attribute name="recordName" type="List" />  
+    <aura:attribute name="accRelCon" type="List" /> 
+    <aura:attribute name="accRelOpp" type="List" /> 
+    <aura:attribute name="accRelCase" type="List" /> 
+    <aura:attribute name="accRelNoteAttch" type="List" /> 
+    
+    <aura:attribute name="open" type="boolean" default="false"/>
+    
+    <aura:attribute name="DATA" type="Object"/>
+    <aura:attribute name="COLUMNS" type="List"  />
+    
+    <aura:attribute name="changeheadName" type="String"/>
+    
+    
+    
+    
+    
+    
+    <div class="slds-card slds-box  ">
+        
+        <aura:iteration items="{!v.recordName}" var="rec">
+            <div class=" slds-grid  slds-box  slds-align_absolute-right  slds-var-m-large  slds-wrap" >
+                
+                <div class="slds-grid  slds-col slds-grid_vertical slds-var-p-around_medium slds-small-size_1-of-1  slds-medium-size_1-of-3 slds-large-size_7-of-12 medium-name-mediaquery " >
+                    <span class="slds-col slds-text-heading_large recordcolor" >{!rec.Name}</span>
+                    <span class="slds-col  slds-text-heading_small" >{!rec.Type}</span>
+                </div>
+                
+                <div class="slds-col  slds-grid slds-float_right slds-var-p-around_medium  slds-small-size_1-of-1 slds-medium-size_2-of-3 slds-large-size_4-of-12 medium-button-mediaquery ">
+                    <button  class="slds-button slds-button_outline-brand slds-var-m-large button-margin " data-id="{!rec.Id}"  onclick="{!c.HandlerContact}" > Contact</button> 
+                    <button class="slds-button slds-button_outline-brand slds-var-m_x-large button-margin " data-id="{!rec.Id}"  onclick="{!c.HandleroOpp}" > Opportunity</button>
+                    <button class="slds-button slds-button_outline-brand slds-var-m_x-large button-margin " data-id="{!rec.Id}"  onclick="{!c.HandlerCases}" > Cases</button>
+                    <button class="slds-button slds-button_outline-brand slds-var-m_x-large button-margin " data-id="{!rec.Id}"  onclick="{!c.HandlerNoteAttach}" > Notes-Attachments</button>
+                    
+                    <!--    <lightning:button variant="brand-outline" label="Brand Outline" title="Brand action"  aura:id="{!rec.Id}"  onclick="{! c.HandlerContact }" /> -->
+                </div>
+                
+                <div class="slds-col  slds-text-align_center  slds-align_absolute-center slds-text-heading_large slds-var-p-around_medium year slds-small-size_1-of-1 slds-medium-size_1-of-3  slds-large-size_1-of-12 medium-size-mediaquery">
+                    <span> 2023</span>
+                </div>
+                
+            </div>
+        </aura:iteration>
+    </div>
+    
+    <aura:if isTrue="{!v.open}">
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <lightning:buttonIcon iconName="utility:close"
+                                      onclick="{!c.HandlerCancel}"
+                                      alternativeText="close"
+                                      title="Close"
+                                      variant="inverse" 
+                                      class="slds-modal__close "  />
+                <div class="slds-modal__header">
+                    <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{!v.changeheadName}</h1>
+                </div>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    
+                    <lightning:datatable
+                                         columns="{! v.COLUMNS }"
+                                         data="{! v.DATA }"
+                                         keyField="Id"
+                                         hideCheckboxColumn="true"
+                                         >
+                    </lightning:datatable>	
+                </div>
+            </div>
+        </section> 
+    </aura:if>
+    
+    
+</aura:component>

@@ -1,0 +1,61 @@
+<aura:component controller="fieldlevelsecurityinAccesible" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    
+ 
+        <aura:if isTrue="{!v.report != 'medicalPlan'}">
+            <div class="cue-table-header">
+                <div class="slds-grid slds-m-bottom_x-small">
+                    <lightning:buttonGroup class="slds-col--bump-left">
+                        <div class = "slds-no-print">
+                        <lightning:button label="New" class="slds-m-left_small" onclick="{!c.addEditModal}" /> 
+                <lightning:button aura:id="printButton" class="" label="Printable view" onclick="{!c.print}" />
+            </div>
+                        
+                    </lightning:buttonGroup>
+                </div>
+                
+                <div class="slds-clearfix slds-grid">
+                    <div class="slds-col slds-align-bottom">
+                        <p class="slds-text-body--small">{! v.totalItems } items • Sorted by {! v.sortByFieldLabel} • Filtered by {! v.filterByOwnerLabel} • Updated {! v.updatedTime }</p>
+                    </div>
+                    <div class="slds-form-element slds-col--bump-left slds-grid">
+                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
+                            <lightning:icon class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default" iconName="utility:search" size="x-small" alternativeText="Search address"/>
+                            <ui:inputText updateOn="keyup" keyup="{!c.keyPressController}" class="slds-lookup__search-input slds-input inputSize cue-search-input" value="{!v.searchKeyWord}" placeholder="Search.."/>
+                        </div>
+                    </div>
+                    <div class="slds-m-left_x-small">
+                        <lightning:buttonMenu title="List View Controls" alternativeText="List View Controls" iconName="utility:settings" menuAlignment="right" onselect="{! c.handleListControls }">
+                            <lightning:menuSubheader label="List View Controls" class="slds-text-title--caps" />
+                            <lightning:menuItem aura:id="settingItems" value="settingFilter" label="Edit List Filters" />
+                            <lightning:menuItem aura:id="settingItems" value="settingFields" label="Select Fields to Display" disabled="{!v.activeView == 'kanbanBoard'}" />
+                            <aura:if isTrue="{!v.activeView == 'kanbanBoard'}">
+                                <lightning:menuItem aura:id="settingItems" value="settingKanban" label="Kanban Settings" />
+                            </aura:if>
+                            <lightning:menuDivider />
+                            <lightning:menuItem aura:id="settingItems" value="settingReset" label="Reset" disabled="{!v.activeView == 'kanbanBoard'}"/>
+                        </lightning:buttonMenu>
+                    </div>
+                    <div class="slds-m-left_x-small">
+                        <lightning:buttonMenu aura:id="menuView" title="Display as" alternativeText="Display as" iconName="{! v.activeViewIcon }" menuAlignment="right" onselect="{! c.handleDisplayAs }">
+                            <lightning:menuSubheader label="Display as" class="slds-text-title--caps" />
+                            <lightning:menuItem aura:id="viewMenuItems" label="Table View" value="tableView" checked="{!v.activeView == 'tableView'}" iconName="utility:table"/>
+                            <!-- <lightning:menuItem aura:id="viewMenuItems" label="List View" value="listView" checked="false" iconName="utility:side_list"/> -->
+                        </lightning:buttonMenu>
+                    </div>
+                    <lightning:buttonGroup class="slds-m-left_x-small">
+                        <!-- <lightning:button iconName="utility:chart" class="slds-p-left_small slds-p-right_xx-small" /> -->
+                        <lightning:button title="Refresh" onclick="{!c.refreshRecordList}" iconName="utility:refresh" class="slds-p-left_small slds-p-right_xx-small" />
+                        <lightning:button title="Filter"  onclick="{!c.toggleFilter}" iconName="utility:filterList" class="slds-p-left_small slds-p-right_xx-small" />
+                    </lightning:buttonGroup>
+                </div>
+            </div>
+        </aura:if>
+     
+    <lightning:card iconName="standard:opportunity" title="{! 'Opportunity  List for '}">
+        <lightning:datatable data="{! v.Opportunities}" columns="{! v.Columns }" keyField="Id" hideCheckboxColumn="true"/>
+    </lightning:card>
+    
+  
+    
+</aura:component>

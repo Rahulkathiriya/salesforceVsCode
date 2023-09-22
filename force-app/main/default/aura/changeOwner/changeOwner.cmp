@@ -1,0 +1,157 @@
+<aura:component controller="GetFieldsList" implements="flexipage:availableForAllPageTypes,force:appHostable">
+    <aura:attribute name="complete" type="Boolean" default="false" />
+    <aura:attribute name="userlist" type="list"/>
+    <aura:attribute name="Username" type="string"/>
+    <aura:attribute name="searchKeyword" type="string"/>
+     <aura:attribute name="options" type="List" default="[
+ 		{'label': 'Send notification email', 'value': 'option1'} ]"/>
+    <aura:attribute name="value" type="List" default="option1"/> 
+    <!-- <aura:handler event="grensi:SearchKeyChange" name="init" value="{!this}" action="{!c.init}" /> 
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />  -->
+    
+    <div class="slds-p-around_medium lgc-bg">
+        <lightning:buttonMenu alternativeText="Show menu" menuAlignment="auto" onselect="{!c.handleMenuSelect}" >
+            <lightning:menuItem value="Username" label="Change Owner" />
+        </lightning:buttonMenu>
+    </div>
+    
+    <aura:if isTrue="{!v.complete}">
+        Opportunity is assigned to new Owner. 
+    </aura:if>
+    
+    <aura:if isTrue="{!v.userlist.OwnerId == $SObjectType.CurrentUser.Id}">
+        opportunity is already assigned to owner.
+    </aura:if>
+    
+    
+    <lightning:card  title="Change Owner">
+        <div >
+            <lightning:input
+                             aura:id="searchKey"
+                             name="enter-search"
+                             label="Search when user hits the 'enter' key"
+                             type="search"
+                             onkeyup="{! c.searchKeyChange }"
+                             />
+            <aura:iteration items="{!v.userlist}" var="item">
+                 {!item.Id} -- {!item.Name}<br/> 
+            </aura:iteration>
+            
+            
+             <lightning:combobox  label="Search when user hits the 'enter' key"
+                                 type="search"
+                                 aura:id="searchKey"
+                                 value="{!v.selectedMedicalLead}"
+                                 placeholder="Select Medical Lead"
+                                 options="{!v.medicalLeads}"
+                                  />
+        </div>
+        
+          <lightning:checkboxGroup name="Checkbox Group"
+                                 options="{!v.options}"
+                                 value="{!v.value}"
+                                 onchange="{!c.handleChange}"/> 
+        
+        <div class="slds-p-top_large">
+        <lightning:buttonGroup>
+            <lightning:button label="Cancel" onclick="{!c.doAction}"/>
+            <lightning:button label="Save" onclick="{!c.handleClick}" />
+        </lightning:buttonGroup>
+        </div>
+        
+    </lightning:card>
+      <!--  <div class="container">
+    <div class="row">
+        <a href="{! '#user/' + user.Id }">
+        <div class="col-sm-12">
+            <grensi:changeOwner/>
+        </div>
+        </a>
+    </div>
+</div>
+        
+        <input type="text" class="form-control" onkeyup="{!c.searchKeyonChange}"
+            placeholder="Search"  /> -->
+      <!--  <div class="slds-p-top_large">
+            <div class="slds-p-top_xx-small">
+                <div class="slds-checkbox">
+                    <input type="checkbox" name="options" id="checkbox-unique-id-90" value="checkbox-unique-id-90" checked="" />
+                    <label class="slds-checkbox__label" for="checkbox-unique-id-90">
+                        <span class="slds-checkbox_faux"></span>
+                        <span class="slds-form-element__label">Transfer open opportunities owned by others</span>
+                    </label>
+                </div>
+            </div>
+            <br/>
+            <div class="slds-p-top_xx-small">
+                <div class="slds-checkbox">
+                    <input type="checkbox" name="options" id="checkbox-unique-id-90" value="checkbox-unique-id-90" checked="" />
+                    <label class="slds-checkbox__label" for="checkbox-unique-id-90">
+                        <span class="slds-checkbox_faux"></span>
+                        <span class="slds-form-element__label">Transfer account owner's closed opportunities</span>
+                    </label> 
+                </div>
+            </div>
+            <br/> 
+            
+            <div class="slds-p-top_xx-small">
+                <div class="slds-checkbox">
+                    <input type="checkbox" name="options" id="checkbox-unique-id-90" value="checkbox-unique-id-90" checked="" />
+                    <label class="slds-checkbox__label" for="checkbox-unique-id-90">
+                        <span class="slds-checkbox_faux"></span>
+                        <span class="slds-form-element__label">Transfer account owner's open cases</span>
+                    </label>
+                </div>
+            </div>
+            <br/>
+            <div class="slds-p-top_xx-small">
+                <div class="slds-checkbox">
+                    <input type="checkbox" name="options" id="checkbox-unique-id-90" value="checkbox-unique-id-90" checked="" />
+                    <label class="slds-checkbox__label" for="checkbox-unique-id-90">
+                        <span class="slds-checkbox_faux"></span>
+                        <span class="slds-form-element__label">Transfer all of this account owner's cases</span>
+                    </label>
+                </div>
+            </div>
+            <br/>
+            <div class="slds-p-top_xx-small">
+                <div class="slds-checkbox">
+                    <input type="checkbox" name="options" id="checkbox-unique-id-90" value="checkbox-unique-id-90" checked="" />
+                    <label class="slds-checkbox__label" for="checkbox-unique-id-90">
+                        <span class="slds-checkbox_faux"></span>
+                        <span class="slds-form-element__label">Send notification email</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <br/>
+        
+        <div class="slds-p-top_large">
+            <div class="slds-text-align_left"><b>The new owner</b> will also become the owner of these records related to<b>
+                API First Communications</b> that are owned by<b> you.</b>
+            </div>
+        </div>
+        <div class="slds-p-top_large">
+            <div class="slds-p-top_x-small">
+                <p><lightning:formattedText value="* Open opportunities" /></p>
+            </div>
+            <div class="slds-p-top_x-small">
+                <p><lightning:formattedText value="* Contracts in Draft and In Approval status" /></p>
+            </div>
+            <div class="slds-p-top_x-small">
+                <p><lightning:formattedText value="* Orders in Draft status (with or without a transferring contract)" /></p>
+            </div>
+            <div class="slds-p-top_x-small">
+                <p><lightning:formattedText value="* Contacts" /></p>
+            </div>
+            <div class="slds-p-top_x-small">
+                <p><lightning:formattedText value="* Notes and attachments" /></p>
+            </div>
+            <div class="slds-p-top_x-small">
+                <p><lightning:formattedText value="* Open activities" /></p>
+            </div>
+        </div>
+         -->
+        
+    
+</aura:component>

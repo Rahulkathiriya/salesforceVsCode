@@ -1,0 +1,598 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId" controller="GetFieldsList" access="global">
+    <!-- Nav service -->
+    <lightning:navigation aura:id="navService"/>
+    <!-- -->
+    <aura:attribute name="showFilter" type="boolean" default="false"/>
+    <aura:attribute name="showFilterByOwner" type="boolean" default="false"/>
+    <aura:attribute name="changeFilterValue" type="boolean" default="false"/>
+    <aura:attribute name="filterByOwnerValue" type="String" default="all" />
+    <aura:attribute name="filterByOwner" type="String" default="all" />
+    <aura:attribute name="filterByOwnerOptions" type="Array" />
+    <aura:attribute name="filterByOwnerLabel" type="String" />
+    <!-- design attributes -->
+    <aura:attribute name="dbObjectName" type="String" access="global" default="Account" />
+    <aura:attribute name="ColorTheme" type="String" access="global" />
+    <aura:attribute name="pageType" type="String" access="global" default="App" />
+    <aura:attribute name="itemsPerPage" type="Integer" default="25" access="global" />
+    
+    <!-- -->
+    <aura:attribute name="pageName" type="String" />
+    <aura:attribute name="formTitle" type="String" />
+    <aura:attribute name="activeView" type="String" default="tableView" />
+    <aura:attribute name="activeViewIcon" type="String" default="utility:table" />
+    <aura:attribute name="type" type="String" />
+    <!--  -->
+    <aura:attribute name="data" type="Object"/>
+    <aura:attribute name="isDataLoaded" type="boolean" default="false"/>
+    <aura:attribute name="isFormFieldLoading" type="boolean" default="false"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="populatedFields" type="List"/>
+    <aura:attribute name="sortBy" type="String" default="Name"/>
+    <aura:attribute name="sortByFieldLabel" type="String" default="Name"/>
+    <aura:attribute name="defaultSortDirection" type="String" default="asc"/>
+    <aura:attribute name="sortDirection" type="String" default="asc"/>
+    <aura:attribute name="loadTime" type="Date" />
+    <aura:attribute name="updatedTime" type="Date" />
+    <aura:attribute name="setIntervalId" type="Integer"/>
+    <!-- -->
+    <aura:attribute name="selectedImage" type="String" />
+    <!--  -->
+    <aura:attribute name="medicalPlanId" type="string"/>
+    <aura:attribute name="report" type="String" />
+    <aura:attribute name="tableId" type="String" />
+    <aura:attribute name="availableFields" type="List"/>
+    <aura:attribute name="visibleFields" type="List"/>
+    <aura:attribute name="selectedOptionValue" type="List"/>
+    <aura:attribute name="selectVisibleFieldModel" type="boolean" default="false"/>
+    <aura:attribute name="fieldList" type="List"/>
+    <aura:attribute name="formFieldList" type="List"/>
+    <aura:attribute name="isVisibleNewBtn" type="boolean" default="false"/>
+    <aura:attribute name="isAddEdit" type="boolean" default="false"/>
+    <aura:attribute name="isDisabled" type="boolean" default="false"/>
+    <aura:attribute name="deleteModal" type="boolean" default="false"/>
+    <aura:attribute name="currentData" type="Object"/>
+    <aura:attribute name="searchKeyWord" type="string"/>
+    <aura:attribute name="addEditModal" type="boolean" default="false"/>
+    <aura:attribute name="totalItems" type="Integer" default="0"/>
+    <aura:attribute name="totalPages" type="Integer" default="1"/>
+    <aura:attribute name="currentPage" type="Integer" default="1"/>
+    <aura:attribute name="pageList" type="List"/>
+    <aura:attribute name="isRecordExists" type="boolean" default="false"/>
+    <aura:attribute name="isRecordEmpty" type="boolean" default="false"/>
+    <aura:attribute name="lstSelectedRecords" type="Map" default="{}" description="Use,for store SELECTED sObject Records"/>
+    <aura:attribute name="multiChoosenFieldList" type="List" default="[]"/>
+    <aura:attribute name="relationalField" type="string" default=""/>
+    <aura:attribute name="isSelectedRelationalField" type="boolean" default="false"/>
+    <aura:attribute name="selectedRelationalFieldName" type="List" default="[]"/>
+    <aura:attribute name="isHideCheckbox" type="boolean" default="true"/>
+    <aura:attribute name="selectedMedicalActivity" type="String" default="" />
+    <aura:attribute name="reportMedicalPlanRelation" type="String" default="" />
+    <aura:attribute name="isMeicalObjectiveDisabled" type="boolean" default="true" />
+    <!-- -->
+    <aura:attribute name="medicalLeads" type="List" />
+    <aura:attribute name="selectedMedicalLead" type="String" default="" /> 
+    
+    <aura:attribute name="activityLeads" type="List" />
+    <aura:attribute name="selectedActivityLead" type="String" default="" /> 
+    
+    <aura:attribute name="medicalObjectives" type="List" />
+    <aura:attribute name="selectedMedicalObjective" type="String" default="" />
+    
+    <aura:attribute name="AllMedicalPlans" type="List" />
+    <aura:attribute name="selectedMedicalPlan" type="String" default="" />
+    
+    <aura:attribute name="AllGeography" type="List" />
+    <aura:attribute name="selectedGeography" type="String" default="" />
+    
+    <!-- -->
+    
+    <aura:attribute name="types" type="List" default="[
+                                                      {'label': 'All Types ', 'value': 'all'},
+                                                      {'label': 'Compounds ', 'value': 'Compounds'},
+                                                      {'label': 'Clinical Trials', 'value': 'Clinical Trials'},
+                                                      {'label': 'Area of Research', 'value': 'Area of Research'},
+                                                      ]" 
+                    />
+    <aura:attribute name="selectedType" type="String" default="all" /> 
+    
+   
+    <!-- handlers-->
+    <aura:handler name="inIt" value="{!this }" action="{!c.initFn }"/>
+    <aura:handler event="aura:locationChange" action="{!c.handleDestroy}"/>
+    
+     <!-- add filter -->
+   <!-- <aura:attribute name="edit_filterindex" type="integer" /> -->
+    <aura:attribute name="edit_filter" type="Boolean" default="false" /> 
+    <aura:attribute name="flt_field_datatype" type="string"  default="STRING" />
+    <aura:attribute name="query_list" type="list"  default="[]" />
+    <aura:attribute name="options" type="list"/>
+    <aura:attribute name="SFFields" type="list"  />
+    <aura:attribute name="LabelSFFields" type="list"/>
+    <aura:attribute name="filter_query" type="String"   default=""/>
+    <aura:attribute name="selectedSFValue" type="String" />
+    <aura:attribute name="SFfieldswithout__c" type="String" default="Name"/>
+    <aura:attribute name="flt_field" type="Boolean" default="false" /> 
+    <aura:attribute name="selectedSFLabel" type="String" default="Name"/>
+    <aura:attribute name="ListOperator" type="List"  />
+    <aura:attribute name="selectedOperator" type="String"   />
+    <aura:attribute name="selected" type="Boolean" default="false" />
+    <aura:attribute name="addfilterlogict" type="Boolean" default="false" />
+    <aura:attribute name="clear" type="string"/>
+    <aura:attribute name="addfilterlogictaa" type="Boolean" default="false"/>
+    <aura:attribute name="allItems" type="String" />
+    <aura:attribute name="NewFilter" type="Boolean" default="false" />
+    <aura:handler name="init" value="{!this}" action="{!c.init}" /> 
+    
+  
+    
+    <div class="cue-box" id="cueTable">
+        <aura:if isTrue="{!v.report != 'medicalPlan'}">
+            <div class="cue-table-header">
+                <div class="slds-grid slds-m-bottom_x-small">
+                    <lightning:buttonGroup class="slds-col--bump-left">
+                        <lightning:button label="New" class="slds-m-left_small" onclick="{!c.addEditModal}" />
+                        <!--   <lightning:button label="Printable View" onclick="{!c.print}" /> -->
+                        
+                    </lightning:buttonGroup>
+                </div>
+                
+                <div class="slds-clearfix slds-grid">
+                    <div class="slds-col slds-align-bottom">
+                        <p class="slds-text-body--small">{! v.totalItems } items • Sorted by {! v.sortByFieldLabel} • Filtered by {! v.filterByOwnerLabel} • Updated {! v.updatedTime }</p>
+                    </div>
+                    <div class="slds-form-element slds-col--bump-left slds-grid">
+                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
+                            <lightning:icon class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default" iconName="utility:search" size="x-small" alternativeText="Search address"/>
+                            <ui:inputText updateOn="keyup" keyup="{!c.keyPressController}" class="slds-lookup__search-input slds-input inputSize cue-search-input" value="{!v.searchKeyWord}" placeholder="Search.."/>
+                        </div>
+                    </div>
+                    <div class="slds-m-left_x-small">
+                        <lightning:buttonMenu title="List View Controls" alternativeText="List View Controls" iconName="utility:settings" menuAlignment="right" onselect="{! c.handleListControls }">
+                            <lightning:menuSubheader label="List View Controls" class="slds-text-title--caps" />
+                            <lightning:menuItem aura:id="settingItems" value="settingFilter" label="Edit List Filters" />
+                            <lightning:menuItem aura:id="settingItems" value="settingFields" label="Select Fields to Display" disabled="{!v.activeView == 'kanbanBoard'}" />
+                            <aura:if isTrue="{!v.activeView == 'kanbanBoard'}">
+                                <lightning:menuItem aura:id="settingItems" value="settingKanban" label="Kanban Settings" />
+                            </aura:if>
+                            <lightning:menuDivider />
+                            <lightning:menuItem aura:id="settingItems" value="settingReset" label="Reset" disabled="{!v.activeView == 'kanbanBoard'}"/>
+                        </lightning:buttonMenu>
+                    </div>
+                    <div class="slds-m-left_x-small">
+                        <lightning:buttonMenu aura:id="menuView" title="Display as" alternativeText="Display as" iconName="{! v.activeViewIcon }" menuAlignment="right" onselect="{! c.handleDisplayAs }">
+                            <lightning:menuSubheader label="Display as" class="slds-text-title--caps" />
+                            <lightning:menuItem aura:id="viewMenuItems" label="Table View" value="tableView" checked="{!v.activeView == 'tableView'}" iconName="utility:table"/>
+                            <!-- <lightning:menuItem aura:id="viewMenuItems" label="List View" value="listView" checked="false" iconName="utility:side_list"/> -->
+                        </lightning:buttonMenu>
+                    </div>
+                    <lightning:buttonGroup class="slds-m-left_x-small">
+                        <!-- <lightning:button iconName="utility:chart" class="slds-p-left_small slds-p-right_xx-small" /> -->
+                        <lightning:button title="Refresh" onclick="{!c.refreshRecordList}" iconName="utility:refresh" class="slds-p-left_small slds-p-right_xx-small" />
+                        <lightning:button title="Filter"  onclick="{!c.toggleFilter}" iconName="utility:filterList" class="slds-p-left_small slds-p-right_xx-small" />
+                    </lightning:buttonGroup>
+                </div>
+            </div>
+        </aura:if>
+        <div class="cue-table-body slds-clearfix">
+            <div class="h-100 slds-grid">
+                <div class="cue-table-main-view slds-col slds-no-space slds-clearfix">
+                    <div class="slds-clearfix">
+                        <aura:if isTrue="{!v.isDataLoaded}">
+                            <aura:if isTrue="{!v.activeView == 'tableView'}">
+                                <!-- Table Start --> 
+                                <lightning:datatable
+                                                     keyField="id"
+                                                     class="m-t-10"                 
+                                                     data="{!v.data }"
+                                                     columns="{!v.columns }"
+                                                     hideCheckboxColumn="{!v.isHideCheckbox}"
+                                                     onrowselection="{!c.doSelectRecord}"
+                                                     onrowaction="{!c.handleRowAction}"
+                                                     defaultSortDirection="{!v.defaultSortDirection}"
+                                                     sortedDirection="{!v.sortDirection}"
+                                                     onsort="{!c.handleSort}"
+                                                     sortedBy="{!v.sortBy}"
+                                                     onresize="{! c.storeColumnWidths }"
+                                                     />
+                                <!-- Table End -->
+                            </aura:if>
+                            <aura:set attribute="else">
+                                <div class="demo-only" style="height:6rem;position:relative">
+                                    <div class="slds-spinner_container">
+                                        <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                                            <span class="slds-assistive-text">Loading</span>
+                                            <div class="slds-spinner__dot-a"></div>
+                                            <div class="slds-spinner__dot-b"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <lightning:spinner alternativeText="Loading" size="medium" /> -->
+                            </aura:set>
+                        </aura:if>
+                        
+                        <!-- Pagination Start --> 
+                        <aura:if isTrue="{!and(v.isRecordExists,v.activeView == 'tableView')}">
+                            <lightning:layoutItem padding="around-small" class="slds-align_absolute-center" flexibility="auto">
+                                <lightning:button class="fl-btn" iconName="utility:left" iconPosition="left"
+                                                  onclick="{!c.onFirst}" disabled="{! v.currentPage == 1}"/>
+                                <lightning:button class="lr-btn" iconName="utility:chevronleft" iconPosition="left"
+                                                  onclick="{!c.onPrev}" disabled="{! v.currentPage == 1}"/>
+                                
+                                <aura:iteration items="{!v.pageList}" var="item">
+                                    <span name="{!item}" onclick="{!c.processMe}" class="{! 'slds-p-horizontal_x-small page-num ' + ((v.currentPage == item) ? 'selected' : '')}">
+                                        {!item}
+                                    </span>
+                                </aura:iteration>
+                                
+                                <lightning:button class="lr-btn" iconName="utility:chevronright" iconPosition="right" 
+                                                  disabled="{! v.currentPage == v.totalPages}" onclick="{!c.onNext}"/>
+                                <lightning:button class="fl-btn" iconName="utility:right" iconPosition="right" 
+                                                  disabled="{! v.currentPage == v.totalPages}" onclick="{!c.onLast}"/>
+                            </lightning:layoutItem>
+                        </aura:if>
+                        <aura:if isTrue="{!and(v.isRecordEmpty,v.activeView == 'tableView')}">
+                            <div class="slds-p-around_small slds-align_absolute-center">No record found!</div>
+                        </aura:if>
+                        <!-- Pagination End -->
+                    </div>
+                </div>
+                <!-- Filter -->
+                <aura:if isTrue="{!v.showFilter}">
+                    <div class="slds-grid slds-no-flex cue-table-filter-view">
+                        <!-- <c:Cue_Filter closeFn="{!c.toggleFilter}" /> -->
+                        <div class="slds-panel slds-size_medium slds-panel_docked slds-panel_docked-right slds-is-open cueFilterPanel" aria-hidden="false">
+                            <aura:if isTrue="{!v.changeFilterValue}">
+                                <div class="slds-panel__header">
+                                    <div class="slds-grid w-100">
+                                        <lightning:button class="" variant="neutral" label="Cancel" title="Cancel" onclick="{! c.cancelFilterChnage }"/>
+                                        <lightning:button class="ml-auto" variant="brand" name='Save' label='Save' onclick='{!c.saveFilterChnage}'/>
+                                    </div>
+                                </div>
+                                <aura:set attribute="else">
+                                    <div class="slds-panel__header">
+                                        <h2 class="slds-panel__header-title slds-text-heading_small slds-truncate" title="Filters">Filters</h2>
+                                        <lightning:buttonIcon iconName="utility:close" variant="bare" alternativeText="Close Filters" title="Close Filters" onclick="{!c.toggleFilter}"></lightning:buttonIcon>
+                                        <!-- <lightning:icon size="x-small" iconName="utility:close" alternativeText="Close Filters" title="Close Filters"  /> -->
+                                    </div>
+                                </aura:set>
+                            </aura:if>
+                            <div class="cueFilterBody slds-col slds-scrollable--y">
+                                  <div class=" slds-col slds-scrollable--y"> 
+                                <div class="slds-panel__body panelBody">
+                                    <ol>
+                                        <li class="slds-is-relative">
+                                            <div class="cueFilterPanelScope" onclick="{! c.showOwnerFilter }">
+                                                <a class="trigger" href="javascript:void(0);">
+                                                    <span>
+                                                        <div class="filterLabel">Filter by Owner</div>
+                                                        <span class="currentScopeLabel">{!v.filterByOwnerLabel}</span>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                            <aura:if isTrue="{!v.showFilterByOwner}">
+                                                <div class="uiPanel--default uiPanel positioned open active">
+                                                    <div class="slds--s-relative">
+                                                        <lightning:radioGroup label="Filter by Owner" options="{! v.filterByOwnerOptions }"
+                                                                              value="{! v.filterByOwner }" onchange="{! c.handleFilterOwnerChange }" />
+                                                        <div class="slds-text-align_right">
+                                                            <lightning:button class="" variant="neutral" label="Done" title="Done" onclick="{! c.doneFilterOwner }"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="pointer"></div>
+                                                </div>
+                                            </aura:if>
+                                        </li>
+                                    </ol>
+                                 </div>
+                              </div> 
+                                
+                           
+                            <!-- Add filter Logic -->
+      <div class="slds-grid slds-no-flex slds-scrollable">
+          
+        <div class="slds-panel slds-size_medium slds-panel_docked slds-panel_docked-right slds-grid slds-grid_vertical forceFilterPanel">
+            <!--  <aura:if isTrue="{!not(empty(v.query_list))}"> -->
+            <div class="slds-clearfix slds-m-top_x-small slds-m-bottom_xx-small slds-filterLabel">
+                <div class="slds-float_left">
+                    <a  herf="#filterrr" class="slds-text-color_default " onclick="{!c.Add_filter}" value="New Filter" ><h3>Add Filter</h3></a>  
+                </div>
+                <div class="slds-float_right">
+                    <a  herf="#filterrr" class="slds-text-color_default " onclick="{!c.Remove_All}" >Remove All</a>  
+                </div>
+            </div>
+             <aura:if isTrue="{!v.addfilterlogict}"> 
+                 <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="textarea-id-01">Matching all of these fields</label>
+                     <div class="slds-form-element__control">
+                    <!-- <textarea id="textarea-id-01"  class="slds-textarea" value="New Filter">  </textarea> -->
+                    <!-- <input id="text-input-01" value="{!v.NewFilter}" class="slds-lookup__search-input slds-input" aria-owns="option-list-01" role="combobox" aria-activedescendant="" aria-expanded="true"  /> 
+						 <lightning:buttonIcon iconName="utility:close" class="slds-button slds-input__icon slds-text-color-default" variant="bare" onclick="{!c.hide}" 
+								alternativeText="Open or close dropdown."/>  -->
+                     </div>
+				 </div>
+                    
+                            
+             </aura:if>
+            <aura:iteration var="item" items="{!v.query_list }"   indexVar="i">
+                <article  class="slds-card slds-card_boundary   filter_cards" >
+                    <div class="slds-card__header slds-grid">
+                        <div class="slds-media__body top-scrollbars" >
+                            <a data-index ="{!i}" herf="#" class="slds-text-link_reset" onclick="{!c.open_filter}"  >
+                                <h2 class="slds-text-heading_small">
+                                    <span id="rev_filter" dataset="{!i}">{!item.field}</span>
+                                </h2>
+                                &nbsp;&nbsp; {!item.operation_label}&nbsp;&nbsp;{!item.value}                                                                 
+                            </a> 
+                        </div>
+                        <div class="slds-no-flex">
+                            <a data-index ="{!i}" herf="#" class="slds-text-link_reset" onclick="{!c.remove_filter}"  >
+                                x 
+                            </a> 
+                        </div>
+                     </div>
+                </article>
+                
+                
+                
+            </aura:iteration>
+            <aura:if isTrue="{!v.selected}"> 
+                <ui:scrollerWrapper aura:id="filterrr" >
+                    <div  class="slds-panel__body panelBody">
+                        <div class=" slds-wrap">                    
+                            <div class="slds-col ">
+                               <div class="slds-p-top_large">
+                                 <lightning:select  aura:id="lcSF" label="Field" value="" onchange="{!c.handleSFFields }">
+                                    <aura:iteration var="SFField" items="{!v.SFFields }">
+                                        <option label="{!SFField.label}" value="{!SFField.value}" text="{!SFField.label}" selected="{!SFField.selected}"/> 
+                                    </aura:iteration>
+                                  </lightning:select>
+                                </div>
+                            </div> 
+                            <div class="slds-col ">
+                               <div class="slds-p-top_large">
+                                <lightning:select name="Operator" label="Operator" aura:id="Operator" onchange="{!c.handleOperators}" >
+                                    <aura:iteration items="{!v.ListOperator}" var="opt" indexVar="index" >
+                                        <option text="{!opt.label}" label="{!opt.label}" value="{!opt.value}" index="index" selected="{!opt.selected}" />
+                                    </aura:iteration>
+                                </lightning:select>   
+                               </div>
+                            </div>  
+                            <div class="slds-col  ">
+                                <div class="slds-p-top_large">
+                                <lightning:input type="{!v.flt_field_datatype}" class= " " aura:id="filter_value" label="Value"/>
+                                </div>
+                            </div>
+                            <div  class="slds-grid slds-m-top_x-small">
+                                <div class="slds-col  slds-text-align_left"> 
+                                    <aura:if isTrue="{!v.edit_filter}">
+                                        <lightning:button  label="Cancel" onclick ="{!c.clear_filter}" class="slds-m-around_xx-small "/>
+                                        <aura:set attribute="else">
+                                            <lightning:button  label="Clear" onclick ="{!c.clear_filter}" class="slds-m-around_xx-small "/>
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                               
+                           <!-- 
+                        		<div class="slds-col  slds-text-align_right">   
+                            		<lightning:button  label="Done" onclick ="{!c.get_filter}" class="slds-m-around_xx-small "/>
+                                </div> -->
+                                <div class="slds-col  slds-text-align_right">
+                                    <aura:if isTrue="{!v.edit_filter}">
+                                        <lightning:button  label="Save" onclick ="{!c.edit_filter}" class="slds-m-around_xx-small   "/> 
+                                        <aura:set attribute="else">
+                                            <lightning:button  label="Done" onclick ="{!c.add_filter}" class="slds-m-around_xx-small "/> 
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                            </div>
+                         </div>
+                      </div>
+                   </ui:scrollerWrapper>
+                </aura:if>
+            </div>  
+        </div>
+                             
+       <div class="slds-panel slds-size_medium slds-panel_docked slds-panel_docked-right slds-grid slds-grid_vertical forceFilterPanel">
+           <aura:if isTrue="{!v.selected}"> 
+                <div class="slds-float_left">
+                    <a herf="#filterrr" class="slds-text-color_default" onclick="{!c.edit_filter}" >Add Filter Logic</a>  
+                </div>
+            </aura:if>
+            
+            <aura:if isTrue="{!v.addfilterlogictaa}"> 
+                <div class="slds-form-element">
+                  <lightning:helptext style="margin-right: 0.5rem;" content="Filter logic governs how and when filters apply to list your list view. Use AND and OR operators to fine tune your results " class="customIcon"/> 
+                    <label class="slds-form-element__label" for="textarea-id-01">Filter Logic</label>
+                     <div class="slds-float_right"> 
+                    	<a herf="#" class="slds-text-color_default" onclick="{!c.Remove}">Remove</a>  
+                	 </div> 
+                    <div class="slds-form-element__control">
+                        <textarea id="textarea-id-01"  class="slds-textarea" value="{!v.Clear}"></textarea>
+                    </div>
+                 </div>
+                
+              </aura:if>
+           </div>
+                                    
+                   
+            <!-- End Add filter logic -->
+                             <div class="addFilterRemoveAll slds-hide">
+                                        <a class="addFilter" role="button">Add Filter</a>
+                                        <a class="removeAll" role="button">Remove All</a>
+                              </div>       
+                                    
+                           </div>
+                        </div>
+                     </div>
+                   
+                   </aura:if>
+                </div>
+                    
+             </div>
+                    
+           </div>
+    
+    <aura:if isTrue="{!v.addEditModal}">
+        <!-- Modal Start --> 
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div class="slds-is-relative">
+                    <!-- Modal Header -->
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{! c.closeModel }"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"
+                                              disabled="{!v.isDisabled}"/>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Accounts</h2>
+                    </header>
+         <!-- Modal Body -->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <aura:if isTrue="{!v.isAddEdit}">
+                            <lightning:recordEditForm aura:id="editForm" onload="{!c.handleFormOnFieldLoad}" recordId="{!v.recordId}" objectApiName="{! v.dbObjectName }" onsubmit="{!c.handleEdit}">
+                                <lightning:messages />
+                                <div class="slds-grid slds-wrap slds-gutters">
+                                    <aura:iteration items="{!v.formFieldList}" var="item" indexVar="index">
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <aura:if isTrue="{!and(!v.isFormFieldLoading, or  (item.fieldName == 'Name', item.fieldName == 'Type'))}">
+                                                
+                                                <aura:if isTrue="{!item.fieldName == 'Cue_MedicalPlanId__c'}">
+                                                    <lightning:combobox label="IEP Plan" value="{!v.selectedMedicalPlan}" placeholder="Select IEP Plan" class="slds-m-horizontal_xx-small slds-m-bottom_small" options="{!v.AllMedicalPlans}" onchange="{!c.handleMedicalPlanChange}" />
+                                                </aura:if>
+                                                <aura:if isTrue="{!item.fieldName == 'Type'}">
+                                                    <lightning:combobox label="Data Generation Objective" value="{!v.selectedMedicalObjective}" placeholder="Select Data Generation Objective" options="{!v.medicalObjectives}" disabled="{!v.isMeicalObjectiveDisabled}" class="slds-m-horizontal_xx-small" />
+                                                </aura:if>
+                                                <aura:set attribute="else">
+                                                    <lightning:inputField fieldName="{!item.fieldName}" required="{!item.required}" />
+                                                </aura:set>
+                                            </aura:if>
+                                        </div>
+                                    </aura:iteration>
+                                </div>    
+                                
+                                <aura:if isTrue="{!v.isFormFieldLoading}">
+                                    <div class="demo-only slds-hide" style="height:6rem;position:relative">
+                                        <div class="slds-spinner_container">
+                                            <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                                                <span class="slds-assistive-text">Loading</span>
+                                                <div class="slds-spinner__dot-a"></div>
+                                                <div class="slds-spinner__dot-b"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--  <c:Cue_Stencil />
+                                    <c:Cue_Stencil /> -->
+                                </aura:if>
+                                <button id="btnUpdateForm" class="slds-hide pull-right" type="submit" name="update" >{!v.recordId ? 'Update' : 'Save'}</button>
+                            </lightning:recordEditForm>
+                            
+                            <aura:set attribute="else">
+                                <lightning:recordEditForm onload="{!c.handleFormOnFieldLoad}" recordId="{!v.recordId}" objectApiName="{! v.dbObjectName }">  
+                                    <aura:iteration items="{!v.formFieldList}" var="item">
+                                        <lightning:outputField fieldName="{!item.fieldName}" />
+                                    </aura:iteration>
+                                    
+                                    <aura:if isTrue="{!v.isFormFieldLoading}">
+                                        <div class="demo-only slds-hide" style="height:6rem;position:relative">
+                                            <div class="slds-spinner_container">
+                                                <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                                                    <span class="slds-assistive-text">Loading</span>
+                                                    <div class="slds-spinner__dot-a"></div>
+                                                    <div class="slds-spinner__dot-b"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                       <!-- <c:Cue_Stencil />
+                                        <c:Cue_Stencil /> -->
+                                    </aura:if>
+                                    
+                                </lightning:recordEditForm>
+                            </aura:set>
+                        </aura:if>
+                    </div>
+                    <!-- Modal Footer -->
+                    <footer class="slds-modal__footer">
+                        <aura:if isTrue="{!v.isFormFieldLoading == false}">
+                            <lightning:button variant="neutral" label="Cancel" title="Cancel" onclick="{! c.closeModel }" />
+                            <aura:if isTrue="{!v.isAddEdit}">
+                                <lightning:button class="slds-m-left_small" variant="brand" type="button" name="update" label="{!v.recordId ? 'Update' : 'Save'}" onclick="{! c.submitModalForm }" />
+                            </aura:if>
+                        </aura:if>
+                    </footer>
+                    <aura:if isTrue="{!v.isDisabled}">
+                        <div class="modal-loader">
+                            <lightning:spinner alternativeText="Loading" size="small" />
+                        </div>
+                    </aura:if>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+        <!-- Modal End -->
+    </aura:if>
+    
+    <!-- Delete Popup -->
+    <aura:if isTrue="{!v.deleteModal}">
+        <!--Modal Box Start-->
+        <div role="dialog" class="slds-modal slds-fade-in-open ">
+            <div class="slds-modal__container">
+                <!--Modal Box Header Start-->
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close" onclick="{! c.closeModel }" alternativeText="close" variant="bare-inverse" class="slds-modal__close"/>
+                    <h1 class="slds-text-heading--medium">Confirmation</h1>
+                </header>
+                <!--Modal Box Header End-->
+                
+                <!--Modal Box Content Start-->
+                <div class="slds-modal__content slds-p-around--medium">
+                    <center>Are you sure you want to delete this item?</center>
+                </div>
+                <!--Modal Box Content End-->
+                
+                <!--Modal Box Button Start-->
+                <footer class="slds-modal__footer">
+                    <lightning:button name='No' label='Cancel' onclick='{!c.closeModel}'/>
+                    <lightning:button variant="brand" name='Yes' label='Delete' onclick='{!c.handleDelete}'/>
+                </footer>
+                <!--Modal Box Button End-->
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop--open"></div>
+    </aura:if>
+    
+    <!-- Visible Fields in list view Model -->
+    <aura:if isTrue="{!v.selectVisibleFieldModel}">
+        <!-- Modal Start --> 
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal Header -->
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close"
+                                          onclick="{! c.closeModel }"
+                                          alternativeText="close"
+                                          variant="bare-inverse"
+                                          class="slds-modal__close"/>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Select Fields to Display</h2>
+                </header>
+                <!-- Modal Body -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <lightning:messages />
+                    <lightning:dualListbox name="selectFieldsForList"
+                                           sourceLabel="Available Fields"
+                                           selectedLabel="Visible Fields"
+                                           options="{!v.availableFields}"
+                                           value="{!v.visibleFields}"                   
+                                           onchange="{! c.selectVisibleField }"/>
+                </div>
+                <!-- Modal Footer -->
+                <footer class="slds-modal__footer">
+                    <lightning:button class="slds-m-top_small pull-right slds-m-left_small" variant="neutral" label="Cancel" title="Cancel" onclick="{! c.closeModel }"/>
+                    <lightning:button class="slds-m-top_small pull-right" variant="brand" type="submit" name="save" label="Save" onclick="{! c.savedVisibleFields }"/>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+        <!-- Modal End -->
+    </aura:if>
+</aura:component>

@@ -1,0 +1,6 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+	<div>
+        HellO Dhruvil Welcome To Saleforce!
+        <p> My NAme Is Rex</p>
+    </div>
+</aura:component>

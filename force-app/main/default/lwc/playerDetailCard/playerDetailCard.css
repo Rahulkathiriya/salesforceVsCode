@@ -1,0 +1,15 @@
+* {}
+
+img .cricketers {
+    width: 600px;
+    height: 500px;
+    background-position: center;
+    margin-bottom: 0.5rem;
+}
+
+h1 {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 10px;
+    text-transform: uppercase;
+}

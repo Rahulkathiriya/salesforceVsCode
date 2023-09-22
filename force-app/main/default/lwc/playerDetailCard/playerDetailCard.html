@@ -1,0 +1,30 @@
+<template>
+    
+    <lightning-card  icon-name="standard:actions_and_buttons">
+
+        <template if:true={cricketerData}>
+            <span slot="title"> {cricketerData.Name}</span>
+            <lightning-button-icon icon-name="utility:expand_alt"
+                                    slot="actions"
+                                    onclick={handleNavigateToRecord}>
+            </lightning-button-icon>
+
+            <div class="slds-p-around_small ">
+                <img src={cricketerData.grensi__Image_url__c} class="cricketers" alt="cricketer" />
+                <h1 class="slds-m-bottom_small"> Player Details</h1>
+                <p> Runs : {cricketerData.grensi__Runs__c}</p>
+                <p> Age : {cricketerData.grensi__Age__c}</p>
+                <p> Nationality : {cricketerData.grensi__Nationality__c}</p>
+            </div>
+
+
+        </template>
+
+        <template if:false={cricketerData}>
+            <p class="slds-align_absolute-center">Selected Player to see Details</p>
+        </template>
+
+
+    </lightning-card>
+
+</template>

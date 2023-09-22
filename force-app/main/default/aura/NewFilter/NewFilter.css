@@ -1,0 +1,164 @@
+.THIS .cue-search-input {
+    width: 220px;
+    min-height: var(--lwc-squareIconMediumBoundary,2rem);
+}
+.THIS .fs-18 {
+    font-size: 18px;
+}
+.THIS .m-t-10 {
+    margin-top: 10px;
+}
+.THIS .m-b-10 {
+    margin-bottom: 10px;
+}
+.THIS .m-b-20 {
+    margin-bottom: 20px;
+}         
+.THIS .m-l-3 {
+    margin-left: 3px;
+}
+.THIS .p-b-60 {
+    padding-bottom: 60px;
+}        
+.THIS .pull-right{
+    float: right;
+}
+.THIS .h-100 {
+    height: 100%;
+}
+.THIS .w-100 {
+    width: 100%;
+}
+
+.THIS .d-flex { display: flex; }
+.THIS .text-left { text-align: left; }
+.THIS .f-600 { font-weight: 600; }
+.THIS .text-right { text-align: right; }
+        
+.THIS.cue-box {
+    background: var(--lwc-cardColorBackground,rgb(255, 255, 255));
+    border: var(--lwc-borderWidthThin,1px) solid var(--lwc-cardColorBorder,rgb(221, 219, 218));
+    border-radius: var(--lwc-borderRadiusMedium,0.25rem);
+    box-shadow: var(--lwc-cardShadow,0 2px 2px 0 rgba(0, 0, 0, 0.10));
+    width: 100%;
+    /*min-height: 550px;*/
+    display: flex;
+    flex-direction: column;
+}
+.THIS .cue-table-main-view {
+    min-height: auto; /* calc(100vh - 315px); */
+}
+.THIS .cue-table-header {
+	padding: 10px;
+    background: var(--lwc-pageHeaderColorBackground,rgb(243, 242, 242));
+    border-bottom: var(--lwc-borderWidthThin,1px) solid var(--lwc-cardColorBorder,rgb(221, 219, 218));
+}
+.THIS .cue-table-body { flex-grow: 1; }
+.THIS .ml-auto { margin-left: auto; }
+.THIS .slds-input-has-icon_left .slds-input { padding-left: var(--lwc-spacingXLarge,2rem); }
+.THIS .report-text-wrap a { width: fit-content; }
+.THIS .page-num {
+    height: 30px;
+    width: 30px;
+    text-align: center;
+    padding-top: 5px;
+    cursor: pointer;
+    background-color: #f3f2f2;
+    border-radius: 50%;
+    margin: 0px 5px;
+    color: #2c70cc;                                                        
+}
+
+.THIS .page-num.selected { background-color: #2c70cc; color: #fff; }
+.THIS .page-num>a:hover { text-decoration: none; }
+.THIS .lr-btn { padding: 0px 10px; border: none; }
+.THIS .fl-btn { padding: 0px; border: none; }
+.THIS .fl-btn:focus, .THIS .lr-btn:focus { box-shadow: none; }
+.THIS .fl-btn:hover, .THIS .fl-btn:active, .THIS .lr-btn:active, .THIS .lr-btn:hover { background: none; }
+                                                        
+.THIS .slds-spinner:after, .THIS .slds-spinner:before, 
+.THIS .slds-spinner__dot-a:after, .THIS .slds-spinner__dot-a:before, 
+.THIS .slds-spinner__dot-b:after, .THIS .slds-spinner__dot-b:before { background-color: #2c70cc; }
+
+.THIS .slds-dueling-list { justify-content: center; }
+
+/* Modal */
+.THIS .slds-modal__content { max-height: calc(100vh - 200px); overflow-y: auto; }
+.THIS .slds-rich-text-editor__textarea, .THIS .slds-rich-text-editor__output { overflow-y: auto; }                                                            
+                                                        
+/* Filter */
+.THIS .cueFilterPanel {
+    width: 321px;
+    background-color: var(--lwc-colorBackground,rgb(243, 242, 242));
+}
+.THIS .cue-table-filter-view { min-height: 455px; }
+.THIS .cueFilterPanel .slds-panel__header, .THIS .cueFilterPanel .panelBody {
+    background-color: var(--lwc-colorBackgroundAlt,rgb(255, 255, 255));
+}
+.THIS .cueFilterPanel .cueFilterBody {
+    height: calc(100% - 45px);
+}
+.THIS .cueFilterPanel .panelBody ol {
+    margin: 0; padding-left: 0;
+}
+.THIS .cueFilterPanel .panelBody li {
+    list-style-type: none;
+    margin: var(--lwc-spacingSmall,0.75rem) 0 var(--lwc-spacingSmall,0.75rem) 0;
+}
+.THIS .cueFilterPanelScope {
+    border: var(--lwc-colorBorderButtonDefault,rgb(221, 219, 218)) 1px solid;
+    border-radius: var(--lwc-borderRadiusMedium,0.25rem);
+    padding: var(--lwc-spacingSmall,0.75rem);
+    cursor: pointer;
+}
+.THIS .cueFilterPanelScope a:hover, .THIS .cueFilterPanelScope a:focus {
+    text-decoration: none; box-shadow: none;
+}
+.THIS .cueFilterPanelScope:hover, .THIS .cueFilterPanelScope.isLocked {
+    background-color: var(--lwc-colorBackground,rgb(243, 242, 242));
+}
+.THIS .cueFilterPanel .panelBody li:first-child {
+    margin-top: 0;
+}
+.THIS .cueFilterPanel .panelBody li {
+    list-style-type: none;
+    margin: var(--lwc-spacingSmall,0.75rem) 0 var(--lwc-spacingSmall,0.75rem) 0;
+}
+.THIS .cueFilterPanelScope .filterLabel {
+    color: var(--lwc-colorTextLabel,rgb(62, 62, 60));
+    font-weight: var(--lwc-fontWeightRegular,400);
+    font-size: var(--lwc-fontSizeSmall,0.75rem);
+    line-height: var(--lwc-lineHeightText,1.5);
+}
+.THIS .cueFilterPanelScope .currentScopeLabel {
+    color: var(--lwc-colorTextDefault,rgb(8, 7, 7));
+    font-weight: var(--lwc-fontWeightRegular,400);
+    font-size: var(--lwc-fontSizeMedium,0.8125rem);
+    line-height: var(--lwc-lineHeightText,1.5);
+}
+.THIS .cueFilterPanel .addFilterRemoveAll {
+    display: flex; justify-content: space-between;
+}
+.THIS .cueFilterPanel .uiPanel {
+    padding: 10px; width: 100%; left: auto; top: 100%; margin: 15px 0px 0px;
+}
+.THIS .cueFilterPanel .uiPanel .pointer {
+    top: 0px; left: 50%; margin-left: -11px; margin-top: -11px;
+}
+/**/
+                                                                                                                                                                        
+.THIS .modal-loader {
+	position: absolute;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+}
+.THIS .slds-modal__container {
+	width: 70%;
+    max-width: 840px;
+    min-width: 480px;
+}
+.THIS .slds-dropdown {
+    max-height: 210px;
+    overflow-y: auto;                                                                                                                                                                    
+}

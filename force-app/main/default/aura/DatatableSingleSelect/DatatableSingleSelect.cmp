@@ -1,0 +1,28 @@
+<aura:component controller="SingleSelectController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="COLUMNS" type="List"/>
+    <aura:attribute name="DATA" type="List"/>
+    
+    
+    <aura:attribute name="selectedRows" type="List"/>
+    
+    <div style="height: 300px">
+        
+       <button class="slds-button slds-button_outline-brand">Add Account</button>
+        
+        
+        <lightning:datatable
+                            
+                             keyField="Id"
+                             data="{!v.DATA}"
+                             columns="{!v.COLUMNS}"
+                             hideCheckboxColumn="true"
+                             onrowaction="{!c.onRowHandler}"
+                             
+                             />
+    </div> 
+    
+    
+    
+    
+</aura:component>

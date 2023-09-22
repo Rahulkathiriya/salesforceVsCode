@@ -1,0 +1,126 @@
+.THIS.container{
+    width:98%;
+    height:100vh;
+    margin:0 auto;   
+}
+.THIS ul li a{
+    color:black;
+    border-bottom: 1px solid black;
+}
+.THIS ul li a:hover{
+    color:#015ba7;
+    border:none;
+}
+
+.THIS .list{
+    padding-right:2rem;
+}
+
+.THIS .header-section {
+    padding:1rem 0;
+    display:flex;
+    justify-content:space-between;
+    border-bottom: 1px dotted black;
+    
+}
+
+.THIS .detail{
+    
+    display:flex;
+    padding-top:0.5rem;
+    justify-content:space-between;
+}
+.THIS .record h1{
+    font-weight:800;
+    color:black !important;
+}
+
+.THIS .back th{
+    background:#ececec ;
+}
+.THIS .table-record{
+    width:100%;
+    padding:0.8rem;
+    border-bottom:1.2px solid #ececec;
+}
+.THIS .table{
+    width:100%;
+    margin-top:10px;
+    background:none;
+    border-right:none;
+    border-left:1px solid #ececec;
+    border-bottom:1px solid #ececec;
+    border-radius: 5px 5px 0 0;
+     border-top: 3px solid #56458c;
+}
+
+
+
+.THIS .footer{
+    margin:1rem 1rem;
+    
+    
+}
+
+.THIS .footer-content p{
+    
+    text-align:center;
+    padding-bottom:1rem;
+}
+
+.THIS.main-container{
+      background: #fff;
+    border-radius: 3px;
+    padding:.75rem;
+    height:100vh;
+}
+
+
+.THIS .slds-resizable__divider{
+    display:none;
+}
+
+.THIS .slds-button{
+    display:none;
+    
+}
+
+.THIS.slds-hint-parent:hover{
+    background:#fff !important;
+}
+
+.THIS .slds-th__action,
+.THIS .slds-th__action:focus,
+.THIS .slds-th__action:hover{
+    
+    background:none !important;
+    box-shadow: none;
+}
+.THIS lightning-base-formatted-text{
+    font-size:11px;
+}
+
+.THIS .slds-truncate{
+    font-size:12px;
+}
+
+.THIS .slds-table th:focus, 
+.THIS .slds-table th.slds-has-focus,
+.THIS .slds-table [role=gridcell]:focus, 
+.THIS .slds-table [role=gridcell].slds-has-focus,
+.THIS .slds-has-focus.slds-is-resizable .slds-th__action,
+.THIS .slds-has-focus.slds-is-resizable .slds-th__action:focus,
+.THIS .slds-has-focus.slds-is-resizable .slds-th__action:hover,
+.THIS .slds-has-focus.slds-is-resizable .slds-th__action:focus:hover,
+.THIS .slds-is-resizable .slds-th__action:focus,
+.THIS .slds-is-resizable .slds-th__action:focus:hover {
+
+     box-shadow: none !important;
+}
+
+.THIS lightning-base-formatted-text{
+    color: black !important;
+}
+.THIS .slds-cell-fixed{
+ background:#ececec;
+}

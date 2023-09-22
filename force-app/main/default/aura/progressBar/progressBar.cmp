@@ -1,0 +1,10 @@
+<aura:component implements="flexipage:availableForAllPageTypes">
+  <aura:attribute name="progress" type="Integer" default="0" />
+  <aura:attribute name="isProgressing" type="Boolean" default="false" />
+
+  <lightning:progressBar value="{! v.progress }" />
+  <lightning:button label="{! v.isProgressing ? 'Stop' : 'Start' }" onclick="{! c.toggleProgress }"
+    class="slds-m-top_medium" />
+
+  
+</aura:component>

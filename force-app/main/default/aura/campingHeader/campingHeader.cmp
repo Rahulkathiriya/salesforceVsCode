@@ -1,0 +1,608 @@
+<aura:component >
+    <!-- 
+
+https://mahardhi9-dev-ed.lightning.force.com/lightning/o/Cue_Tactical_Medical_Plan__c/list?filterName=00B5j00000CAsSpEAL
+
+Competitors
+Therapy Types
+Report Graph Items
+FM Territories
+Manuscript status
+Category
+Proposed ‘Gap  filling ’ Activity
+Audience
+Disease Area
+Value Theme
+Data Generation Category
+Data Generation Type
+Medical Actual Protocols
+Medical Task Categories
+Evidence Category Type
+
+
+Geography
+Therapy Areas
+Therapeutic Area
+Brand/Assets
+Indications
+Internal Contacts
+FM roles
+MCT Topics Categories
+Congress
+Time Frame
+Scientific Theme
+
+
+Competitors
+Report graphs
+Internal contacts
+Congress
+N005683905
+
+	
+	
+	
+	
+
+
+TEXT(MONTH(DATEVALUE(NOW())))+"/" +TEXT(DAY(DATEVALUE(NOW())))+"/" +TEXT(YEAR(DATEVALUE(NOW()))) & " " &MID(TEXT(NOW()-StartDate__c), 12, 2) & ":" &MID(TEXT(NOW()-StartDate__c), 15, 2) & ":" &MID(TEXT(NOW()-StartDate__c ), 18, 2)
+
+
+https://developer.salesforce.com/forums/?id=906F0000000kBUsIAM
+
+
+IF(ISPICKVAL(StageName, "CLOSED_WON:_INACTIVE") , TEXT(DATEVALUE(LastModifiedDate) - CloseDate) , null)
+
+
+
+
+https://salesforce.stackexchange.com/questions/68601/convert-date-to-string
+
+IF(ISBLANK(stageName__c),
+    NULL,
+    CASE(
+        MONTH(stageName__c),
+        1, "January",
+        2, "February",
+        3, "March",
+        4, "April",
+        5, "May",
+        6, "June",
+        7, "July",
+        8, "August",
+        9, "September",
+        10, "October",
+        11, "November",
+        12, "December",
+        "None"
+    ) & " " & TEXT(DAY(stageName__c)) & ", " & TEXT(YEAR(stageName__c))
+)
+
+https://salesforce.stackexchange.com/questions/339360/is-it-legitimate-to-assign-a-text-value-to-a-picklist-field
+
+Yes, picklist fields take text input - you can also do this in Apex code. Multi-picklist fields also store their values as text, semi-colon seperated.
+It's only when you retrieve the value in a calculation that you have to apply a TEXT() or a ISPICKVAL() or INCLUDES() calculation.
+In code, assigning values to these types looks like this:
+Picklist_Field__c = 'Value1';
+Multi_Picklist_Field__c = 'Value1;Value3';
+IF (INCLUDES(MSP__c, "Value 1"), "Value 1, ", "") + 
+IF (INCLUDES(MSP__c, "Value 2"), "Value 2, ", "") +
+IF (INCLUDES(MSP__c, "Value 3"), "Value 3, ", "") ...
+
+
+
+
+OR(
+   ISNEW()
+   ISCHANGED([Account].stageName__c)
+)
+
+
+
+
+
+Account e =[select id,stageName__c from Account where Id='00N5g00000b5yTh’];
+system.debug(e.stageName__c );
+string s = string.valueOf(e.stageName__c);
+system.debug(s);
+
+
+
+trigger monthyear on  Account(before insert) {
+list<Account> ilist=new list<Account>(); for(Account i:trigger.new) { if(i!=null)
+{
+   DateTime dt=DateTime.newInstance(i.stageName__c, Time.newInstance(0, 0, 0, 0);
+
+   i.year__C=dt.format('yyyy');
+   i.month__c=dt.format('MMMM');
+}
+}
+}
+ 
+
+Object value = getFieldValue(...);
+if(value instanceOf Boolean && value == Boolean.valueOf(strField)) {
+  //
+} else if(value instanceOf Date && value == Date.valueOf(strField)) {
+  //
+}
+
+
+https://www.isimio.com/salesforce/salesforce-admins-here-is-how-to-convert-multi-select-picklist-fields-into-text-the-easy-way/
+https://trailhead.salesforce.com/trailblazer-community/feed/0D54S00000A7ldRSAR
+
+
+I want to display any field as a string in Standard List view
+
+workflow
+Process builder
+Formula
+
+
+
+
+https://techman97.wordpress.com/2013/07/22/visualforce-page-printable-view/
+
+https://developer.salesforce.com/forums/?id=9060G0000005jEJQAY
+https://developer.salesforce.com/forums/?id=9060G0000005MH5QAM
+https://developer.salesforce.com/forums/?id=9060G000000MTQ2QAO
+http://www.infallibletechie.com/2013/08/how-to-print-visualforce-page-in.html
+
+
+Print within lightning components
+https://developer.salesforce.com/forums/?id=9060G000000MTQ2QAO
+https://www.salesforcelwc.in/2019/09/print-record-details.html
+
+
+
+  src="https://live.staticflickr.com/65535/48735236061_41c4d0c71f_m.jpg" 
+
+
+https://icons8.com/icon/24823/salesforce
+
+
+https://www.biswajeetsamal.com/blog/pagination-in-lightning-component/
+
+
+https://salesforce.stackexchange.com/questions/380276/how-can-i-filter-a-list-view-when-called-by-a-lwc-button
+
+https://blog.cloudanalogy.com/dynamic-table-and-filter-using-lightning-aura-components/
+
+
+https://developer.salesforce.com/docs/atlas.en-us.scoping_rules.meta/scoping_rules/scoping_rules_considerations.htm
+https://developer.salesforce.com/docs/atlas.en-us.236.0.soql_sosl.meta/soql_sosl/sforce_api_calls_soql_select_using_scope.htm
+
+https://help.salesforce.com/s/articleView?id=sf.security_scoping_rule_considerations.htm&type=5
+
+https://www.greytrix.com/blogs/salesforce/2021/09/22/how-to-use-email-template-in-apex-code/
+
+https://www.greytrix.com/blogs/salesforce/2021/08/17/how-to-create-a-dynamic-multi-filter-object-in-salesforce-part-i/
+
+
+
+
+
+
+
+
+
+ Use navigation mixing::
+
+({
+    handleClick: function(cmp, event, helper) {
+        var navService = cmp.find("navService");
+        // Uses the pageReference definition in the init handler
+        var pageReference = cmp.get("v.pageReference");
+        event.preventDefault();
+        navService.navigate(pageReference);
+    }
+})
+
+handleListViewNavigation(event) {
+    if(event.target.dataset){
+        let filtername = event.target.dataset.filtername;
+        this[NavigationMixin.Navigate]({
+            type: 'standard__objectPage',
+            attributes: {
+                objectApiName: 'Account',
+                actionName: 'list'
+            },
+            state: {
+                filterName: filtername
+            }
+        });
+    }
+}
+
+handleListViewNavigation() {
+    this[NavigationMixin.Navigate]({
+        type: 'standard__objectPage',
+        attributes: {
+            objectApiName: 'Account',
+            actionName: 'list'
+        },
+        state: {
+            filterName: 'Household_Accounts' // Full name of the list view from listview xml
+        }
+    });
+}
+
+
+
+"supportedScopes" : [
+      {
+         "label" : "All accounts",
+         "name" : "everything"
+      },
+      {
+         "label" : "My accounts",
+         "name" : "mine"
+      },
+      {
+         "label" : "My team's accounts",
+         "name" : "team"
+      }
+   ],
+
+
+SOQL(Id, SELECT Account.id FROM AccountAdvisors USING SCOPE EVERYTHING WHERE userid = $User.Id)
+
+* For list views and reports, you can apply the scope through Metadata API (using the filterScope field on the ListView type and the scope field on the Report type “scope”).
+
+
+filterScope.   Required. This field indicates whether you’re filtering by owner or viewing all records.
+https://blog.bessereau.eu/assets/pdfs/api_meta.pdf
+
+Records in the territory of the user seeing the list view. This option is available if territory management is enabled for your organization. Opportunities can’t be filtered by MyTerritory. This option is available in API version 17.0 and later. ………..    MyTerritory
+
+<listviews>
+<fullname></fullname>
+<filterscope>MyTerritory</filterscope>
+<label></label>
+</listviews>
+
+https://developer.salesforce.com/forums/?id=9062I000000INVLQA4
+
+
+FM Role
+Cue_FMRoleId__c
+
+
+MCT Topic 1
+Cue_MCTTopicId1__c
+
+MCT Topic 2
+Cue_MCTTopicId2__c
+
+MCT Topic 3
+Cue_MCTTopicId3__c
+
+
+
+Congress
+Cue_Congress__c
+
+Congress
+Cue_CongressId__c
+
+Congress
+Cue_CongressId__c
+
+Time Frame
+Cue_Time_Frame__c
+
+Scientific Theme
+Cue_ScientificThemeId__c
+
+Medical Activity Type
+Cue_MedicalActivityTypeId__c
+
+Activity Sub-Type
+Cue_ActivitySubTypeId__c
+
+Therapy Area
+Cue_TherapyAreaId__c
+
+Brand/Launch-Related
+Cue_BrandId__c
+
+
+Category
+Cue_Category__c
+
+Category
+Cue_MCTCategoryId__c
+
+
+https://www.infallibletechie.com/2018/03/lookup-field-with-option-to-create-new.html
+
+
+
+
+
+https://help.salesforce.com/s/articleView?id=sf.filter_role_hierarchy.htm&type=5
+
+https://ideas.salesforce.com/s/idea/a0B8W00000Ia96DUAR/show-me-filter-with-role-hierarchy-for-account-and-other-custom-objects
+
+https://ideas.salesforce.com/s/idea/a0B8W00000GdncZUAR/hierarchical-roles-navigation-for-a-custom-object-report
+
+https://trailhead.salesforce.com/trailblazer-community/feed/0D54S00000A8SVWSA3
+
+https://developer.salesforce.com/forums/?id=906F00000008v8yIAA
+
+
+Printable view..
+https://developer.salesforce.com/forums/?id=9062I000000IOodQAG
+
+
+
+URL FOR PRINTABLE VIEW 
+https://www.salesforceben.com/salesforce-url-hacking-for-lightning-tutorial/
+https://salesforce.stackexchange.com/questions/304676/how-can-i-export-a-report-in-printable-view-from-url
+https://developer.salesforce.com/forums/?id=9062I000000DNM4QAO
+https://sfdccloudninja.com/lightning/url-hacks-as-buttons-in-lightning-experience/
+
+
+
+
+
+Dynamic report filter:https://medium.com/salesforce-lightning-reports-and-dashboards/one-report-to-rule-them-all-reduce-clutter-with-dynamic-report-filters-41c8e4732b76
+
+
+
+Dropdown listview:https://salesforce.stackexchange.com/questions/24543/create-a-list-view-filter-via-apex/24547
+https://salesforce.stackexchange.com/questions/380276/how-can-i-filter-a-list-view-when-called-by-a-lwc-button
+
+
+
+EXPORT TO PPT : https://salesforce.stackexchange.com/questions/342372/how-to-generate-a-pdf-and-have-it-download-from-a-lightning-web-component
+
+handleGenerateGraph: function(event){
+      var url = '/apex/envelopes';
+      window.open(url);
+   }
+-->
+    
+    
+    <!--
+		Custom metadatatype: 
+
+The relationship between custom metadata types and custom metadata The relationship between custom metadata types and custom metadata records is like the relationship between a cupcake tin and the cupcakes baked in the tin.records is like the relationship between a cupcake tin and the cupcakes baked in the tin.
+
+
+ List<Cue_Medical_Objective__c> moList = [SELECT Id, Name, Cue_Description__c, (SELECT Id, Name, Cue_Activity_Description__c, Cue_Target_Date__c, Cue_GeographyId__r.Id, Cue_GeographyId__r.Name, Cue_IndicationId__r.Id, Cue_IndicationId__r.Name, Cue_BrandId__r.Id, Cue_BrandId__r.Name, Cue_MedicalPlanId__r.Id, Cue_MedicalPlanId__r.Cue_TherapeuticAreaId__c FROM Tactical_Medical_Plans__r) FROM Cue_Medical_Objective__c WHERE Id IN :moIds];
+
+Cue_GeographyId__c
+Geography
+
+
+Brand/Assets
+Cue_Brand_Assets__c
+
+Created bt
+Last modified by
+Name
+Owner
+
+
+Geography
+Cue_Geography__c
+
+Cue_GeographyId__c
+Cue_GeographyId__r.Id, Cue_GeographyId__r.Name, after tactical in 71
+Test
+Cue_Test__c
+
+
+Therapeutic Area
+Cue_TherapeuticAreaId__c
+ Cue_MedicalPlanId__r.Cue_TherapeuticAreaId__r.Id, Cue_MedicalPlanId__r.Cue_TherapeuticAreaId__r.Name
+
+
+Brand/Launch-Related
+Cue_BrandId__c
+, Cue_BrandId__r.Id, Cue_BrandId__r.Name
+
+Assets
+Cue_AssetsId
+Brand
+Cie_BrandId
+
+
+Indication
+Cue_IndicationId__c
+
+Assigned To
+Cue_InternalContactId__c
+
+FM Role
+Cue_FMRoleId
+
+MCT Topic 1
+Cue_MCTTopicId1__c
+MCT Topic 2
+Cue_MCTTopicId2__c
+MCT Topic 3
+Cue_MCTTopicId3__c
+
+Congress
+Cue_Congress
+Cue_CongressId
+
+Time Frame 
+Cue_Time_Frame__c
+
+Scientific Theme
+Cue_ScientificThemeId__c
+
+Medical Activity Type
+Cue_MedicalActivityTypeId__c
+
+Activity Sub-Type
+Cue_ActivitySubTypeId__c
+
+Medical Task Category
+
+
+marketId
+therapeuticId
+indicationId
+brandId
+
+ @AuraEnabled
+    public static List<sObject> Cue_GetRecordDetail(string recordId, string objName, string filedList) {
+        List <sObject> data = new List <sObject>();
+        try {
+            String query = 'SELECT '+ filedList +' from ' + objName + ' WHERE Id = :recordId';
+			data = Database.query(query);
+        } catch(Exception e) {
+            System.debug('Error' + e);
+        }
+        return data;
+    } 
+
+
+
+getMedicalPlanGeographyData: function(cmp, medicalPlanId) {
+        var action = cmp.get('c.Cue_GetRecordDetail');
+            console.log('values');
+        action.setParams({ recordId: medicalPlanId, objName: 'Cue_Medical_Plan__c', filedList: 'Cue_GeographyId__c' });
+        action.setCallback(this, function(response){
+            var state = response.getState();
+            if (state === "SUCCESS") {
+                var data = response.getReturnValue();
+                console.log(data , 'value..');
+                if (data && (data.length > 0) && data[0].Cue_GeographyId__c && data[0].Cue_GeographyId__c) {
+                    cmp.set('v.selectedGeography', data[0].Cue_GeographyId__c)
+                    console.log('valueee' , data);
+                    consle.log('object name' ,objName);
+                } else cmp.set('v.selectedGeography', '')
+            } 
+        })
+        $A.enqueueAction(action);
+    },
+
+
+
+ getAllRecordList: function(cmp, event, helper) { 
+        helper.getRecordList(cmp, helper, 'Cue_Activity_Sub_Type__c', 'Name')
+        helper.getRecordList(cmp, helper, 'Cue_Medical_Plan__c', 'Name')
+        helper.getRecordList(cmp, helper, 'Cue_Geography__c', 'Name')
+        helper.getRecordList(cmp, helper, 'Cue_Brand_Assets__c', 'Name')
+        helper.getRecordList(cmp, helper, 'Cue_Indication__c', 'Name')
+        helper.getRecordList(cmp, helper, 'Cue_Congress__c', 'Name')
+    },
+
+
+if (state === "SUCCESS") {
+                                                                                var result = response.getReturnValue();
+                                                                                var list = [];
+                                                                                for(var i=0;i<result.length;i++){
+                                                                                    list.push({ value: result[i] ,label:result[i]});
+                                                                                }
+                                                                                component.set("v.AllGeography", list);
+                                                                            }
+                                                                        });
+                                                                        $A.enqueueAction(action);
+                                                                    },
+
+
+getpickRecordList: function(component, event, objName, fieldName) {
+                                                                        
+     var action = component.get("c.Cue_FetchPicklistRecords");
+        action.setParams({ objName: objName, fieldName: fieldName });  
+        action.setCallback(this, function(response) {
+          var state = response.getState();
+             if (state === "SUCCESS") {
+             var result = response.getReturnValue();
+             var list = [];
+             for(var i=0;i<result.length;i++){
+              list.push({ value: result[i] ,label:result[i]});                                                                      
+                 }                                                               
+               component.set("v.AllGeography", list);
+                 }
+                 });                                                            
+                  $A.enqueueAction(action);                                                     
+                    },                                                     
+                                                                   
+           getAllRecordList: function(cmp, event, helper) {
+                  helper.getRecordList(cmp, helper, 'Cue_Activity_Sub_Type__c', 'Name')                                                           
+                  // helper.getpickRecordList(cmp, helper, 'Cue_Medical_Plan__c', 'Name')                                                          
+                  helper.getpickRecordList(cmp, helper, 'Cue_Tactical_Medical_Plan__c', 'Cue_GeographyId__c')                                                          
+                  helper.getpickRecordList(cmp, helper, 'Cue_Tactical_Medical_Plan__c', 'Cue_BrandId__c')                                                           
+                  helper.getpickRecordList(cmp, helper, 'Cue_Tactical_Medical_Plan__c', '	Cue_IndicationId__c')                                                           
+                  helper.getpickRecordList(cmp, helper, 'Cue_Tactical_Medical_Plan__c', 'Cue_Congress__c')                                                           
+                     },                                                                                                                  
+                                     
+
+
+
+ @AuraEnabled
+    public static List<String> Cue_FetchPicklistRecords(String objName,String fieldName) {
+       
+        system.debug(objName + 'objName');
+        system.debug(fieldName + 'fieldName');
+      List<String> pickVals = new List<String>();
+       for (Schema.PicklistEntry a : Schema.getGlobalDescribe().get(objName).getDescribe().fields.getMap().get(fieldName).getDescribe().getPickListValues())
+            pickVals.add(a.getValue());
+         system.debug(objName + 'objName');
+        system.debug(fieldName + 'fieldName');
+       return pickVals;
+    }                                   
+                
+
+
+
+  getMedicalPlanGeographyData: function(cmp, medicalPlanId) {
+        var action = cmp.get('c.Cue_FetchPicklistRecords');
+        action.setParams({ recordId: medicalPlanId, objName: 'Cue_Medical_Plan__c', filedList: 'Cue_GeographyId__c' });
+        action.setCallback(this, function(response){
+            var state = response.getState();
+            if (state === "SUCCESS") {
+                var data = response.getReturnValue();
+                console.log(data , 'value..');
+                if (data && (data.length > 0) && data[0].Cue_GeographyId__c && data[0].Cue_GeographyId__c) {
+                    cmp.set('v.selectedGeography', data[0].Cue_GeographyId__c) 
+                } else cmp.set('v.selectedGeography', '')
+            } 
+        })
+        $A.enqueueAction(action);
+    },
+    getMedicalActivityTypeData: function(cmp, activityId) {
+        var action = cmp.get('c.Cue_GetRecordDetail');
+        action.setParams({ recordId: activityId, objName: 'Cue_Activity_Sub_Type__c ', filedList: 'Cue_MedicalActivityTypeId__r.Name' });
+        action.setCallback(this, function(response){
+            var state = response.getState();
+            if (state === "SUCCESS") {
+                var data = response.getReturnValue();
+                if (data && (data.length > 0) && data[0].Cue_MedicalActivityTypeId__r &&data[0].Cue_MedicalActivityTypeId__r.Name) {
+                    cmp.set('v.selectedMedicalActivity', data[0].Cue_MedicalActivityTypeId__r.Name)
+                } else cmp.set('v.selectedMedicalActivity', '')
+            } 
+        })
+        $A.enqueueAction(action);
+    },                                         
+
+
+
+getTimeFrame: function(cmp, event, helper) {
+        try {
+			var actionStrImp = cmp.get('c.Cue_GetRecords');
+            actionStrImp.setParams({ objName: 'Cue_Time_Frame__c', fields: 'Name' });
+            actionStrImp.setCallback(this, function(response){
+                var state = response.getState();
+                if (state === "SUCCESS") {
+                    var data = response.getReturnValue();
+                    if(data && data.length > 0) {
+                        const timeFrame = data.map(item => { return { label: item.Name, value: item.Id }})
+                        cmp.set('v.timeFrameList', timeFrame);
+                    }
+                }
+            });
+            $A.enqueueAction(actionStrImp);
+		} catch (e) {
+			console.log(e)
+		}
+    },
+ -->
+</aura:component>

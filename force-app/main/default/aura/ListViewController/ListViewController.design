@@ -1,0 +1,6 @@
+<design:component>
+	
+    <design:attribute name="objName" label="ObjectName" />
+    <design:attribute name="fieldsName" label="object fields name" />
+    
+</design:component>

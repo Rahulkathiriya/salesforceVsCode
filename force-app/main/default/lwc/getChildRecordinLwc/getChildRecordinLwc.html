@@ -1,0 +1,27 @@
+<template>
+
+    <lightning-button label={buttonLabel}
+                      variant="Brand"
+                      onclick={handleShow}>
+    </lightning-button>
+
+<template if:true={showDatatable}>
+<div class="slds-p-top_large" style="height: 200px;">
+    <lightning-datatable key-field="id"
+                         data={opportunityData}
+                         columns={column1}
+                         hide-checkbox-column>
+    </lightning-datatable>
+</div>
+
+<div class="slds-p-top_large" style="height: 200px;">
+    <lightning-datatable key-field="id"
+                         data={contactData}
+                         columns={column2}
+                         hide-checkbox-column>
+    </lightning-datatable>
+</div>
+                         
+</template>
+    
+</template>

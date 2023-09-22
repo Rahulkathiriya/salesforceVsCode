@@ -1,0 +1,15 @@
+<aura:component implements="flexipage:availableForAllPageTypes">
+
+  <aura:attribute name="pageReference" type="Object" />
+  <lightning:navigation aura:id="navService" />
+
+  <lightning:recordEditForm aura:id="recordEditForm" objectApiName="Case" onsubmit="{!c.handleSubmit}"
+    onsuccess="{!c.handleSuccess}">
+    <lightning:messages />
+
+    <lightning:inputField fieldName="Origin" />
+    <lightning:inputField fieldName="Status" />
+    <lightning:inputField fieldName="Subject" />
+    <lightning:button class="slds-m-top_small" type="submit" label="Create case" />
+  </lightning:recordEditForm>
+</aura:component>

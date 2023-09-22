@@ -1,0 +1,17 @@
+<aura:component implements="flexipage:availableForAllPageTypes">
+  <aura:handler name="init" value="{!this}" action="{!c.init}" />
+  <aura:attribute name="items" type="Object" access="PRIVATE" />
+
+  <lightning:tree items="{! v.items }" header="Sample Tree" />
+
+  <lightning:button iconName="utility:add" onclick="{! c.handleClick }" variant="brand" label="Add to Node 1"
+    value="0" />
+
+  <lightning:button iconName="utility:add" onclick="{! c.handleClick }" variant="brand" label="Add to Node 2"
+    value="1" />
+
+  <lightning:button iconName="utility:add" onclick="{! c.handleClick }" variant="brand" label="Add to Node 3"
+    value="2" />
+
+    <lightning:button iconName="utility:add" onclick="{!c.handleClick}" variant="brand" label="Add to node 4" value="3" />
+</aura:component>

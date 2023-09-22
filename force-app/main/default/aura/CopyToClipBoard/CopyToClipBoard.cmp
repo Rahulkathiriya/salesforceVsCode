@@ -1,0 +1,14 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+	
+    <div>
+ 
+        <lightning:textarea value="Enter Value" aura:id="input_text" /><br/>
+        
+        <lightning:button label="Copy to clipBoard"
+                          onclick="{!c.CopyText}"
+                          iconName="utility:copy_to_clipboard"/>
+    </div>
+    <div>
+        <lightning:textarea value="" label="Paste the text" /> <br/>
+    </div>
+</aura:component>

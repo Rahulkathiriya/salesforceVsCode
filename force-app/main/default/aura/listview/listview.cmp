@@ -1,0 +1,25 @@
+<aura:component   implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction">
+    <aura:attribute name="printView" type="boolean" default="false"/>
+    <aura:attribute name="showSearchBar" type="string" default="false"/>
+    <aura:attribute name="formVersionId" type="string" default="false"/>
+    <aura:attribute name="recordId" type="string" default="false"/>
+    <aura:attribute name="showHeader" type="string" default="false"/>
+    
+    <div class="slds-clearfix slds-p-around_medium">
+        <div class="slds-float_right">
+            <div class = "slds-no-print">
+                <lightning:button aura:id="printButton" class="" label="Printable view" onclick="{!c.print}" />
+            </div>
+        </div>
+    </div>
+    
+    <lightning:listView aura:id="listViewAccounts"
+                        objectApiName="Account"
+                        listName="AllAccounts"
+                        rows="5"
+                        showSearchBar="true"
+                        showActionBar="false"
+                        enableInlineEdit="true"
+                        showRowLevelActions="false"
+                      	/>
+</aura:component>

@@ -1,0 +1,9 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction">
+  >
+	
+  <!--  <div class="slds-clearfix slds-p-around_medium">
+        <div class="slds-float_right">
+            <lightning:button aura:id="printButton" class="" label="Printable vieww" onclick="{!c.print}"/>
+        </div>
+    </div> -->
+</aura:component>

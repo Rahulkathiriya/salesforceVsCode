@@ -1,0 +1,38 @@
+<aura:component controller="fieldlevelsecurityinAccesible" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="Account" type="Account" />
+    <aura:attribute name="Contacts" type="Contact" />
+    <aura:attribute name="Columns" type="List" />
+    <aura:handler name="init" value="{!this}" action="{!c.myAction}" />
+    
+    <div class="slds-clearfix slds-p-around_medium">
+        <div class="slds-float_right">
+            <div class = "slds-no-print">
+                <lightning:button aura:id="printButton" class="" label="Printable view" onclick="{!c.print}" />
+            </div>
+        </div>
+    </div>
+  <!--  <lightning:button title="Filter"  onclick="{!c.toggleFilter}" iconName="utility:filterList" class="slds-p-left_small slds-p-right_xx-small" /> -->
+    <force:recordData aura:id="accountRecord"
+                      recordId="{!v.recordId}"
+                      targetFields="{!v.Account}"
+                      layoutType="FULL"
+                      />
+    <lightning:card iconName="standard:contact" title="{! 'Contact List for ' + v.Account.Name}">
+        <!-- Contact list goes here -->
+        <lightning:datatable data="{! v.Contacts }" columns="{! v.Columns }" keyField="Id" hideCheckboxColumn="true"/>
+    </lightning:card>
+    
+    <!--  <aura:attribute name="myText" type="string" default="Hello there!"/>
+    
+    <div class = "slds-size3-of-8">
+        <div class="slds-form-element">
+            <div class="slds-grid slds-form-element__control slds-input-has-icon slds-input-has-iconright ">
+                <label class="slds-form-element__label" for="text-input-01">Enter text</label>
+                <input id="text-input-01" value="{!v.myText}" class="slds-lookup__search-input slds-input" aria-owns="option-list-01" role="combobox" aria-activedescendant="" aria-expanded="true"  />
+                <lightning:buttonIcon iconName="utility:close" class="slds-button slds-input__icon slds-text-colordefault" variant="bare" onclick="{!c.hide}" alternativeText="Open or close dropdown."/>
+            </div>
+        </div>
+    </div> -->
+    
+</aura:component>

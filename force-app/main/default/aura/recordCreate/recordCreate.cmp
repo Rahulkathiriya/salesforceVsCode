@@ -1,0 +1,23 @@
+<aura:component implements="flexipage:availableForAllPageTypes">
+  <lightning:recordEditForm aura:id="recordEditForm" objectApiName="Contact">
+    <lightning:messages />
+    <lightning:inputField fieldName="Name" />
+    <lightning:inputField fieldName="Email" />
+    <lightning:button class="slds-m-top_small" type="submit" label="Create new" />
+  </lightning:recordEditForm>
+
+
+  <!-- creating multiple fields-->
+  <lightning:recordEditForm objectApiName="Account">
+    <lightning:messages />
+    <lightning:inputField fieldName="Name" value="My Field Value" />
+    <lightning:button class="slds-m-top_small" type="submit" label="Create new" />
+  </lightning:recordEditForm>
+
+  <lightning:recordEditForm objectApiName="Account" onload="{!c.handleCreateLoad}">
+    <lightning:messages />
+    <lightning:inputField aura:id="nameField" fieldName="Name" />
+    <lightning:button class="slds-m-top_small" type="submit" label="Create new" />
+
+    </lightning:recordEditForm>
+</aura:component>

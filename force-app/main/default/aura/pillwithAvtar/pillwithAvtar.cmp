@@ -1,0 +1,8 @@
+<aura:component implements="flexipage:availableForAllPageTypes">
+  <lightning:pill label="Pill Label" onremove="{! c.handleRemove }">
+    <aura:set attribute="media">
+      <lightning:avatar src="/docs/component-library/app/images/examples/avatar2.jpg" fallbackIconName="standard:user"
+        variant="circle" alternativeText="User avatar" />
+    </aura:set>
+  </lightning:pill>
+</aura:component>

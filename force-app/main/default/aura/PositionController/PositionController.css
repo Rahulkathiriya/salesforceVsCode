@@ -1,0 +1,47 @@
+.THIS .hidden-filter h1{
+    padding:.75rem 0;
+}
+
+.THIS .hidden-filter{
+    position:relative;
+}
+.THIS .inner-textarea{
+    background:rgb(250, 255, 189);
+    height:63.5px;
+    border:1px solid rgb(201, 201, 201);
+    padding:0.75rem;
+    border-radius:5px;
+    cursor:pointer;
+    transition:0.2s;  
+    position:relative;
+    
+    
+}
+.THIS.hvClass{
+    
+    height:100vh;
+        width: 20%;
+
+    margin-left: 80%;
+}
+.THIS .inner-textarea:hover{
+    transition:0.2s;
+    background:rgba(238, 238, 238, 1);
+    
+}
+
+
+.THIS .flex-set{
+    display:flex;
+    justify-content:space-between !important;
+    align-items:center;
+    
+    
+}
+
+.THIS .slds-modal__content{
+
+    position:absolute;
+
+
+}

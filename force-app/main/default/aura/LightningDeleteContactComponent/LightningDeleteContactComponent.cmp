@@ -1,0 +1,26 @@
+<aura:component  implements="flexipage:availableForAllPageTypes" access="global" controller="ApexControllerSample">
+ 
+    <aura:handler name="init" value="{!this}" action="{!c.OnLoadRecord}" />
+    <aura:attribute name="Contacts" type="Contact[]" />
+        <table>
+          <tr>
+            <th>Action</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Emai</th>
+          </tr>
+          <aura:iteration items="{!v.Contacts}" var="con">
+            <tr>
+              <td>
+               
+                  <button type="button" onclick="{!c.deleteRecord}" id="{!con.Id}" class="slds-button
+                    slds-button_destructive">Delete</button>
+                    
+              </td>
+              <td> {!con.FirstName} </td>
+              <td> {!con.LastName} </td>
+              <td> {!con.Email} </td>
+            </tr>
+          </aura:iteration>
+        </table>
+</aura:component>

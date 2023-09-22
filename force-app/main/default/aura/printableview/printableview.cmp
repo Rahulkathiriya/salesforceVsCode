@@ -1,0 +1,58 @@
+<aura:component controller="FieldSet" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <!-- Gets Values from design attributes-->
+    <aura:attribute name="fieldSetName" type="String"/>
+    <aura:attribute name="sObjectTypeName" type="String"/>
+    <aura:attribute name="objName" type="String"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="fieldSet" type="String[]"/>
+    
+    <!-- Related list attributes-->
+    <aura:attribute name="isRelatedList" type="Boolean"/>
+    <aura:attribute name="childObjectName" type="String" default="Contact"/>
+    <aura:attribute name="referenceFieldName" type="String"/>
+    <aura:attribute name="referenceFieldValue" type="String"/>
+    <aura:attribute name="iconName" type="String"/>
+    <aura:attribute name="relatedList" type="Object[]"/>
+
+    <aura:if isTrue="{!!v.isRelatedList}">
+        <div class="slds-p-left_large">
+            <lightning:avatar size="large"   
+                              src="https://live.staticflickr.com/65535/48735236061_41c4d0c71f_m.jpg" 
+                              class="slds-m-right_small"/>
+            <div class="slds-text-heading_large">The quick brown fox jumps over the lazy dog.</div>
+            <lightning:recordForm recordId="{!v.recordId}"
+                                  objectApiName="{!v.sObjectTypeName}"
+                                  fields="{!v.fieldSet}"
+                                  columns="2"
+                                  density="comfy"
+                                  mode="readonly"/>
+        </div>
+    </aura:if>
+     <lightning:button label="Printable View" onclick="{!c.print}" /> 
+    <aura:if isTrue="{!v.isRelatedList}">
+        <div class="slds-p-around_large">
+            <lightning:card title="{!v.childObjectName+'s'}">
+                <div class="slds-p-around_small">
+                    <aura:iteration items="{!v.relatedList}" var="relatedRecord">
+                        <aura:if isTrue="{!v.fieldSet}">
+                            <lightning:card title="{!relatedRecord.Name}">
+                                <div class="slds-p-around_small">
+                                    <lightning:recordForm recordId="{!relatedRecord.Id}"
+                                                          objectApiName="{!v.sObjectTypeName}"
+                                                          fields="{!v.fieldSet}"
+                                                          columns="2"
+                                                          density="comfy"
+                                                          mode="readonly"/>
+                                </div>
+                            </lightning:card><br></br>
+                        </aura:if>
+                    </aura:iteration>
+                </div>
+            </lightning:card>
+        </div>
+    </aura:if>
+</aura:component>

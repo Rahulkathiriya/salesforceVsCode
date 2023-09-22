@@ -1,0 +1,11 @@
+<aura:component implements="flexipage:availableForAllPageTypes">
+  <aura:attribute name="url" type="String" />
+
+  <aura:handler name="init" value="{! this }" action="{! c.setPagref }" />
+  <lightning:navigation aura:id="navLink" />
+  <div>
+    <a href="{!v.url}" target="_blank"> Go to Account </a> <br />
+    <lightning:button label="Contact " title="Contact" onclick="{!c.goToRec}" variant="success" />
+    
+  </div>
+</aura:component>

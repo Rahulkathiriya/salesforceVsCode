@@ -1,0 +1,26 @@
+<aura:component implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" access="global">
+   
+    <aura:attribute name="welcomeTitle" type="String" default="Jay Shree Ram" access="global" />
+    <aura:attribute name="hideLogo" type="Boolean" default="true" access="global" />
+    <aura:attribute name="LogoURL" type="String" default="https://i.pinimg.com/originals/07/b0/4d/07b04de8fc8fd371ea5bce73952fe6a7.jpg" access="global" />
+    <aura:attribute name="favoriteColors" type="String" default="Blue" access="global"/>
+    <aura:attribute name="isDisplaying" type="Boolean"/>
+        
+    <div class="header-section-top">
+        <div class="slds-text-heading_large" style="{!'color:' + v.favoriteColors}" >
+            {!v.welcomeTitle}
+        </div>
+       
+        <aura:if isTrue="{!v.hideLogo}">
+            <div class="header-section-top">
+                <img src="{!v.LogoURL}" width="200" height="200" />
+            </div>
+        </aura:if>
+        
+    </div>
+   
+  <aura:if isTrue="{!v.isDisplaying}">
+    <p>Conditionally Rendered Content</p>
+  </aura:if>
+   
+</aura:component>

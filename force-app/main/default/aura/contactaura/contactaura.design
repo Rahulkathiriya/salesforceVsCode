@@ -1,0 +1,16 @@
+<design:component >
+<!-- SELECT Id, Field, SObjectType, PermissionsRead, PermissionsEdit 
+FROM FieldPermissions 
+WHERE parentId IN ( SELECT id 
+                    FROM permissionset 
+                    WHERE PermissionSet.Profile.Name = 'System Administrator')
+
+SELECT Parent.Profile.Name, Parent.Label, Parent.IsOwnedByProfile, SobjectType, Field, PermissionsEdit, PermissionsRead 
+FROM FieldPermissions
+WHERE SobjectType = 'Contact' AND Field = 'Contact.AccountId' AND PermissionsEdit = true
+
+https://developer.salesforce.com/forums/?id=906F00000005HTsIAM
+https://developer.salesforce.com/forums/?id=9060G0000005hnvQAA
+https://salesforce.stackexchange.com/questions/71418/soql-statement-to-query-field-level-security-on-particular-profiles
+ -->
+</design:component>

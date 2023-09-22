@@ -1,0 +1,84 @@
+<aura:component controller="OpurtunityController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <aura:handler name="init" value="{!this}" action="{!c.abcd}" />
+    <aura:handler event="force:refreshView" action="{!c.abcd}" />
+    
+    <aura:attribute name="oppName" type="List"/>
+    <aura:attribute name="createOpportunity" type="boolean" default="false"/>
+    
+    
+    <!-- table create -->
+    <table>
+        
+        <thead>
+            <tr>
+                
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"> <button class="slds-button slds-button_neutral" onclick="{!c.openCreateOpportunityModal}"> Create New Opportunity</button> </th>
+            </tr>
+            <tr>        
+                <th scope="col"><span class="slds-truncate">Name</span></th>
+                <th scope="col"><span class="slds-truncate">CloseDate</span></th>
+                <th scope="col"><span class="slds-truncate">StageName</span></th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            <aura:iteration items="{!v.oppName}" var="op">
+                <tr>
+                    <td>{!op.Name}</td>
+                    <td>{!op.CloseDate}</td>
+                    <td>{!op.StageName}</td>
+                </tr>
+            </aura:iteration>
+        </tbody>
+        
+    </table>
+    
+    <!-- condition  statement -->
+    
+    <aura:if isTrue="{!v.createOpportunity}">
+        
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open slds-modal_small">
+            <div class="slds-modal__container">
+                
+                <!-- creat header botton close right side -->
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon  iconName="utility:close"
+                                          onclick="{!c.closeOppRecord}"
+                                          alternativeText="close"
+                                          variant="brand"
+                                          class="slds-modal__close"/>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate"> Add Opportunity </h2>
+                </header>
+                
+                
+                <!--create input field -->  
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <lightning:input type="text" aura:id="oName" label="Enter Opportunity Name"/>
+                    <lightning:input type="date" aura:id="oDate" label="Enter closed date"/>
+                   <lightning:input type="string" aura:id="oStage" label="Enter Stage"/> 
+                </div>
+                
+                
+                <!-- footer create -->
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="brand" 
+                                      label="Cancel"
+                                      title="Cancel"
+                                      onclick="{!c.closeOppRecord}"
+                                      >
+                    </lightning:button>
+                    <lightning:button variant="brand"
+                                      label="create Opportunity"
+                                      title="Create Opportunity"
+                                      onclick="{!c.newCreateOpp}"
+                                      >
+                    </lightning:button>
+                    
+                </footer>
+            </div>
+        </section>
+    </aura:if>
+</aura:component>

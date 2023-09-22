@@ -1,0 +1,45 @@
+<template>
+ 
+ <!-- 1]  <lightning-card title=" full Name"> 
+        <lightning-input name="firstName" label="First Name" onchange={handleChange}> </lightning-input>
+        <lightning-input name="lastName" label="Last Name" onchange={handleChange}> </lightning-input>
+    </lightning-card>
+
+    <lightning-card title="Update Change Value"> 
+        <h1>
+            Updated first Name :  <b> {fullName.firstName} </b> 
+        </br> 
+         Updated last Name : <b> {fullName.lastName} </b>
+        </h1>
+    </lightning-card>
+    -->
+
+   <!-- 2] <lightning-card title="Imperative Demo By Salesforce Dhruvil"> 
+        
+    <div style="height: 200px">
+        <lightning-datatable
+                        key-field="id"
+                        data={data}
+                        columns={columns}>
+                    </lightning-datatable>
+
+    </div>
+    </lightning-card>
+    -->
+
+    <lightning-card title="Button Card Section">
+
+        <lightning-button variant="Brand"
+                        label={onClickedButtonLabel}
+                        onclick={handleClick}>
+        </lightning-button>
+
+    </lightning-card>
+
+    <template if:true = {cardVisible}>
+    <lightning-card title="If Condition Demo">
+        {myTitle}
+    </lightning-card>
+</template>
+
+</template>

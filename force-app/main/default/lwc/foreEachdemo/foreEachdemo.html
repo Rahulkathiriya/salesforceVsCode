@@ -1,0 +1,16 @@
+<template>
+
+    <lightning-card title="for:each demo">
+        <template if:true={school.data}>
+            <template for:each={school.data} for:item="s1">
+                <h3 key={s1.Id}> {school.Name}</h3>
+            </template>
+        </template>
+
+        <template if:true={school.error}>
+            {school.error}
+        </template>
+
+    </lightning-card>
+    
+</template>

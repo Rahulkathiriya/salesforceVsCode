@@ -1,0 +1,58 @@
+.THIS {
+}
+.THIS .year{
+    font-size: 3.5rem !important;
+    background-color: rgba(241,210,238,0.31) !important ;
+    margin:0 !important;
+}
+
+.THIS .recordcolor{
+    color: purple;
+}
+
+.THIS.slds-fade-in-open{
+    background-color: rgba(190,190,190,0.63) !important ;
+}
+.THIS button .slds-medium-size_1-of-2{
+    margin: 0 !important;
+}
+.THIS .buttonmargin{
+    margin:auto;
+}
+.THIS .slds-box{
+    margin: 20px 2px !important;
+    padding: 0 !important;
+}
+@media only screen
+    and (min-device-width: 481px)
+    and (max-device-width: 1023px){
+    .THIS .medium-size-mediaquery{
+        width:100% !important;
+    }
+    .THIS .medium-button-mediaquery{
+        justify-content: center !important;
+    }
+    .THIS .button-margin{
+        margin:auto !important;
+    }
+}
+@media only screen
+    and (min-device-width: 1024px)
+    and (max-device-width: 1551px){
+    .THIS .medium-size-mediaquery{
+        width:11% !important;
+    } 
+    .THIS .medium-button-mediaquery{
+        justify-content: center !important;
+        width:49% !important;
+    }
+    .THIS .medium-name-mediaquery{
+        width:40% !important;
+    }
+}
+@media only screen
+    and (min-device-width: 1551px){
+    .THIS .button-margin{
+        margin:0.5rem !important;
+    }
+}

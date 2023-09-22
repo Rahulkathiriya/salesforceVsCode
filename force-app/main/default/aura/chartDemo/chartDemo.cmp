@@ -1,0 +1,23 @@
+<aura:component  controller="ChartForAccountWithContact" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+    
+    <!-- include Static Resource with Plugin -->
+  <!--   <ltng:require scripts="{!$Resource.grensi__ChartJs}" afterScriptsLoaded="{!c.scriptsLoaded}" /> -->
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <!-- attributes --> 
+    
+    
+    
+    
+    
+    <!-- markup -->
+    <div class="slds-grid">chart bar</div>
+    <div class="slds-grid">
+    	<div class="slds-col slds-size_8-of-12 slds-p-around_xx-small">
+        	<canvas aura:id="myChart"> </canvas>
+        </div>
+    </div>
+    
+    
+</aura:component>

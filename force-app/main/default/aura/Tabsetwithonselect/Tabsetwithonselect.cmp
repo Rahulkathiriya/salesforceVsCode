@@ -1,0 +1,12 @@
+<aura:component implements="flexipage:availableForAllPageTypes">
+  <aura:handler name="init" value="{! this }" action="{! c.init }" />
+  <aura:attribute name="tabs" type="Object[]" />
+
+  <lightning:tabset onselect="{! c.handleSelect }" variant="scoped">
+    <aura:iteration items="{! v.tabs }" var="tab">
+      <lightning:tab label="{! tab.label }" id="{! tab.id }">
+        {! tab.content }
+      </lightning:tab>
+    </aura:iteration>
+  </lightning:tabset>
+</aura:component>

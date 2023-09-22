@@ -1,0 +1,20 @@
+<aura:component  implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+  access="global" controller="FileUploadController">
+  <!-- 'parentId' Aura Attribute for store the Id for Parent Record where we are attach our file -->
+  <aura:attribute name="parentId" type="Id" default="0035g00000j5YNAAA2" />
+  <!-- 'fileName' attribute for display the selected file name -->
+  <aura:attribute name="fileName" type="String" default="No File Selected.." />
+
+  <!-- Lightning Input with file type and on file change call the 'handleFilesChange' controller -->
+  <lightning:input aura:id="fuploader" 
+                   onchange="{!c.handleFilesChange}" 
+                   type="file" 
+                   name="file" 
+                   label="Upload File"
+                   multiple="false" />
+                   
+  <div class="slds-text-body_small slds-text-color_error">{!v.fileName} </div>
+  <br />
+  <lightning:button label="Cancel" onclick="{!c.handleCancel}" class="slds-m-top--medium" />
+  <lightning:button label="Save" onclick="{!c.handleSave}" variant="brand" class="slds-m-top--medium" />
+</aura:component>

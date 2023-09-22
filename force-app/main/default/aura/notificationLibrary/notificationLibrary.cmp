@@ -1,0 +1,5 @@
+<aura:component implements="flexipage:availableForAllPageTypes">
+  <lightning:notificationsLibrary aura:id="notifyId" />
+  <lightning:button name="notice" label="Display Notice" onclick="{!c.showNotice}" />
+  <lightning:button name="toast" label="Display Toast" onclick="{!c.showToast}" />
+</aura:component>
