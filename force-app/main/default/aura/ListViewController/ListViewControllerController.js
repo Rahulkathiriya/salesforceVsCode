@@ -8,7 +8,7 @@
         { label: "All Accounts", value: "All Accounts" },
         { label: "My Accounts", value: "My Accounts" }
       ]);
-    } else if (objName === "Contact") { 
+    } else if (objName === "Contact") {
       component.set("v.printObjName", "Contacts");
       component.set("v.options", [
         { label: "All Contacts", value: "All Contacts" },
