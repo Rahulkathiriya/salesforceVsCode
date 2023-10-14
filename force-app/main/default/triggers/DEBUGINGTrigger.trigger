@@ -1,5 +1,5 @@
 trigger DEBUGINGTrigger on Account (after insert, after update) {
-  /*	  Set<Id>idSet = new Set<Id>();     // pass trigger new id accList throgth (set of id)
+  /*      Set<Id>idSet = new Set<Id>();     // pass trigger new id accList throgth (set of id)
         for(Account acc:Trigger.new){
           idSet.add(acc.Id);  
         }

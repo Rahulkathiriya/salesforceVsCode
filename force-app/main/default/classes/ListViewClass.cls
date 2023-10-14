@@ -1,6 +1,7 @@
 public with sharing class ListViewClass  {
     
     
+    
     @auraEnabled
     public static List<ListView> objectListView(String objName){
         
@@ -70,7 +71,7 @@ public with sharing class ListViewClass  {
                 new MetadataService.Metadata[] { listView });
         system.debug('results : ' + results);
         handleSaveResults(results[0]);
-           
+
     }
 
      @auraEnabled
@@ -404,4 +405,5 @@ public with sharing class ListViewClass  {
     }
     
     
+   
 }

@@ -1,78 +1,286 @@
 <template>
 
-    <!--combobox fields option-->
-    <div class="slds-panel__body panelBody" style="background-color: antiquewhite;">
-        <lightning-combobox
-            name="Select Field"
-            label="Select Field"
-            value=""
-            onchange={handleComboBoxField}
-            options={comboboxFields}>
-        </lightning-combobox>
-    </div>
 
-    <!--combobox oparetor option-->
+    <!--header -->
 
-    <div class="slds-panel__body panelBody" style="background-color: antiquewhite;">
-                    <lightning-combobox
-                                name="Select Field"
-                                label="Select Field"
-                                value=""
-                                options={comboboxOprators}
-                                onchange={handleComboBoxOperator}
-                                >
-                       </lightning-combobox>
-    </div>
+    <article class="slds-card">
+        <div class="slds-page-header">
+            <div class="slds-page-header__row">
+                <div class="slds-page-header__col-title">
+                    <div class="slds-media">
+                        <div class="slds-media__figure">
+
+                        </div>
+                        <div class="slds-media__body">
+                            <div class="slds-page-header__name">
+                                <div class="slds-page-header__name-title">
+                                    <h1>
+                                        <span>Opportunities</span>
+                                        <span class="slds-page-header__title slds-truncate"
+                                            title="Recently Viewed">Recently Viewed</span>
+                                    </h1>
+                                </div>
+                                <div class="slds-page-header__name-switcher">
+                                    <div class="slds-dropdown-trigger slds-dropdown-trigger_click">
+                                        <button class="slds-button slds-button_icon slds-button_icon-small"
+                                            aria-haspopup="true" title="Switch list view">
+
+                                            <span class="slds-assistive-text">Switch list view</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-page-header__col-actions">
+                    <div class="slds-page-header__controls">
+                        <div class="slds-page-header__control">
+                            <ul class="slds-button-group-list">
+                                <li>
+                                    <button class="slds-button slds-button_neutral">New</button>
+                                </li>
+                                <li>
+                                    <div class="slds-dropdown-trigger slds-dropdown-trigger_click">
+                                        <lightning-button-icon icon-name="utility:down" alternative-text="Settings"
+                                            title="Settings">
+                                        </lightning-button-icon>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-page-header__row">
+                <div class="slds-page-header__col-meta">
+                    <p class="slds-page-header__meta-text">10 items • Updated 13 minutes ago</p>
+                </div>
+                <div class="slds-page-header__col-controls">
+                    <div class="slds-page-header__controls">
+                        <div class="slds-page-header__control">
+                            <div class="slds-dropdown-trigger slds-dropdown-trigger_click">
+                                <lightning-button-icon icon-name="utility:settings" alternative-text="Settings"
+                                    title="Settings">
+                                </lightning-button-icon>
+                            </div>
+                        </div>
+                        <div class="slds-page-header__control">
+                            <div class="slds-dropdown-trigger slds-dropdown-trigger_click">
+                                <lightning-button-icon icon-name="utility:table" alternative-text="Table" title="Table">
+                                </lightning-button-icon>
+                            </div>
+                        </div>
+                        <div class="slds-page-header__control">
+                            <lightning-button-icon icon-name="utility:edit" alternative-text="Edit" title="Edit">
+                            </lightning-button-icon>
+                        </div>
+                        <div class="slds-page-header__control">
+                            <lightning-button-icon icon-name="utility:refresh" alternative-text="Refresh"
+                                title="Refresh">
+                            </lightning-button-icon>
+                        </div>
+                        <div class="slds-page-header__control">
+                            <ul class="slds-button-group-list">
+                                <li>
+                                    <lightning-button-icon icon-name="utility:chart" alternative-text="Chart"
+                                        title="Chart">
+                                    </lightning-button-icon>
+                                </li>
+                                <li>
+                                    <lightning-button-icon icon-name="utility:filterList" alternative-text="Filter"
+                                        title="Filter" onclick={handleOpenFilter}>
+                                    </lightning-button-icon>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
 
 
 
-    <!--combobox oparetor input field-->
 
-    <div class="slds-panel__body panelBody" style="background-color: antiquewhite;">
 
-        <template if:true={stringDataType}>
 
-            <lightning-input type="text" label="Enter some Text" onchange={userInputStringValue}
-                value={inputStringValue} ></lightning-input>
-        </template>
 
-        <template if:true={integerDataType}>
-            <lightning-input type="number" label="Enter some Number" onchange={userInputIntegerValue}
-                value={inputIntegerValue}  ></lightning-input>
-        </template>
 
-        <template if:true={dateDataType}>
-            <lightning-input type="date" label="Enter a Date" onchange={userInputDateValue}
-                value={InputDateValue}  ></lightning-input>
-        </template>
 
-        <template if:true={booleanDataType}>
+    <!-- *****************/  Datatable   /***************** -->
 
-            <lightning-radio-group name="radioGroup" label="Value"  options={optionBoolean} value="" 
-                type="button" onchange={userInputBooleanValue}></lightning-radio-group>
 
-        </template>
+    <div class="mainTable">
 
-        <template if:true={picklistDataType}>
-            <lightning-combobox name="Picklist" value={inputStringValue} placeholder="Select Picklist"
-                options={picklistValues} onchange={userInputStringValue}  >
-            </lightning-combobox>
-        </template>
-
-        <lightning-button variant="brand" label="Brand" title="Primary action" onclick={handleFilterSave}
-            class="slds-m-left_x-small"  ></lightning-button>
-
-    </div>
-
-    <!-- /*****************/  Datatable   /*****************/ -->
-
-    <div class="slds-p-around_medium">
-        <lightning-card title="Account" icon-name="standard:account">
-            <lightning-datatable key-field="Id" data={DATA} columns={COLUMNS} onrowaction={handleRowAction}
-                hide-checkbox-column>
+        <div class={filterOpenCondition}>
+            <lightning-datatable key-field="Id" data={DATA} columns={COLUMNS} show-row-number-column
+                onrowaction={handleRowAction} hide-checkbox-column>
             </lightning-datatable>
-        </lightning-card>
+        </div>
+
+        <!--filter show box-->
+
+        <template if:true={openFilter}>
+            <div class="slds-panel slds-size_medium ">
+
+                <div class="slds-panel__header">
+                    <h2 class="slds-panel__header-title slds-text-heading_small " title="Filter">Filter
+                    </h2>
+                    <div class="slds-panel__header-actions">
+                        <lightning-button variant="success" label="Save" title="Successful action"
+                            onclick={handlerSaveFilter} class="slds-m-left_x-small"></lightning-button>
+                        <lightning-button-icon icon-name="utility:close" alternative-text="Close" title="Close">
+                        </lightning-button-icon>
+                    </div>
+                </div>
+
+                <div class="slds-panel__body panelBody">
+
+                    <div>
+                        <ol>
+                            <li>
+                                <div class="allFilterClass">
+                                    <span class="slds-show slds-text-body_small">Filter by Owner </span>
+                                    <span class="slds-show">All Account</span>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="slds-p-vertical_small">
+                        <span>Matching all of these filters</span>
+                    </div>
+
+
+                    <div style="position: relative; margin: 5px 0;">
+
+                        <template for:each={filterMainData} for:item="filData" for:index="index">
+                            <div key={filData.index}
+                                style="position: relative;  background: #faffbd; border: 1px solid #a86403; border-radius: 3px; padding: 0.75rem; margin: 5px 0;">
+                                <div data-index={index}
+                                    style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 400; line-height: 1.5;"
+                                    onclick={handleItemClick}>
+                                    <div>
+                                        <span class="slds-show slds-text-body_small" style="color: #444444;">
+                                            {filData.field} </span>
+                                        <span class="slds-show" style="color: #181818;"> {filData.operator}
+                                            {filData.value} </span>
+                                    </div>
+                                    <div>
+                                        <lightning-icon icon-name="utility:close" alternative-text="Close"
+                                            size="xx-small" title="large size" variant="brand"
+                                            onclick={handlerRemoveOneFilter} data-index={index}></lightning-icon>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+
+
+                        <template if:true={showBox}>
+                            <div class="wrapper">
+                                <div class="container">
+                                    <div class="box">
+
+                                        <!--<div class="slds-p-vertical_small">
+                                            <lightning-combobox name="Field" label="Field" value={comboboxSelectField}
+                                                selected options={comboboxFields} onchange={handleComboBoxField}>
+                                            </lightning-combobox>
+                                        </div>-->
+
+                                        <div class="slds-p-vertical_small" >
+                                            <lightning-combobox name="Field" label="Field" 
+                                                value={isConditionMet} selected options={comboboxFields}
+                                                onchange={handleComboBoxField}>
+                                            </lightning-combobox>
+                                        </div>
+
+
+                                        <!--<div class="slds-p-vertical_small">
+                                            <lightning-combobox name="Operator" label="Operator"
+                                                value={comboboxSelectOperator} selected options={comboboxOperators}
+                                                onchange={handleComboBoxOperator}>
+                                            </lightning-combobox>
+                                        </div>-->
+
+                                        <div class="slds-p-vertical_small">
+                                            <lightning-combobox name="Operator" label="Operator"
+                                                value={operatorCondition} selected options={comboboxOperators}
+                                                onchange={handleComboBoxOperator}>
+                                            </lightning-combobox>
+                                        </div>
+
+
+                                        <div class="slds-p-vertical_small">
+
+                                            <template if:true={stringDataType}>
+                                                <lightning-input type="text" label="Value" name="Text"
+                                                    onchange={userInputStringValue}
+                                                    value={inputStringValue}></lightning-input>
+                                            </template>
+
+                                            <template if:true={integerDataType}>
+                                                <lightning-input type="number" label="Value" name="Number"
+                                                    onchange={userInputIntegerValue}
+                                                    value={inputIntegerValue}></lightning-input>
+                                            </template>
+
+                                            <template if:true={dateDataType}>
+                                                <lightning-input type="date" label="Value" name="Date"
+                                                    onchange={userInputDateValue}
+                                                    value={InputDateValue}></lightning-input>
+                                            </template>
+
+                                            <template if:true={booleanDataType}>
+                                                <lightning-radio-group name="radioGroup" label="Value"
+                                                    options={optionBoolean} value="" type="button"
+                                                    onchange={userInputBooleanValue}></lightning-radio-group>
+                                            </template>
+
+                                            <template if:true={picklistDataType}>
+                                                <lightning-combobox label="Value" name="Picklist"
+                                                    value={inputStringValue} placeholder="Select Picklist"
+                                                    options={picklistValues} onchange={userInputStringValue}>
+                                                </lightning-combobox>
+                                            </template>
+                                        </div>
+
+                                        <div class="slds-p-top_small slds-text-align_right">
+                                            <button class="slds-button slds-button_neutral "
+                                                style="padding-left: 30px; padding-right: 30px;"
+                                                onclick={handleFilterDone}>Done</button>
+                                        </div>
+                                    </div>
+                                    <div class="shape">
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+
+
+
+
+                    </div>
+
+
+                    <div class="slds-grid slds-p-vertical_medium" style="justify-content: space-between;">
+                        <span class="slds-show" onclick={handlerFilterAdd}> <a href="#">Add Filter</a> </span>
+                        <span class="slds-show" onclick={handlerRemoveAllFilter}> <a href="#">Remove All</a> </span>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+
+
+
+
+        </template>
     </div>
+
+
 
     <!-- /*****************/  editmodal   /*****************/ -->
 
@@ -123,5 +331,7 @@
             </div>
         </section>
     </template>
+
+
 
 </template>

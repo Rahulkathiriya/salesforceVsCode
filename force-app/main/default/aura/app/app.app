@@ -7,6 +7,6 @@
  <!--  <c:ListViewController/>  -->
  
 
-   <c:PritableListViewone/>
+   <c:EvidenceStratege/>
  <!--   <c:UpdateUsingCheckboxC/> -->
 </aura:application>

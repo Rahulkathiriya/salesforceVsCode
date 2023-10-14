@@ -1,13 +1,11 @@
 import { LightningElement, wire, track, api } from 'lwc';
 import getObjectData from '@salesforce/apex/DatatableInLwc.getObjectData';
 import picklistValue from '@salesforce/apex/DatatableInLwc.picklistValue';
-import getFilterData from '@salesforce/apex/DatatableInLwc.getFilterData';
 import { deleteRecord } from 'lightning/uiRecordApi';
 //object get all information same as schema get fields
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 
-
-
+import getFilterSavaData from '@salesforce/apex/DatatableInLwc.getFilterSavaData';
 
 const actions = [
     { label: 'Edit', name: 'edit' },
@@ -30,9 +28,7 @@ const optionBoolean = [
     { label: 'False', value: 'false' }
 ];
 
-
-
-const oprators = [
+const operators = [
     { label: 'equals', value: '=', category: 'A' },
     { label: 'not equal to', value: '!=', category: 'A' },
     { label: 'less Than', value: '<', category: 'B' },
@@ -44,9 +40,34 @@ const oprators = [
     { label: 'start with', value: 'START', category: 'C' }
 ];
 
+
 export default class FilterInLwc extends LightningElement {
 
-    @api objectApiName = 'Account';
+    // dynamic filter
+
+    @track filterObject = { field: '', operator: '', value: '' };
+    @track filterMainData = [];
+    @track showBox = false;
+
+
+    @track filFieldDisplay;
+    @track filOperatorDisplay;
+    @track filValueDisplay;
+
+    @track itemIndex;
+    @track objData;
+    //filter Data Result
+    @track apexFilterData = [];
+
+    @track selectedComboField;
+    @track selectedComboOperator;
+    @track selectedComboValue;
+
+
+
+    /////////////
+
+    objectApiName = 'Account';
 
     //datatable data
     @track DATA = [];
@@ -59,10 +80,10 @@ export default class FilterInLwc extends LightningElement {
 
     //comboboxfield data
     @track comboboxFields = [];
-    @track comboboxOprators = [];
+    @track comboboxOperators = [];
 
     //condition all combobox attributes
-    @track stringDataType = true;
+    @track stringDataType = false;
     @track dateDataType = false;
     @track integerDataType = false;
     @track picklistDataType = false;
@@ -71,30 +92,42 @@ export default class FilterInLwc extends LightningElement {
     //combobox picklist field change dynamicly
     @track picklistApiName;
     @track picklistValues;
-
     @track optionBoolean = optionBoolean;
 
     // input variable
-    @track comboboxSelectField ;
-    @track comboboxSelectOperator ;
-
+    @track comboboxSelectField;
+    @track comboboxSelectOperator;
     @track inputStringValue;
     @track inputIntegerValue;
     @track InputDateValue;
     @track InputBooleanValue;
 
+    //design Attributes
 
-    //filter Data Result
-    @track filterData;
+    @track openFilter = false;
+
+    //dynamic filter
+
+    connectedCallback() {
+
+        this.comboboxSelectOperator = '=';
+        this.comboboxSelectField = 'Name';
+
+        this.stringDataType = true;
+
+        this.inputStringValue = '';    //  this input field refer every condition ' ' (khali value) or value 
+        this.inputIntegerValue = '';
+        this.InputDateValue = '';
+        this.InputBooleanValue = '';
+
+    }
 
     // datatable data
 
     @wire(getObjectData)
     objectData({ error, data }) {
         if (data) {
-            // console.log('data-->', data);
-            this.DATA = data;
-
+            this.DATA = JSON.parse(JSON.stringify(data));
         } else if (error) {
             console.error('Error-->', error);
         }
@@ -137,7 +170,6 @@ export default class FilterInLwc extends LightningElement {
     // combobox get all fields
 
     @wire(getObjectInfo, { objectApiName: '$objectApiName' })
-
     objectInfo({ error, data }) {
         if (data) {
             const fieldMap = data.fields;
@@ -161,12 +193,14 @@ export default class FilterInLwc extends LightningElement {
                             value: fieldApiName,
                             dataType: fieldMap[fieldApiName].dataType
                         });
-
                     }
                 }
             }
-            this.comboboxFields = comboboxFields;
-            console.log('comboboxFields-->', this.comboboxFields);
+            this.comboboxFields = JSON.parse(JSON.stringify(comboboxFields));
+            this.comboboxOperators = JSON.parse(JSON.stringify(operators));
+
+            console.log('this.comboboxFields-->', this.comboboxFields);
+            //console.log('this.comboboxOperators-->', this.comboboxOperators);
 
         } else if (error) {
             console.error('error-->', error);
@@ -186,24 +220,21 @@ export default class FilterInLwc extends LightningElement {
                 PickList.push({ label: data[key], value: data[key] })
 
             }
-        } else if (error) {
-            console.error('error', error);
         }
     }
 
     // combobox handler 
 
     handleComboBoxField(event) {
-        let comboboxSelectField = event.target.value;
-        console.log('comboboxSelectField-->', comboboxSelectField);
 
-        //combobox condition check what is datatype an change input field
+        this.comboboxSelectField = event.target.value;
+        //console.log('Value combo', this.comboboxSelectField);
 
-        let comboboxOprators = [];
+        let comboOperators = [];
 
         let conditiondataType;
         this.comboboxFields.find(item => {
-            if (item.value == comboboxSelectField) {
+            if (item.value == this.comboboxSelectField) {
                 conditiondataType = item.dataType;
             }
         });
@@ -211,201 +242,283 @@ export default class FilterInLwc extends LightningElement {
         if (conditiondataType === 'String' || conditiondataType === 'Url') {
 
             this.stringDataType = true;
-
-            //String datatype true to show oprators
             if (this.stringDataType === true) {
-                for (var opp in oprators) {
-                    let category = oprators[opp].category;
-
-                    if (category === 'A' || category === 'B' || category === 'C') {
-                        comboboxOprators.push({
-                            label: oprators[opp].label,
-                            value: oprators[opp].value
+                for (var opp in operators) {
+                    if (operators[opp].category === 'A' || operators[opp].category === 'B' || operators[opp].category === 'C') {
+                        comboOperators.push({
+                            label: operators[opp].label,
+                            value: operators[opp].value
                         });
                     }
                 }
-                //console.log('String -->', comboboxOprators);
             }
 
             this.dateDataType = this.integerDataType = this.picklistDataType = this.booleanDataType = false;
 
         }
         else if (conditiondataType === 'Date') {
-
             this.dateDataType = true;
-
-            //Date datatype true to show oprators
             if (this.dateDataType === true) {
-                for (var opp in oprators) {
-                    let category = oprators[opp].category;
-
-                    if (category === 'A' || category === 'B') {
-                        comboboxOprators.push({
-                            label: oprators[opp].label,
-                            value: oprators[opp].value
+                for (var opp in operators) {
+                    if (operators[opp].category === 'A' || operators[opp].category === 'B') {
+                        comboOperators.push({
+                            label: operators[opp].label,
+                            value: operators[opp].value
                         });
                     }
                 }
-                //console.log('date -->', comboboxOprators);
             }
-
             this.stringDataType = this.integerDataType = this.picklistDataType = this.booleanDataType = false;
 
         }
-        else if (conditiondataType === 'Currency' || conditiondataType === 'Int') {
+        else if (conditiondataType === 'Currency' || conditiondataType === 'Int' || conditiondataType === 'Percent') {
 
             this.integerDataType = true;
-
-            //integer datatype true to show oprators
             if (this.integerDataType === true) {
-                for (var opp in oprators) {
-                    let category = oprators[opp].category;
-
-                    if (category === 'A' || category === 'B') {
-                        comboboxOprators.push({
-                            label: oprators[opp].label,
-                            value: oprators[opp].value
+                for (var opp in operators) {
+                    if (operators[opp].category === 'A' || operators[opp].category === 'B') {
+                        comboOperators.push({
+                            label: operators[opp].label,
+                            value: operators[opp].value
                         });
                     }
                 }
-                //console.log('intger -->', comboboxOprators);
             }
-
             this.stringDataType = this.dateDataType = this.picklistDataType = this.booleanDataType = false;
 
         }
         else if (conditiondataType === 'Picklist') {
 
-            this.picklistDataType = true;
-
-            //piclist datatype true to show oprators
+            this.picklistDataType = true; operators
             if (this.picklistDataType === true) {
-                for (var opp in oprators) {
-                    let category = oprators[opp].category;
-
-                    if (category === 'A') {
-                        comboboxOprators.push({
-                            label: oprators[opp].label,
-                            value: oprators[opp].value
+                for (var opp in operators) {
+                    if (operators[opp].category === 'A') {
+                        comboOperators.push({
+                            label: operators[opp].label,
+                            value: operators[opp].value
                         });
                     }
                 }
-                //console.log('piclist -->', comboboxOprators);
             }
-
             this.stringDataType = this.dateDataType = this.integerDataType = this.booleanDataType = false;
+            this.picklistApiName = this.comboboxSelectField;
 
-            this.picklistApiName = comboboxSelectField;
-            //console.log(' this.picklistApiName', this.picklistApiName);
         }
         else if (conditiondataType === 'Boolean') {
 
             this.booleanDataType = true;
-
-            //boolean datatype true to show oprators
             if (this.booleanDataType === true) {
-                for (var opp in oprators) {
-                    let category = oprators[opp].category;
-
-                    if (category === 'A') {
-                        comboboxOprators.push({
-                            label: oprators[opp].label,
-                            value: oprators[opp].value
+                for (var opp in operators) {
+                    if (operators[opp].category === 'A') {
+                        comboOperators.push({
+                            label: operators[opp].label,
+                            value: operators[opp].value
                         });
                     }
                 }
-                //console.log('Boolean -->', comboboxOprators);
             }
 
             this.stringDataType = this.dateDataType = this.integerDataType = this.picklistDataType = false;
         }
-
-        this.comboboxSelectField = comboboxSelectField;
-        this.comboboxOprators = comboboxOprators;
-
-
-        //this input field refer every condition ' ' (khali value) or value 
+        this.comboboxOperators = comboOperators;
 
         this.inputStringValue = '';
         this.inputIntegerValue = '';
         this.InputDateValue = '';
         this.InputBooleanValue = '';
 
-
-
     }
 
 
-
     handleComboBoxOperator(event) {
-        this.comboboxSelectOperator = event.target.value;
+        this.comboboxSelectOperator = event.detail.value;
     }
 
     //user input handler in filter combobox
 
-
     userInputStringValue(event) {
-        this.inputStringValue = event.target.value;
+
+        let inputString = event.detail.value;
+        if (inputString === '' || inputString === undefined || inputString === null) {
+            this.inputStringValue = '';
+        } else {
+            this.inputStringValue = inputString;
+        }
+
     }
+
     userInputIntegerValue(event) {
-        this.inputIntegerValue = event.target.value;
+
+        let inputInteger = event.detail.value;
+        if (inputInteger === '' || inputInteger === undefined || inputInteger === null) {
+            this.inputIntegerValue = '';
+        } else {
+            this.inputIntegerValue = inputInteger;
+        }
+
     }
 
     userInputDateValue(event) {
-        this.InputDateValue = event.target.value;
-    }
-    userInputBooleanValue(event) {
-        this.InputBooleanValue = event.target.value;
-    }
 
-
-    handleFilterSave(event) {
-
-        this.comboboxSelectField;
-        console.log('comboboxSelectField------->', this.comboboxSelectField);
-
-        this.comboboxSelectOperator;
-        console.log('comboboxSelectOperator-->', this.comboboxSelectOperator);
-
-        this.inputStringValue;
-        console.log('this.inputStringValue-->', this.inputStringValue);
-
-        this.inputIntegerValue;
-        console.log('this.inputIntegerValue-->', this.inputIntegerValue);
-
-        this.InputDateValue;
-        console.log('this.InputDateValue-->', this.InputDateValue);
-
-        this.InputBooleanValue;
-        console.log('this.vInputBooleanValue-->', this.InputBooleanValue);
-
-
-        //  this.filterData;
-        this.DATA = this.filterData;
-
-        console.log('this.Data', this.DATA);
-
-    }
-
-
-
-
-    @wire(getFilterData, {
-        objectApiName: '$objectApiName', comboboxSelectField: '$comboboxSelectField', comboboxSelectOperator: '$comboboxSelectOperator',
-        inputStringValue: '$inputStringValue', inputIntegerValue: '$inputIntegerValue', InputDateValue: '$InputDateValue', InputBooleanValue: '$InputBooleanValue'
-    })
-    getfilter({ error, data }) {
-
-        if (data) {
-            this.filterData = data;
+        let inputDate = event.detail.value;
+        if (inputDate === '' || inputDate === undefined || inputDate === null) {
+            this.InputDateValue = '';
+        } else {
+            this.InputDateValue = inputDate;
         }
+
+    }
+
+    userInputBooleanValue(event) {
+
+        let inputBoolean = event.detail.value;
+        if (inputBoolean === '' || inputBoolean === undefined || inputBoolean === null) {
+            this.InputBooleanValue = '';
+        } else {
+            this.InputBooleanValue = inputBoolean;
+        }
+
+    }
+
+    //lwc html side handler and all
+
+    get filterOpenCondition() {
+        return this.openFilter ? 'dividedTable' : 'defaultTable';
+    }
+
+    //filter open handler 
+    handleOpenFilter(event) {
+        this.openFilter = true;
+    }
+
+    handlerFilterAdd(event) {
+
+        this.filterMainData.push(this.filterObject);
+
+        //console.log('add filter filterdata-->', this.filterMainData);
+
+    }
+
+    handlerRemoveOneFilter(event) {
+
+        const removeIndex = event.currentTarget.dataset.index;
+
+        this.filterMainData.splice(removeIndex, 1);
+        //   console.log('removeIndex---->>>',removeIndex);
+
+    }
+
+
+    handlerRemoveAllFilter(event) {
+
+        this.filterMainData.length = 0;
+
+    }
+
+
+
+    handleItemClick(event) {
+
+        var itemIndex = event.currentTarget.dataset.index;
+        //   console.log('itemIndex--->>', itemIndex);
+
+        this.itemIndex = itemIndex;
+
+        this.selectedComboField = this.filterMainData[this.itemIndex].field;
+        console.log('selectedComboField--->>', this.selectedComboField);
+        this.selectedComboOperator = this.filterMainData[this.itemIndex].operator;
+        console.log('selectedComboOperator--->>', this.selectedComboOperator);
+        this.selectedComboValue = this.filterMainData[this.itemIndex].value;
+        console.log('selectedComboValue--->>', this.selectedComboValue);
+
+        //this.comboboxSelectField = this.selectedComboField;
+
+        //this.comboboxSelectOperator = this.selectedComboOperator;
+
+        //this.inputStringValue = this.selectedComboValue;   
+    
+        this.showBox = true;
+
+
+    }
+
+    get isConditionMet(){
+        return this.comboboxSelectField != 'Name' ? this.selectedComboField : 'Name' ;
+        
+    }
+
+    get operatorCondition(){
+        return this.comboboxSelectOperator != '=' ? this.selectedComboOperator : '=';
+    }
+
+ 
+
+    handleFilterDone(event) {
+
+        this.filFieldDisplay = this.comboboxSelectField;
+
+        this.filOperatorDisplay = this.comboboxSelectOperator;
+
+        var displayVal;
+
+        if (this.inputStringValue != '') {
+            displayVal = this.inputStringValue;
+        }
+        if (this.inputIntegerValue != '') {
+            displayVal = this.inputIntegerValue;
+        }
+        if (this.InputDateValue != '') {
+            displayVal = this.InputDateValue;
+        }
+        if (this.InputBooleanValue != '') {
+            displayVal = this.InputBooleanValue;
+        }
+        if (displayVal == undefined) {
+            displayVal = '';
+        }
+
+        //  console.log('displayVal-->',displayVal);
+
+        this.filValueDisplay = displayVal;
+
+        this.objData = { field: this.filFieldDisplay, operator: this.filOperatorDisplay, value: this.filValueDisplay };
+        //console.log('objData-->>', this.objData);
+
+        if (this.itemIndex != null) {
+            this.filterMainData[this.itemIndex] = this.objData;
+        }
+
+
+
+        this.showBox = false;
+
+
+
     }
 
 
 
 
 
+    handlerSaveFilter() {
 
+        //this.apexFilterData =  this.filterMainData;
+        //console.log('apexFilterData-->>',this.apexFilterData);
+
+        this.apexFilterData = JSON.stringify(this.filterMainData);
+        console.log('apexFilterData-->>', this.apexFilterData);
+
+
+
+        getFilterSavaData({ objectApiName: this.objectApiName, filterMain: this.apexFilterData })
+            .then(result => {
+                console.log('resilt final--->>', JSON.parse(JSON.stringify(result)));
+                this.DATA = result;
+
+            });
+
+
+    }
 
 
 

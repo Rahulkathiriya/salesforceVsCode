@@ -35,7 +35,7 @@
           returnVal.records.forEach(val => {
               if(val.subject){
               if(val.subject.length > 20){
-              val.subject = val.subject.substring(0, 30) + "....";
+              val.subject = val.subject.substring(0, 30) + "...";
           }
           }
             if (val[fieldName]) {

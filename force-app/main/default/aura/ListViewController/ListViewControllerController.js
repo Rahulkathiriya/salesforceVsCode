@@ -704,7 +704,7 @@
               }
             }
           }
-        }
+        } 
         columns.push({
           type: "action",
           typeAttributes: { rowActions: actions }

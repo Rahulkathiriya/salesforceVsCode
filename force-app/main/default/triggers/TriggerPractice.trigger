@@ -40,8 +40,8 @@ trigger TriggerPractice on Account (after insert, after Update) {
             }
         }
         
-        if(oppList.isEmpty() == false){	
-            insert oppList;	
+        if(oppList.isEmpty() == false){ 
+            insert oppList; 
         }
         
     }

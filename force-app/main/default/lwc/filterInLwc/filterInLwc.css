@@ -1,0 +1,84 @@
+.mainTable {
+    display: flex !important;
+}
+
+.dividedTable {
+    width: 83% !important;
+}
+
+.defaultTable {
+    width: 100% !important;
+}
+
+.slds-panel__body {
+    padding: 16px 16px 12px;
+}
+
+.panelBody {
+    padding: 12px !important;
+}
+
+.slds-filters__item {
+    line-height: 1.5 !important;
+}
+
+.container {
+    position: relative;
+    width: 400px !important;
+    border: 1px solid #b6b6b6;
+    background: white;
+    overflow: visible;
+    border-radius: 5px;
+}
+
+.shape {
+    position: absolute;
+    top: 46%;
+    left: 97%;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-top: 1px solid #d8dde6;
+    border-right: 1px solid #d8dde6;
+    transform: rotate(45deg);
+    z-index: 2;
+}
+
+.box {
+    padding: 1rem;
+}
+
+.filterClass {
+    position: relative;
+    padding: 5px 0;
+}
+
+.wrapper {
+    position: absolute;
+    right: 106%;
+    z-index: 1;
+    top: -155%;
+}
+
+.slds-panel {
+    overflow-y: visible !important;
+}
+
+.innerBox {
+    line-height: 1.5;
+    justify-content: space-between;
+    padding: 0.75rem;
+    align-items: center;
+    border: 1px solid #A86403;
+    border-radius: 5px;
+    background: #faffbd;
+
+}
+
+.allFilterClass {
+    line-height: 1.5;
+    justify-content: space-between;
+    padding: 0.75rem;
+    align-items: center;
+    border: 1px solid #d8dde6;
+    border-radius: 5px;
+}

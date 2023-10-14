@@ -1,0 +1,180 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="CategoryList" type="List" default="['ISR', 'Collab Research', 'NIR', 'BMS Sponsored','Other']" />
+    <aura:attribute name="evidenceList" type="Array" />
+  <!--   <ltng:require scripts="{!$Resource.grensi__state}" afterScriptsLoaded="{!c.scriptsLoaded}" /> -->
+    <div class="container">
+        <div class="slds-grid" style="padding: 16px 0;">
+            <div class="slds-col slds-size_1-of-4"></div>
+            <div class="slds-col slds-size_3-of-4">
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_2-of-6"></div>
+                    <div class="slds-col slds-size_4-of-6 horizontal-line">
+                        <div class="empty-line"></div>
+                        <div class="evidence-generation">Evidence Generation</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <table class="evidenceTable slds-table slds-table_cell-buffer slds-no-row-hover"  aria-labelledby="element-with-table-label other-element-with-table-label">
+            <thead> 
+                <tr class="slds-line-height_reset">
+                    <th class="portflio-plan-label" width="4%" scope="col" style="padding-left:5px;">
+                        <div class="si-list" style="text-align:center;">
+                            <span class="slds-truncate slds-p-horizontal_xx-small cue_table_header pm-class">SI</span>
+                        </div>
+                    </th>
+                    <div></div>
+                    <th class="portflio-plan-label slds-size_3-of-12" width="4%" scope="col">
+                        <div class="si-list">
+                            <span class="slds-truncate slds-p-horizontal_xx-small cue_table_header pm-class">Evidence Generation Objective</span>
+                        </div>
+                    </th>
+                    <th class="slds-size_9-of-12 evidence-row-content" scope="col" >
+                        <table style="display:flex;justify-content:space-between;align-items:center;">
+                            <th class="evidenceGap-plan-label" scope="col" >
+                                <div class="si-list">
+                                    <span class="slds-truncate slds-p-horizontal_xx-small cue_table_header pm-class">Evidence Gap</span>
+                                </div>
+                            </th>
+                            <th class="portflio-plan-label" width="12%" scope="col" style="display: flex;justify-content: center;">
+                                <div class="si-list">
+                                    <span class="slds-truncate slds-p-horizontal_xx-small cue_table_header " style="font-size:11.7px;">Priority</span>
+                                </div>
+                            </th>
+                            <aura:iteration var="key" items="{!v.CategoryList}">
+                                <th width="12%"  style="display: flex;justify-content: center;">
+                                    <a class="slds-th__action slds-text-link_reset category-class" href="#" role="button" tabindex="-1" >
+                                        <span class="slds-truncate slds-p-horizontal_xx-small cue_table_header" style="font-size:11.7px;text-wrap: wrap;">{!key}</span>
+                                    </a>
+                                </th>
+                            </aura:iteration>
+                        </table>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <aura:if isTrue="{!v.evidenceList}">
+                    <aura:iteration var="mainRow" items="{!v.evidenceList}" indexVar="index">
+                        <tr class="slds-line-height_reset category">
+                            <td class="SI-plan-label SI-list"  width="4%" scope="col">
+                                <div class="">
+                                    <span class="slds-truncate slds-p-horizontal_xx-small SIList">{!mainRow.SI}</span>
+                                </div>
+                            </td>
+                            <div style="width:10px;"></div>
+                            <td class="EGO-plan-label"  scope="col">
+                                <div class="gap-list">
+                                    <span class="slds-truncate slds-p-horizontal_xx-small ">
+                                        <span class="egoList">{!mainRow.Evidence_Generation_Objective}</span>
+                                    </span>
+                                </div>
+                            </td>
+                            <td width="4%" scope="col" class="gap-plan-label" > 
+                                <table >
+                                    <aura:iteration var="innerRow" items="{!mainRow.EvidenceGap}" >
+                                        <tr class=" gap-class" >
+                                            <td  width="1%" scope="col" class="slds-grid th-header-gap" style="padding-left:8px;height: 40px;"  >
+                                                <div class="{! 'custom-class rectangle-' + (innerRow.Priority == 'High' ? 'High ' : '') + (innerRow.Priority == 'Medium' ? 'Medium ' : '') + (innerRow.Priority == 'Low' ? 'low' : '') }" >
+                                                    <span class="{! 'custom-class rectangle-' + (innerRow.Priority == 'High' ? 'High ' : '') + (innerRow.Priority == 'Medium' ? 'Medium ' : '') + (innerRow.Priority == 'Low' ? 'low' : '')}"></span>
+                                                </div>
+                                            </td>
+                                            <td  width="25%" scope="col" class="slds-grid th-header-gap" style="padding-left:6px;padding-right: 0px;"  >
+                                                <div class="gap-name">
+                                                    <span class="slds-truncate slds-p-horizontal_xx-small " style="font-size:11.7px;">{!innerRow.Name}</span>
+                                                </div>
+                                            </td>
+                                            <td  width="12%" scope="col" >
+                                                <div  class="{! 'prorityType slds-grid th-header-gap prorityType-' +  (innerRow.Priority == 'High' ? 'High ' : '') + (innerRow.Priority == 'Medium' ? 'Medium ' : '') + (innerRow.Priority == 'Low' ? 'low' : '')}">
+                                                    <span class="slds-truncate slds-p-horizontal_xx-small " style="font-size:11.7px;">{!innerRow.Priority}</span>
+                                                </div>
+                                            </td> 
+                                            <span class="vetical-line"></span>
+                                            <td  width="12%" scope="col">
+                                                <span>
+                                                    <aura:if isTrue="{!innerRow.Activities[0].CategoryCounts.ISR != 0}">
+                                                        <div class="{! 'defaultClass ' + (innerRow.Activities[0].CategoryCounts.ISR != 0 ? 'categoryClass': '')}">
+                                                            <lightning:icon iconName="utility:success" alternativeText="Success!" variant="Success"
+                                                                            title="success variant xx-small" size="xx-small" />	
+                                                            <span class="slds-truncate" style="font-size: 11.7px;padding-left: 1px;"><b>{!innerRow.Activities[0].CategoryCounts.ISR}</b></span>
+                                                        </div>	
+                                                    </aura:if>
+                                                </span>
+                                            </td> 
+                                            <span class="vetical-line"></span>	
+                                            <td  width="12%" scope="col"  >
+                                                <span>
+                                                    <aura:if isTrue="{!innerRow.Activities[0].CategoryCounts.CollabResearch != 0}">
+                                                        <div class="{! 'defaultClass ' + (innerRow.Activities[0].CategoryCounts.CollabResearch != 0 ? 'categoryClass': '')}">
+                                                            <lightning:icon iconName="utility:success" alternativeText="Success!" variant="Success"
+                                                                            title="success variant xx-small" size="xx-small" />	
+                                                            <span class="slds-truncate" style="font-size: 11.7px;padding-left: 1px;"><b>{!innerRow.Activities[0].CategoryCounts.CollabResearch}</b></span>
+                                                        </div>
+                                                    </aura:if>
+                                                </span>
+                                            </td> 
+                                            <span class="vetical-line"></span>
+                                            <td  width="12%" scope="col" >
+                                                <span>
+                                                    <aura:if isTrue="{!innerRow.Activities[0].CategoryCounts.NIR != 0}">
+                                                        <div class="{! 'defaultClass ' + (innerRow.Activities[0].CategoryCounts.NIR != 0 ? 'categoryClass': '')}">
+                                                            <lightning:icon iconName="utility:success" alternativeText="Success!" variant="Success"
+                                                                            title="success variant xx-small" size="xx-small" />	
+                                                            <span class="slds-truncate" style="font-size: 11.7px;padding-left: 1px;"><b>{!innerRow.Activities[0].CategoryCounts.NIR}</b></span>
+                                                        </div>
+                                                    </aura:if>
+                                                </span>
+                                            </td> 
+                                            <span class="vetical-line"></span>
+                                            <td  width="12%" scope="col"  >
+                                                <span>
+                                                    <aura:if isTrue="{!innerRow.Activities[0].CategoryCounts.BMSSponsored != 0}">
+                                                        <div class="{! 'defaultClass ' + (innerRow.Activities[0].CategoryCounts.BMSSponsored != 0 ? 'categoryClass': '')}">
+                                                            <lightning:icon iconName="utility:success" alternativeText="Success!" variant="Success"
+                                                                            title="success variant xx-small" size="xx-small" />	
+                                                            <span class="slds-truncate" style="font-size: 11.7px;padding-left: 1px;"><b>{!innerRow.Activities[0].CategoryCounts.BMSSponsored}</b></span>
+                                                        </div>
+                                                    </aura:if>
+                                                </span>
+                                            </td> 
+                                            <span class="vetical-line"></span>
+                                            <td  width="12%" scope="col"  style="padding-right:0;" >
+                                                <span>
+                                                    <aura:if isTrue="{!innerRow.Activities[0].CategoryCounts.Other != 0}">
+                                                        <div class="{! 'defaultClass ' + (innerRow.Activities[0].CategoryCounts.Other != 0 ? 'categoryClass': '')}">
+                                                            <lightning:icon iconName="utility:success" alternativeText="Success!" variant="Success"
+                                                                            title="success variant xx-small" size="xx-small" />	
+                                                            <span class="slds-truncate " style="font-size: 11.7px;padding-left: 1px;"><b>{!innerRow.Activities[0].CategoryCounts.Other}</b></span>
+                                                        </div>
+                                                    </aura:if>
+                                                </span>
+                                            </td> 
+                                            <span class="vetical-line"></span>
+                                            <td  width="1.5%" scope="col" style="padding-right: 0;padding-left: 0px;">
+                                                <span class="custom-menu">
+                                                    <lightning:buttonMenu alternativeText="Show menu" menuAlignment="auto" iconName="utility:threedots_vertical" onselect="{! c.handleSelect }">
+                                                        <lightning:menuItem value="" label="New Proposed Activity" class="slds-m-bottom_xx-small"/>
+                                                    </lightning:buttonMenu>
+                                                </span>
+                                            </td>
+                                        </tr>  
+                                    </aura:iteration>
+                                </table>
+                            </td>
+                        </tr>	
+                        <tr style=" height: 10px">
+                        </tr>
+                        
+                    </aura:iteration>
+                    <aura:set attribute="else">
+                        <tr class="slds-hint-parent">
+                            <td class="noData" colspan="5">No Records Available!</td>
+                        </tr>
+                    </aura:set>
+                </aura:if>
+            </tbody>
+        </table>
+    </div>
+</aura:component>

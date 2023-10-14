@@ -2801,6 +2801,7 @@ public class MetadataService {
         private String[] field_order_type_info = new String[]{'enabled','name'};
     }
     public class SharingRules extends Metadata {
+        
         public String type = 'SharingRules';
         public String fullName;
         private String[] fullName_type_info = new String[]{'fullName',SOAP_M_URI,null,'0','1','false'};
@@ -3218,7 +3219,6 @@ public class MetadataService {
         private String[] type_att_info = new String[]{'xsi:type'};
         private String[] field_order_type_info = new String[]{'fullName', 'urlPattern'};
     }
-    
     public class SessionHeader_element {
         public String sessionId;
         private String[] sessionId_type_info = new String[]{'sessionId',SOAP_M_URI,null,'1','1','false'};
@@ -13160,10 +13160,8 @@ public class MetadataService {
         private String[] apex_schema_type_info = new String[]{SOAP_M_URI,'true','false'};
         private String[] field_order_type_info = new String[]{'active','adjustmentsSettings','displayedCategoryApiNames','forecastRangeSettings','forecastedCategoryApiNames','forecastingDateType','hasProductFamily','isAmount','isAvailable','isQuantity','managerAdjustableCategoryApiNames','masterLabel','name','opportunityListFieldsLabelMappings','opportunityListFieldsSelectedSettings','opportunityListFieldsUnselectedSettings','opportunitySplitName','ownerAdjustableCategoryApiNames','quotasSettings','territory2ModelName'};
     }
-    
-    
     public class MetadataPort {
-        public String endpoint_x = Url.getOrgDomainUrl().toExternalForm() + '/services/Soap/m/42.0';
+        public String endpoint_x = URL.getOrgDomainUrl().toExternalForm() + '/services/Soap/m/42.0';
         public Map<String,String> inputHttpHeaders_x;
         public Map<String,String> outputHttpHeaders_x;
         public String clientCertName_x;
@@ -13181,40 +13179,28 @@ public class MetadataService {
         private String CallOptions_hns = 'CallOptions=http://soap.sforce.com/2006/04/metadata';
         private String AllOrNoneHeader_hns = 'AllOrNoneHeader=http://soap.sforce.com/2006/04/metadata';
         private String[] ns_map_type_info = new String[]{SOAP_M_URI, 'MetadataService'};
-            
-            public MetadataService.DeleteResult[] deleteMetadata(String type_x, String[] fullNames) {
-                MetadataService.deleteMetadata_element request_x = new MetadataService.deleteMetadata_element();
-                request_x.type_x = type_x;
-                request_x.fullNames = fullNames;
-                
-                MetadataService.deleteMetadataResponse_element response_x = new MetadataService.deleteMetadataResponse_element();
-                Map<String, MetadataService.deleteMetadataResponse_element> response_map_x = new Map<String, MetadataService.deleteMetadataResponse_element>();
-                response_map_x.put('response_x', response_x);
-                
-                try {  
-                    WebServiceCallout.invoke(
-                        this,
-                        request_x,
-                        response_map_x,
-                        new String[]{
-                            endpoint_x,
-                                '',
-                                SOAP_M_URI,
-                                'deleteMetadata',
-                                SOAP_M_URI,
-                                'deleteMetadataResponse',
-                                'MetadataService.deleteMetadataResponse_element'
-                                }
-                    );
-                    response_x = response_map_x.get('response_x');
-                } catch (Exception ex) {
-                    system.debug('Exception : ' + ex);
-                }
-                
-                return response_x.result;
-            }
-        
-
+        public MetadataService.DeleteResult[] deleteMetadata(String type_x,String[] fullNames) {
+            MetadataService.deleteMetadata_element request_x = new MetadataService.deleteMetadata_element();
+            request_x.type_x = type_x;
+            request_x.fullNames = fullNames;
+            MetadataService.deleteMetadataResponse_element response_x;
+            Map<String, MetadataService.deleteMetadataResponse_element> response_map_x = new Map<String, MetadataService.deleteMetadataResponse_element>();
+            response_map_x.put('response_x', response_x);
+            WebServiceCallout.invoke(
+              this,
+              request_x,
+              response_map_x,
+              new String[]{endpoint_x,
+              '',
+              SOAP_M_URI,
+              'deleteMetadata',
+              SOAP_M_URI,
+              'deleteMetadataResponse',
+              'MetadataService.deleteMetadataResponse_element'}
+            );
+            response_x = response_map_x.get('response_x');
+            return response_x.result;
+        }
         public MetadataService.SaveResult renameMetadata(String type_x,String oldFullName,String newFullName) {
             MetadataService.renameMetadata_element request_x = new MetadataService.renameMetadata_element();
             request_x.type_x = type_x;

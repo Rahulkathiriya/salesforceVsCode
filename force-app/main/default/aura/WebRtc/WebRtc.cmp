@@ -1,0 +1,6 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+	
+  <!--  <aura:handler name="messageEvent" event="c:messageReceived" action="{!c.handlerReceivedMessage}"/>  -->
+    <aura:handler name="inIt" value="{!this}" action="{!c.doInit}"/> 
+    <div> fgfdgdfg</div>
+</aura:component>

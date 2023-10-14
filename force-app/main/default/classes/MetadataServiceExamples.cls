@@ -778,10 +778,11 @@ public with sharing class MetadataServiceExamples
 
     public static void deleteListView()
     {
-        MetadataService.MetadataPort service = createService();
+        MetadataService.MetadataPort service = new MetadataService.MetadataPort();
+       
         List<MetadataService.DeleteResult> results =
             service.deleteMetadata(
-                'ListView', new String[] { 'Account.Copy_of_All_Accounts' });
+                'ListView', new String[] { 'Account.Demo_View_List' });
         handleDeleteResults(results[0]);
     }
      public static String fetchUserSessionId(){
@@ -792,8 +793,9 @@ public with sharing class MetadataServiceExamples
             endP = vfContent.indexOf('End_Of_Session_Id');
         sessionId = vfContent.substring(startP, endP); 
         return sessionId;
-    }
-       public static void updateListViewColumns(String listViewApiName, String objectApiName, List<String> newColumns) {
+    } 
+      
+    public static void updateListViewColumns(String listViewApiName, String objectApiName, List<String> newColumns) {
         MetadataService.MetadataPort service = new MetadataService.MetadataPort();
         service.SessionHeader = new MetadataService.SessionHeader_element();
         service.SessionHeader.sessionId = fetchUserSessionId();
@@ -807,7 +809,7 @@ public with sharing class MetadataServiceExamples
         
         for (MetadataService.SaveResult result : results) {
             if (result.success) {
-                System.debug('ListView updated successfully: ' + result.fullName);
+                System.debug('ListView updated successfully : ' + result.fullName);
             } else {
                 System.debug('ListView update failed for ' + result.fullName + ': ' + result.errors[0].message);
             }
@@ -830,17 +832,17 @@ public with sharing class MetadataServiceExamples
     public static void readListView()
     {
         MetadataService.MetadataPort service = createService();
-
+        
         // Read List View definition
         MetadataService.ListView listView =
             (MetadataService.ListView) service.readMetadata('ListView',
-                new String[] { 'Account.DemoView' }).getRecords()[0];
+                                                            new String[] { 'Account.DemoView' }).getRecords()[0];
         if(listView.columns!=null)
             for(String column : listView.columns)
-                System.debug('Column ' + column);
+            System.debug('Column ' + column);
         if(listView.filters!=null)
             for(MetadataService.ListViewFilter filter : listView.filters)
-                System.debug('Filter ' + filter.field + ' ' + filter.operation + ' ' + filter.value);
+            System.debug('Filter ' + filter.field + ' ' + filter.operation + ' ' + filter.value);
     }
 
     public static void createApprovalProcess()
@@ -1187,13 +1189,13 @@ public with sharing class MetadataServiceExamples
                 new MetadataService.Metadata[] { layout });
         handleUpsertResults(results[0]);
     }
-
-    public static void createSharingRule()
+    
+      public static void createSharingRule()
     {
         // Create Sharing Rule
         MetadataService.MetadataPort service = createService();
         MetadataService.SharingRules testSharingRule = new MetadataService.SharingRules();
-        testSharingRule.fullName = 'Test__c';
+        testSharingRule.fullName = 'Activities_rules';
         testSharingRule.sharingCriteriaRules = new List<MetadataService.SharingCriteriaRule>();
         MetadataService.SharingCriteriaRule sharingCriteriaRule = new MetadataService.SharingCriteriaRule();
         sharingCriteriaRule.fullName = 'TestCriteria';
@@ -1218,11 +1220,66 @@ public with sharing class MetadataServiceExamples
         sharingOwnerRule.sharedFrom = new MetadataService.SharedTo();
         sharingOwnerRule.sharedFrom.allInternalUsers = '';
         testSharingRule.sharingOwnerRules.add(sharingOwnerRule);
+        
+          MetadataService.SharingTerritoryRule TerritoryRule = new MetadataService.SharingTerritoryRule();
+        TerritoryRule.fullName = 'TestRules';
+        TerritoryRule.accessLevel = 'Read';
+        TerritoryRule.label = 'Test';
+        TerritoryRule.description = '';
+        TerritoryRule.sharedTo = new MetadataService.SharedTo();
+        TerritoryRule.sharedTo.allPartnerUsers = '';
+        testSharingRule.sharingTerritoryRules.add(TerritoryRule);
+        List<MetadataService.SaveResult> results =
+            service.createMetadata(
+                new MetadataService.Metadata[] { testSharingRule });
+      
+    }
+
+ /*   public static void createSharingRule()
+    {
+        // Create Sharing Rule
+        MetadataService.MetadataPort service = createService();
+        MetadataService.SharingRules testSharingRule = new MetadataService.SharingRules();
+        testSharingRule.fullName = 'TestRules';
+        testSharingRule.sharingCriteriaRules = new List<MetadataService.SharingCriteriaRule>();
+        MetadataService.SharingCriteriaRule sharingCriteriaRule = new MetadataService.SharingCriteriaRule();
+        sharingCriteriaRule.fullName = 'TestCriteria';
+        sharingCriteriaRule.accessLevel = 'Read';
+        sharingCriteriaRule.label = 'Test';
+        sharingCriteriaRule.sharedTo = new MetadataService.SharedTo();
+        sharingCriteriaRule.sharedTo.allPartnerUsers = ''; 
+        sharingCriteriaRule.criteriaItems = new List<MetadataService.FilterItem>();
+        MetadataService.FilterItem cirteriaFilterItem = new MetadataService.FilterItem();
+        cirteriaFilterItem.field = 'RecordTypeId';
+        cirteriaFilterItem.operation = 'equals';
+        cirteriaFilterItem.value = 'Record Type A';
+        sharingCriteriaRule.criteriaItems.add(cirteriaFilterItem);
+        testSharingRule.sharingCriteriaRules.add(sharingCriteriaRule);   
+        MetadataService.SharingTerritoryRule TerritoryRule = new MetadataService.SharingTerritoryRule();
+        TerritoryRule.fullName = 'TestRules';
+        TerritoryRule.accessLevel = 'Read';
+        TerritoryRule.label = 'Test';
+        TerritoryRule.description = '';
+        TerritoryRule.sharedTo = new MetadataService.SharedTo();
+        TerritoryRule.sharedTo.allPartnerUsers = '';
+        testSharingRule.sharingTerritoryRules.add(TerritoryRule);
+        
+      
+        testSharingRule.sharingOwnerRules = new List<MetadataService.SharingOwnerRule>();
+        MetadataService.SharingOwnerRule sharingOwnerRule = new MetadataService.SharingOwnerRule();
+        sharingOwnerRule.fullName = 'TestOwner';
+        sharingOwnerRule.accessLevel = 'Read';
+        sharingOwnerRule.label = 'Test';
+        sharingOwnerRule.sharedTo = new MetadataService.SharedTo();
+        sharingOwnerRule.sharedTo.allPartnerUsers = '';
+        sharingOwnerRule.sharedFrom = new MetadataService.SharedTo();
+        sharingOwnerRule.sharedFrom.allInternalUsers = '';
+        testSharingRule.sharingOwnerRules.add(sharingOwnerRule);  
         List<MetadataService.SaveResult> results =
             service.createMetadata(
                 new MetadataService.Metadata[] { testSharingRule });
         handleSaveResults(results[0]);
-    }
+    }  */
 
     public static void readSharingRule()
     {
@@ -1628,6 +1685,7 @@ public with sharing class MetadataServiceExamples
         MetadataService.MetadataPort service = new MetadataService.MetadataPort();
         service.SessionHeader = new MetadataService.SessionHeader_element();
         service.SessionHeader.sessionId = UserInfo.getSessionId();
+      
         return service;
     }
 
@@ -1637,8 +1695,11 @@ public with sharing class MetadataServiceExamples
     public static void handleSaveResults(MetadataService.SaveResult saveResult)
     {
         // Nothing to see?
-        if(saveResult==null || saveResult.success)
-            return;
+        if(saveResult==null || saveResult.success){
+            system.debug('saveResult : ' + saveResult.errors);
+             return;
+        }
+           
         // Construct error message and throw an exception
         if(saveResult.errors!=null)
         {
