@@ -106,21 +106,25 @@ export default class FilterInLwc extends LightningElement {
 
     @track openFilter = false;
 
+
     //dynamic filter
 
     connectedCallback() {
 
-        this.comboboxSelectOperator = '=';
+        //this.comboboxSelectOperator = '=';
         this.comboboxSelectField = 'Name';
 
         this.stringDataType = true;
 
-        this.inputStringValue = '';    //  this input field refer every condition ' ' (khali value) or value 
+        this.inputStringValue = '';    
         this.inputIntegerValue = '';
         this.InputDateValue = '';
         this.InputBooleanValue = '';
 
     }
+
+  
+
 
     // datatable data
 
@@ -418,6 +422,7 @@ export default class FilterInLwc extends LightningElement {
 
 
     handleItemClick(event) {
+     
 
         var itemIndex = event.currentTarget.dataset.index;
         //   console.log('itemIndex--->>', itemIndex);
@@ -431,25 +436,21 @@ export default class FilterInLwc extends LightningElement {
         this.selectedComboValue = this.filterMainData[this.itemIndex].value;
         console.log('selectedComboValue--->>', this.selectedComboValue);
 
-        //this.comboboxSelectField = this.selectedComboField;
+     
 
-        //this.comboboxSelectOperator = this.selectedComboOperator;
-
-        //this.inputStringValue = this.selectedComboValue;   
-    
         this.showBox = true;
-
+     
 
     }
 
-    get isConditionMet(){
-        return this.comboboxSelectField != 'Name' ? this.selectedComboField : 'Name' ;
+    // get isConditionMet(){
+    //    console.log('this.comboboxSelectField-->>',this.comboboxSelectField);
+
+    //  return this.comboboxSelectField != this.selectedComboField ? this.selectedComboField : this.comboboxSelectField;
+       
         
-    }
-
-    get operatorCondition(){
-        return this.comboboxSelectOperator != '=' ? this.selectedComboOperator : '=';
-    }
+    //   }
+   
 
  
 
@@ -488,16 +489,12 @@ export default class FilterInLwc extends LightningElement {
             this.filterMainData[this.itemIndex] = this.objData;
         }
 
-
+        
 
         this.showBox = false;
-
-
+       
 
     }
-
-
-
 
 
     handlerSaveFilter() {
